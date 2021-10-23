@@ -1,0 +1,118 @@
+@import "~include-media/dist/_include-media.scss";
+@import '~bootstrap/dist/css/bootstrap.min.css';
+:root {
+    --transition-regular: all 400ms ease;
+    --transition-fast: all 100ms ease;
+    // Height - Header - Footer - Notice
+    --main-container-height: calc(100vh - 80px - 80px - 45px); 
+    --border-radius: .25rem;
+
+    --color-primary: hsl(210, 26%, 49%);
+        --color-primary-h: 210;
+        --color-primary-s: 26%;
+        --color-primary-l: 49%;
+    
+    --color-light: hsl(0, 0%, 100%);
+        --color-light-h: 0;
+        --color-light-s: 0%;
+        --color-light-l: 100%;
+    
+    --color-dark: hsl(0, 0%, 0%);
+        --color-dark-h: 0;
+        --color-dark-s: 0%;
+        --color-dark-l: 0%;
+}
+
+body {
+    overflow-x: hidden;
+    > div {
+        > div {
+            display: flex;
+            flex-direction: column;
+            margin: auto;
+            min-height: 100vh;
+            max-width: 100vw;
+            > footer {
+                margin-top: auto;
+            }
+        }
+    }
+    .main {
+        padding: 0px;
+        display: flex;
+        flex-grow: 1;
+        flex-direction: column;
+    }
+}
+
+.card {
+    border-radius: var(--border-radius);
+}
+
+.modal {
+    .modal-header {
+        .close {
+            padding: .5rem;
+            margin: -.5rem -.5rem -.5rem auto;
+            box-sizing: content-box;
+            width: 1em;
+            height: 1em;
+            padding: .25em;
+            color: #000;
+            background: transparent url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23000'%3E%3Cpath d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/%3E%3C/svg%3E") 50%/1em auto no-repeat;
+            border: 0;
+            border-radius: .25rem;
+            opacity: .5;
+            transition: var(--transition-fast);
+            &:hover{
+                opacity: 1;
+            }
+            span {
+                display: none;
+            }
+        }
+    }
+}
+
+/* 
+* Image Aspect Ratio 
+*/
+.respect-aspect-ratio {
+    &:after{
+        padding-top: 56.9%;
+        position: relative;
+        width: 100%;
+        height: 100%;
+        aspect-ratio: 16 / 9;
+        max-height: var(--main-container-height);
+    }
+}
+
+.aspect-ratio-16_9 {
+    padding-top: 56.9%;
+    position: relative;
+    width: 100%;
+    height: 0px;
+    aspect-ratio: 16 / 9;
+}
+.aspect-ratio-4_9 {
+    padding-top: 44.44%;
+    position: relative;
+    width: 100%;
+    height: 0px;
+    aspect-ratio: 4 / 9;
+}
+.aspect-ratio-1_1 {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    &:after{
+        content: '';
+        display: block;
+        // padding-bottom: 100%;
+    }
+}
+
+@include media("<desktop") {}
+@include media("<=tablet") {}
+@include media("<=phone") {}

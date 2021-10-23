@@ -1,0 +1,24 @@
+@import "~include-media/dist/_include-media.scss";
+
+.candidates {
+    display: flex;
+    flex-grow: 1;
+    .container,
+    .container-fluid {
+        display: grid;
+        grid-template-columns: repeat( 7, minmax(190px, 1fr) );
+        grid-template-rows: repeat( 7, 1fr );
+        align-items: start;
+        grid-auto-flow: column;
+        flex-grow: 1;
+        gap: 10px;
+    }
+    > .div {
+        background-color: hsla(0,0%,0%,0.1);
+    }
+
+}
+
+@include media("<desktop") {}
+@include media("<=tablet") {}
+@include media("<=phone") {}

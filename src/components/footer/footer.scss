@@ -1,0 +1,39 @@
+@import "~include-media/dist/_include-media.scss";
+
+.footer {
+    color: hsla(var(--color-dark-h), var(--color-dark-s), var(--color-dark-s), 0.7);
+    background-color: hsla(var(--color-light-h), var(--color-light-s), 90%, 1);
+    height: 80px;
+    display: flex;
+    .container,
+    .container-fluid {
+        display: flex;
+        justify-content: space-between;
+        flex-direction: row;
+        align-items: center;
+        .left, 
+        .right {
+            .icon {
+                color: hsla( var(--color-primary-h),var(--color-primary-s), var(--color-primary-l), 0.9 );
+                padding: 0 5px;
+                width: 45px;
+                height: 45px;
+                transition: var(--transition-fast);
+                &:hover {
+                    color: hsla( var(--color-primary-h),var(--color-primary-s), var(--color-primary-l), 1 );
+                }
+            }
+        }
+        .center {
+            > p{
+                font-size: 0.7rem;
+                margin-top: 0.2rem;
+                margin-bottom: 0;
+            }
+        }
+    }
+}
+
+@include media("<desktop") {}
+@include media("<=tablet") {}
+@include media("<=phone") {}

@@ -1,0 +1,29 @@
+@import "~include-media/dist/_include-media.scss";
+
+.headerBar {
+    background-color: var(--color-primary);
+    height: 80px;
+
+    .navbar-brand {
+        &.title {
+            flex-grow: 1;
+        }
+        .gatsby-image-wrapper {
+            max-height: 70px;
+            max-width: 100px;
+        }
+    }
+    a {
+        text-decoration: unset;
+        .siteTitle {
+            font-size: 1.6rem;
+            color: hsla( 0, 0%, 100%, 1 );
+            margin-bottom: 0;
+        }
+    }
+
+}
+
+@include media("<desktop") {}
+@include media("<=tablet") {}
+@include media("<=phone") {}

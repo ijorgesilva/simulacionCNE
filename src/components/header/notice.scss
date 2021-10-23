@@ -1,0 +1,26 @@
+@import "~include-media/dist/_include-media.scss";
+
+.notice {
+    position: relative;
+    background-color: hsla(var(--color-light-h), var(--color-light-s), 90%, 1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 45px;
+    padding: 1rem;
+    .icon {
+        max-height: 19.2px;
+        max-width: 19.2px;
+    }
+    p {
+        color: hsla(0, 0%, 40%, 1);
+        font-size: 0.9rem;
+        margin-bottom: 0px;
+        font-weight: 400;
+    }
+}
+
+@include media("<desktop") {}
+@include media("<=tablet") {}
+@include media("<=phone") {}

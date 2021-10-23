@@ -1,0 +1,40 @@
+@import "~include-media/dist/_include-media.scss";
+
+.swap {
+    > .modal-dialog {
+        max-width: 90vw;
+        min-height: calc( 90vh - 45px - 60px - 2rem );
+        .modal-content {
+            border-radius: var(--border-radius);
+            > .modal-header {
+                color: var(--color-light);
+                background-color: var(--color-primary);
+                > .close {
+                    filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(288deg) brightness(102%) contrast(102%);
+                }
+            }
+            > .modal-body {
+                > main {
+                    overflow-x: hidden;
+                    overflow-y: auto;
+                    max-height: calc( 90vh - 120px - 2rem );
+                }
+            }
+        }
+    }
+    &.fullscreen {
+        > .modal-dialog {
+            margin: 0px auto;
+            max-width: 100vw;
+            min-height: 100vh;
+            .modal-content {
+                height: 100vh;
+                border-radius: 0;
+            }
+        }
+    }
+}
+
+@include media("<desktop") {}
+@include media("<=tablet") {}
+@include media("<=phone") {}
