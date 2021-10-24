@@ -47,7 +47,7 @@ module.exports = {
     {
       resolve: "gatsby-source-wordpress",
       options: {
-        url: config.wordpressUri,
+        url: process.env.WPGRAPHQL_URL || config.wordpressUri,
       },
     },
     "gatsby-plugin-sass",
@@ -55,7 +55,7 @@ module.exports = {
     {
       resolve: "gatsby-plugin-google-analytics",
       options: {
-        trackingId: "G-HPK4DN9PG6",
+        trackingId: process.env.GOOGLE_ANALYTICS || config.googleAnalyticsID,
       },
     },
     "gatsby-plugin-react-helmet",
