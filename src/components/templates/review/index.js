@@ -3,7 +3,7 @@ import React from 'react'
 import { graphql } from 'gatsby'
 import '../../app.scss'
 
-export default function reviewPage ({}) {
+export default function ReviewPage ({}) {
     return (
         <main className = 'reviewPage' >
           <title>Review Page</title>

@@ -41,7 +41,7 @@ exports.createPages = async( { page, actions, graphql, reporter } ) => {
     /******************* 
      * Create Ballots per Party
      *******************/
-    if ( result.data.parties.nodes.length > 0 ) {
+    if ( result.data.parties?.nodes?.length > 0 ) {
         result.data.parties.nodes.forEach( (_, index) => {
             actions.createPage({
                 path: `/${_.slug}`,

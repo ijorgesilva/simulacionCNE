@@ -72,7 +72,7 @@ export default function Ballot (
     }
 
     const [ candidatesSelection, setCandidate ] = useState({...initialBallot})
-    console.log(candidatesSelection)
+    // console.log(candidatesSelection)
 
     return (
         <div className = {`ballot ${ className ? className : '' }`}>
@@ -120,6 +120,7 @@ export default function Ballot (
                                     cardStyle           = 'principal'
                                     show                = { modalArrayShow.lPrincipal }
                                     onHide              = { closeModalState('lPrincipal') } 
+                                    // onClick             = { setCandidate }
                                 />
                             </div>
                         </div>

@@ -1,5 +1,5 @@
-import { useGetBallots } from "./useGetBallots"
-import { useCurrentPeriod } from "./useCurrentPeriod"
+import { useGetBallots } from './useGetBallots'
+import { useCurrentPeriod } from './useCurrentPeriod'
 import Helper from '../utils/utils'
 
 export const useGetCandidates = () => { 

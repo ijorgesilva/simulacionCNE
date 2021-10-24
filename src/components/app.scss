@@ -6,6 +6,7 @@
     // Height - Header - Footer - Notice
     --main-container-height: calc(100vh - 80px - 80px - 45px); 
     --border-radius: .25rem;
+    --modal-size-regular: calc( 90vh - 45px - 60px - 2rem );
 
     --color-primary: hsl(210, 26%, 49%);
         --color-primary-h: 210;

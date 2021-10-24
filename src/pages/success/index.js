@@ -7,7 +7,7 @@ import  {
   faEnvelope, 
   faShareSquare
 } from '@fortawesome/free-solid-svg-icons'
-import { faTwitter, faFacebook, faWhatsapp } from "@fortawesome/free-brands-svg-icons"
+import { faTwitter, faFacebook, faWhatsapp } from '@fortawesome/free-brands-svg-icons'
 import { FacebookShareButton, TwitterShareButton, EmailShareButton, WhatsappShareButton } from 'react-share'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
@@ -54,32 +54,32 @@ export default function SuccessPage ( { location } ) {
               <hr />
               <p className='icons mb-0'>
                     <FacebookShareButton 
-                        className="user-select-none"
-                        quote="" 
-                        hashtag="" 
+                        className='user-select-none'
+                        quote='' 
+                        hashtag='' 
                         url={canonicalUrl} 
                     >
-                        <FontAwesomeIcon icon={faFacebook} size="lg" /> Facebook
+                        <FontAwesomeIcon icon={faFacebook} size='lg' /> Facebook
                     </FacebookShareButton>
                     <WhatsappShareButton 
-                        className="user-select-none"
+                        className='user-select-none'
                         title={ messageShare }
                         url={canonicalUrl} 
                     >
-                         <FontAwesomeIcon icon={faWhatsapp} size="lg" /> Whatsapp
+                         <FontAwesomeIcon icon={faWhatsapp} size='lg' /> Whatsapp
                     </WhatsappShareButton>
                     <TwitterShareButton 
-                        className="user-select-none"
+                        className='user-select-none'
                         url={canonicalUrl} 
-                        title=""
+                        title=''
                     >
-                        <FontAwesomeIcon icon={faTwitter} size="lg" /> Twitter
+                        <FontAwesomeIcon icon={faTwitter} size='lg' /> Twitter
                     </TwitterShareButton>
                     <EmailShareButton 
-                        className="user-select-none"
+                        className='user-select-none'
                         title={ messageShare }
                     >
-                         <FontAwesomeIcon icon={faEnvelope} size="lg" /> Email
+                         <FontAwesomeIcon icon={faEnvelope} size='lg' /> Email
                     </EmailShareButton>
               </p>
             </Alert>

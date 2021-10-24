@@ -3,7 +3,7 @@
 .swap {
     > .modal-dialog {
         max-width: 90vw;
-        min-height: calc( 90vh - 45px - 60px - 2rem );
+        min-height: var(--modal-size-regular);
         .modal-content {
             border-radius: var(--border-radius);
             > .modal-header {

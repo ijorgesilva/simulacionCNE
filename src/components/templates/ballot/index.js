@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Container } from 'react-bootstrap'
 import { graphql } from 'gatsby'
 
@@ -8,11 +8,18 @@ import Footer from '../../footer'
 
 import '../../app.scss'
 
-export default function indexPage ( { location, data, pageContext } ) {
+const steps = [
+  {
+    selector: '.headerBar',
+    content: 'This is my first Step',
+  },
+]
+
+export default function IndexPage ( { location, data, pageContext } ) {
 
   const { periodTitle } = pageContext
   const { ballot } = data
-  
+
   return (
     <>
 
@@ -51,7 +58,10 @@ export default function indexPage ( { location, data, pageContext } ) {
         buttonUrl     = '/success'
         buttonText    = 'Siguiente'
         buttonVariant = 'primary'
-        tour          = 'test'
+        tour          = {{
+                            steps: '',
+                        }}
+         
       />
 
     </>

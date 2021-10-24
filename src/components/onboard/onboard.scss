@@ -1,0 +1,63 @@
+@import "~include-media/dist/_include-media.scss";
+
+.onboard {
+    > .modal-dialog {
+        max-width: 90vw;
+        min-height: calc( 90vh - 45px - 60px - 2rem );
+        .modal-content {
+            border-radius: var(--border-radius);
+            > .modal-body {
+                overflow-x: hidden;
+                > main {
+                    overflow-x: hidden;
+                    overflow-y: auto;
+                    max-height: calc( 90vh - 120px - 2rem );
+                }
+            }
+        }
+    }
+    &.fullscreen {
+        > .modal-dialog {
+            margin: 0px auto;
+            max-width: 100vw;
+            min-height: 100vh;
+            .modal-content {
+                height: 100vh;
+                border-radius: 0;
+            }
+        }
+    }
+
+    .swiper {
+        .swiper-wrapper {
+            min-height:  var(--modal-size-regular);
+        }
+        .swiper-slide {
+            display: flex;
+            font-size: 18px;
+            background: #fff;
+            .content{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+                height: 70vh;
+                width: 70vw;
+                margin: 0px auto;
+                text-align: center;
+                img {
+                    display: block;
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+
+            }
+        }
+    }
+
+}
+
+@include media("<desktop") {}
+@include media("<=tablet") {}
+@include media("<=phone") {}

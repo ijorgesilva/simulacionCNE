@@ -23,3 +23,6 @@
     Your site is now running at http://localhost:8000!
 
     Edit `src/pages/index.js` to see your site update in real-time!
+
+4. **Deployment**
+https://www.gatsbyjs.com/docs/how-to/local-development/environment-variables/

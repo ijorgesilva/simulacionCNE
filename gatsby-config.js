@@ -9,7 +9,7 @@ const urljoin = require("url-join");
 const config = require("./data/SiteConfig");
 
 require('dotenv').config({
-  path: `.env${ (process.env.NODE_ENV === 'development' ) ? '.development' : (process.env.NODE_ENV) ? '.'+process.env.NODE_ENV : ''}`
+  path: `.env${ process.env.NODE_ENV === 'development' ? '.development' : process.env.NODE_ENV === 'production' ? '' : ''}`
 })
 
 module.exports = {
@@ -47,7 +47,7 @@ module.exports = {
     {
       resolve: "gatsby-source-wordpress",
       options: {
-        url: process.env.WPGRAPHQL_URL || config.wordpressUri,
+        url: process.env.WPGRAPHQL_URL, //|| config.wordpressUri,
       },
     },
     "gatsby-plugin-sass",
@@ -55,7 +55,7 @@ module.exports = {
     {
       resolve: "gatsby-plugin-google-analytics",
       options: {
-        trackingId: process.env.GOOGLE_ANALYTICS || config.googleAnalyticsID,
+        trackingId: process.env.GOOGLE_ANALYTICS, //|| config.googleAnalyticsID,
       },
     },
     "gatsby-plugin-react-helmet",

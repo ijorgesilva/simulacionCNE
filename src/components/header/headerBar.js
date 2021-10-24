@@ -14,7 +14,7 @@ export default function HeaderBar ( { periodoTitle, noticeText } ) {
     
     return (
         <>
-            <Navbar className = 'headerBar' variant="dark">
+            <Navbar className = 'headerBar' variant='dark'>
                 <Container fluid>
                     <Link to = '/' title = {periodoTitle}>
                         <h1 className = 'siteTitle' >{ periodoTitle }</h1>

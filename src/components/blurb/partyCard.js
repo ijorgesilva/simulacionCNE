@@ -53,7 +53,7 @@ export default function PartyCard (
                         {
                             logo ?
                                 <GatsbyImage
-                                    className       = { 'logo aspect-ratio-16_9' }
+                                    className       = { 'logo' }
                                     image           = { logo }
                                     objectFit       = { 'contain' }
                                     alt             = { title }

@@ -33,7 +33,7 @@ export default function Header (
             {
                 showBar ?
                     <HeaderBar
-                        periodoTitle= { periodoTitle }
+                        periodoTitle    = { periodoTitle }
                         noticeText      = { noticeText }
                     />
                 : 

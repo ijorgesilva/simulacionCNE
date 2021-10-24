@@ -15,7 +15,6 @@
         .column {
             display: grid;
             grid-template-columns: 1fr;
-            // grid-template-rows: minmax(50px, min-content) 1fr;
             border-radius: var(--border-radius);
 
             .title, .subtitle {
@@ -42,7 +41,6 @@
             .candidates {
                 display: grid;
                 grid-template-columns: repeat(2, 1fr);
-                // grid-template-rows: minmax(100px, min-content) 1fr;
                 grid-template-rows: 1fr 1fr;
                 grid-column-gap: 0px;
                 grid-row-gap: 0px; 
