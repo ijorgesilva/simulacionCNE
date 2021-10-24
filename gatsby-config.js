@@ -70,22 +70,14 @@ module.exports = {
       },
     },
     "gatsby-transformer-sharp",
+
     {
-      resolve: "gatsby-source-filesystem",
+      resolve: `gatsby-source-filesystem`,
       options: {
-        name: "images",
-        path: "./src/images/",
+        name: `images`,
+        path: path.join(__dirname, `src`, `assets`),
       },
-      __key: "images",
     },
-    // {
-    //   resolve: 'gatsby-source-filesystem', 
-    //   options: { 
-    //     name: "images",
-    //     path: "${__dirname}/src/images/",
-    //    },
-    //    __key: "images",
-    // },
 
     /*
     * Redirect
