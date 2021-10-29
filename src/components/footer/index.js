@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'gatsby'
+import { Link, navigate } from 'gatsby'
 import { Container, Button } from 'react-bootstrap'
 import  { 
             faQuestionCircle,
@@ -21,18 +21,34 @@ export default function Footer ( {
     buttonVariant,
     tour,
     onboard,
+    indexClicked,
+    voidCandidate,
+    candidateTarget,
 } ) {
     
     return (
         <>
-            <footer className = 'footer pt-3 pb-3'>
+            <footer className = 'footer'>
                 <Container fluid>
                     <div className = 'left'>
+                        {   
+                            voidCandidate && candidateTarget ?
+                                <Button
+                                    variant     = 'outline-dark'
+                                    className   = 'voidVote' 
+                                    title       = 'Hacer voto sin seleccionar'
+                                    onClick     = { voidCandidate( candidateTarget, indexClicked ) }
+                                >
+                                    Sin seleccionar
+                                </Button>
+                            : undefined
+                        }
+
                         {
                             before ?
                                 <Button 
                                     as          = { Link }
-                                    variant     = 'none'
+                                    variant     = 'outline-dark'
                                     className   = 'before' 
                                     to          = { before } 
                                     title       = 'Anterior'
@@ -44,7 +60,7 @@ export default function Footer ( {
                         {
                             tour ?
                                 <Button 
-                                    variant     = 'none'
+                                    variant     = 'outline-dark'
                                     className   = 'help onboard' 
                                     // onClick     = { onboard.onClick }
                                     // title       = { onboard.content.linkTitle }
@@ -56,7 +72,7 @@ export default function Footer ( {
                         {
                             onboard?.onClick ?
                                 <Button 
-                                    variant     = 'none'
+                                    variant     = 'outline-dark'
                                     className   = 'help onboard' 
                                     onClick     = { onboard.onClick }
                                     title       = { onboard.content.linkTitle }
@@ -91,10 +107,9 @@ export default function Footer ( {
                         {
                             next ? 
                                 <Button
-                                    as          = { Link } 
-                                    variant     = 'none'
+                                    variant     = 'outline-dark'
                                     className   = 'next' 
-                                    to          = { next } 
+                                    onClick     = { () => navigate(-1) }
                                     title       = 'Siguiente'
                                 >
                                     <FontAwesomeIcon className='icon' icon={faArrowAltCircleRight} size='lg'/>

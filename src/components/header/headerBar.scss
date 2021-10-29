@@ -16,7 +16,10 @@
     a {
         text-decoration: unset;
         .siteTitle {
-            font-size: 1.6rem;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: bolder;
             color: hsla( 0, 0%, 100%, 1 );
             margin-bottom: 0;
         }

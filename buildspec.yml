@@ -30,7 +30,7 @@ phases:
       # - >
       #   aws s3 cp --acl public-read 
       #   --cache-control="max-age=0, no-cache, no-store, must-revalidate" 
-      #   ./public/index.html s3://new.victoryatl.com/
+      #   ./public/index.html s3://yoursite.com/
         
       # invalidate the CloudFront cache for /public | Use ${CloudFrontDistribution} with CloudFormation
       - >

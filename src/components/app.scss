@@ -1,12 +1,13 @@
 @import "~include-media/dist/_include-media.scss";
-@import '~bootstrap/dist/css/bootstrap.min.css';
+@import "~bootstrap/scss/bootstrap";
+
 :root {
     --transition-regular: all 400ms ease;
     --transition-fast: all 100ms ease;
-    // Height - Header - Footer - Notice
-    --main-container-height: calc(100vh - 80px - 80px - 45px); 
+    // Total Height - Header - Footer - Notice
+    --main-container-height: calc(100vh - 125px - 90px ); 
     --border-radius: .25rem;
-    --modal-size-regular: calc( 90vh - 45px - 60px - 2rem );
+    --modal-size-regular: calc(90vh - 45px - 60px - 2rem);
 
     --color-primary: hsl(210, 26%, 49%);
         --color-primary-h: 210;
@@ -23,7 +24,9 @@
         --color-dark-s: 0%;
         --color-dark-l: 0%;
 }
-
+html {
+    overflow-x: hidden;
+}
 body {
     overflow-x: hidden;
     > div {
@@ -43,6 +46,11 @@ body {
         display: flex;
         flex-grow: 1;
         flex-direction: column;
+    }
+    .btn {
+        // TODO: Improve manual overwrite
+        border-width: 2px;
+        background-color: hsla(var(--color-light-h),var(--color-light-s),var(--color-light-l),0.7);
     }
 }
 

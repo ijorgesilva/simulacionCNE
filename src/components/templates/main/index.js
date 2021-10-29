@@ -75,6 +75,7 @@ export default function IndexPage ( { location, data, pageContext } ) {
       <Footer
         textCenter      = { content.textFooter }
         onboard         = { onBoardTour }
+        next
       />
 
     </>

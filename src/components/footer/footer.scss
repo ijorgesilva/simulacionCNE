@@ -3,33 +3,62 @@
 .footer {
     color: hsla(var(--color-dark-h), var(--color-dark-s), var(--color-dark-s), 0.7);
     background-color: hsla(var(--color-light-h), var(--color-light-s), 90%, 1);
-    height: 80px;
+    height: 90px;
+    padding: 1rem 0;
     display: flex;
     .container,
     .container-fluid {
-        display: flex;
-        justify-content: space-between;
-        flex-direction: row;
-        align-items: center;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: 1fr;
+        .center,
         .left, 
         .right {
-            .icon {
-                color: hsla( var(--color-primary-h),var(--color-primary-s), var(--color-primary-l), 0.9 );
-                padding: 0 5px;
-                width: 45px;
-                height: 45px;
-                transition: var(--transition-fast);
+            .btn {
+                color: hsla( var(--color-dark-h),var(--color-dark-s), var(--color-dark-l), 0.6 );
+                border-color: hsla( var(--color-dark-h),var(--color-dark-s), var(--color-dark-l), 0.6 );
+                .icon {
+                    width: 42px;
+                    height: 42px;
+                    transition: var(--transition-fast);
+                }
                 &:hover {
-                    color: hsla( var(--color-primary-h),var(--color-primary-s), var(--color-primary-l), 1 );
+                    color: hsla( var(--color-light-h),var(--color-light-s), var(--color-light-l), 1 );
+                    border-color: hsla( var(--color-dark-h),var(--color-dark-s), var(--color-dark-l), 1 );
                 }
             }
-        }
-        .center {
             > p{
                 font-size: 0.7rem;
                 margin-top: 0.2rem;
                 margin-bottom: 0;
             }
+        }
+        .left, 
+        .right {
+            display: grid;
+            gap: 10px;
+            grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
+            .btn {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+            }
+        }
+        .center {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            .btn {
+                color: hsla( var(--color-dark-h),var(--color-dark-s), var(--color-dark-l), 1 );
+            }
+        }
+        .left {
+            justify-items: start;
+        }
+        .right {
+            justify-items: end;
         }
     }
 }

@@ -5,7 +5,6 @@ export default function Tour (
         steps,
     } 
 ) {
-    console.log(steps)
 
     return (
         <>

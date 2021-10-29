@@ -2,6 +2,7 @@ import React from 'react'
 import { Modal } from 'react-bootstrap'
 import Notice from '../header/notice'
 import { Candidates } from '../grid'
+import Footer from '../footer'
 
 import './swap.scss'
 
@@ -15,9 +16,12 @@ export default function Swap (
         show,
         onHide,
         fullScreen,
+        candidateTarget,
+        modifyCandidate,
+        indexClicked,
+        voidCandidate,
     } 
 ) {
-    
     return (
         <Modal 
             className       = {`swap ${ className ? className : ''} ${ fullScreen ? 'fullscreen' : ''}`}
@@ -39,8 +43,15 @@ export default function Swap (
             }
             <Modal.Body>
                 <Candidates 
-                    items     = { candidates }
-                    cardStyle = { cardStyle }
+                    items           = { candidates }
+                    cardStyle       = { cardStyle }
+                    candidateTarget = { candidateTarget }
+                    modifyCandidate = { modifyCandidate }
+                />
+                <Footer
+                    indexClicked    = { indexClicked }
+                    candidateTarget = { candidateTarget }
+                    voidCandidate   = { voidCandidate }
                 />
             </Modal.Body>
         </Modal>

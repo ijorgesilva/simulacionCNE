@@ -1,5 +1,6 @@
 import { useCurrentPeriod } from './useCurrentPeriod'
 import Helper from '../utils/utils'
+import { set } from 'lodash'
 
 export const useCreateInitialBallot = (
         party,
@@ -12,29 +13,29 @@ export const useCreateInitialBallot = (
     ) => { 
 
     const currentPeriod = useCurrentPeriod()
-
+    
     let initialBallot = {
         legislative: {
-            principal: governor ? Helper.addToObject(governor[0], 'party', party[0]) : '',
+            principal: governor?.length ? set(governor[0],'party', party[0].partidoDetails) : { status: 'unset' },
             list: [],
             nominal: [],
         },
         municipal: {
-            principal: mayor ? Helper.addToObject(mayor[0], 'party', party[0]) : '',
+            principal: mayor?.length ? set(mayor[0],'party', party[0].partidoDetails) : { status: 'unset' },
             list: [],
             nominal: [],
         }
     }
     let tempList = []
-    let emptyObj = { id: 0 }
+    let emptyObj = { status: 'unset' }
 
     // TODO: DRY 
     // Legislative List
     if ( list ) {
         for (let i = 0; i < currentPeriod.periodoDetails.periodoLegislativeList; i++) {
             tempList.push(list[i] ? list[i] : emptyObj )
-            if( tempList[i].id != 0 ) {
-                tempList[i] = Helper.addToObject(tempList[i], 'party', party[0])
+            if( tempList[i].id !== 0 ) {
+                tempList[i] = Helper.addToObject(tempList[i], 'party', party[0].partidoDetails)
             }
         }
     }
@@ -50,8 +51,8 @@ export const useCreateInitialBallot = (
     if ( nominal ) {
         for (let i = 0; i < currentPeriod.periodoDetails.periodoLegislativeNominal; i++) {
             tempList.push(nominal[i] ? nominal[i] : emptyObj )
-            if( tempList[i].id != 0 ) {
-                tempList[i] = Helper.addToObject(tempList[i], 'party', party[0])
+            if( tempList[i].id !== 0 ) {
+                tempList[i] = Helper.addToObject(tempList[i], 'party', party[0].partidoDetails)
             }
         }
     }
@@ -67,8 +68,8 @@ export const useCreateInitialBallot = (
     if ( municipalList ) {
         for (let i = 0; i < currentPeriod.periodoDetails.periodoMunicipalList; i++) {
             tempList.push(municipalList[i] ? municipalList[i] : emptyObj )
-            if( tempList[i].id != 0 ) {
-                tempList[i] = Helper.addToObject(tempList[i], 'party', party[0])
+            if( tempList[i].id !== 0 ) {
+                tempList[i] = Helper.addToObject(tempList[i], 'party', party[0].partidoDetails)
             }
         }
     }
@@ -84,8 +85,8 @@ export const useCreateInitialBallot = (
     if ( municipalNominal ) {
         for (let i = 0; i < currentPeriod.periodoDetails.periodoMunicipalNominal; i++) {
             tempList.push(municipalNominal[i] ? municipalNominal[i] : emptyObj )
-            if( tempList[i].id != 0 ) {
-                tempList[i] = Helper.addToObject(tempList[i], 'party', party[0])
+            if( tempList[i].id !== 0 ) {
+                tempList[i] = Helper.addToObject(tempList[i], 'party', party[0].partidoDetails)
             }
         }
     }

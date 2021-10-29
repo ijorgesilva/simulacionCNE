@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { Container, Button, Modal } from 'react-bootstrap'
+import { Container } from 'react-bootstrap'
+import { set } from 'lodash'
 
 import { CandidateCard } from '../blurb'
 import Swap from '../swap'
@@ -12,30 +13,49 @@ export default function Ballot (
     {
         className,
         party,
-
         // Governors and State Legislative Council 
         governor,
         list,
         nominal,
-
         // Mayor and Municipal Council 
         mayor,
         municipalList,
         municipalNominal,
     } 
 ) {
+
+    const [ modalArrayShow, setArrayModalShow ] = useState({
+        lPrincipal: false,
+        lList: false,
+        lNominal: false,
+        mPrincipal: false,
+        mList: false,
+        mNominal: false,
+    })
+    const [ indexClicked, setIndexClicked ] = useState(0)
+
+    let newState
+    let temp = {}
+
+    // TODO: DRY, transform into toggle function
+    const closeModalState = ( key ) => () => {
+        newState = {...modalArrayShow}
+        newState[key] = false
+        setArrayModalShow(newState)
+    }
+    const openModalState = ( key, indexClicked ) => () => {
+        newState = {...modalArrayShow}
+        newState[key] = true
+        setIndexClicked(indexClicked)
+        setArrayModalShow(newState)
+    }
+
+    // Candidate Selection Logic
     const candidates = useGetCandidates()
 
-    const initialBallot = useCreateInitialBallot(
-            party,
-            governor,
-            list,
-            nominal,
-            mayor,
-            municipalList,
-            municipalNominal
-        )
-    
+    const initialBallot = useCreateInitialBallot( party, governor, list, nominal, mayor, municipalList, municipalNominal)
+    const [ candidatesSelection, setCandidate ] = useState({...initialBallot})
+    console.log(candidatesSelection)
     const linkTextEmpty = 'Postular Candidato'
     const titles = {
         postulateCandidate: 'Postular Candidato',
@@ -50,36 +70,95 @@ export default function Ballot (
         mNominal: 'Consejo Municipal Nominal'
     }
 
-    const [ modalArrayShow, setArrayModalShow ] = useState({
-        lPrincipal: false,
-        lList: false,
-        lNominal: false,
-        mPrincipal: false,
-        mList: false,
-        mNominal: false,
-    })
+    const modifyCandidate = ( candidate, position, index ) => () => {
+        // TODO: Single/dynamic setting DRY
+        // Legislative
+            if( position === 'legislative.principal' ){
+                temp = set(candidatesSelection, 'legislative.principal.status', 'publish' )
+                temp = set(candidatesSelection, 'legislative.principal', candidate )
+                closeModalState('lPrincipal')()
+                setCandidate(temp)
+            }
+            if( position === 'legislative.list' ){
+                temp = set(candidatesSelection, `legislative.list[${index}]`, candidate )
+                temp = set(candidatesSelection, `legislative.list[${index}].status`, 'publish' )
+                closeModalState('lList')()
+                setCandidate(temp)
+            }
+            if( position === 'legislative.nominal' ){
+                temp = set(candidatesSelection, `legislative.nominal[${index}]`, candidate )
+                temp = set(candidatesSelection, `legislative.nominal[${index}].status`, 'publish' )
+                closeModalState('lNominal')()
+                setCandidate(temp)
+            }
+        // Municipal
+            if( position === 'municipal.principal' ){
+                temp = set(candidatesSelection, 'municipal.principal.status', 'publish' )
+                temp = set(candidatesSelection, 'municipal.principal', candidate )
+                closeModalState('mPrincipal')()
+                setCandidate(temp)
+            }
+            if( position === 'municipal.list' ){
+                temp = set(candidatesSelection, `municipal.list[${index}]`, candidate )
+                temp = set(candidatesSelection, `municipal.list[${index}].status`, 'publish' )
+                closeModalState('mList')()
+                setCandidate(temp)
+            }
+            if( position === 'municipal.nominal' ){
+                temp = set(candidatesSelection, `municipal.nominal[${index}]`, candidate )
+                temp = set(candidatesSelection, `municipal.nominal[${index}].status`, 'publish' )
+                closeModalState('mNominal')()
+                setCandidate(temp)
+            }
 
-    // TODO: DRY, transform into toggle function
-    const closeModalState = ( key ) => () => {
-        let newState = {...modalArrayShow}
-        newState[key] = false
-        setArrayModalShow(newState)
-    }
-    const openModalState = ( key ) => () => {
-        let newState = {...modalArrayShow}
-        newState[key] = true
-        setArrayModalShow(newState)
     }
 
-    const [ candidatesSelection, setCandidate ] = useState({...initialBallot})
-    // console.log(candidatesSelection)
+    const voidCandidate = ( position, index ) => () => {
+        // Legislative
+            if( position === 'legislative.principal' ){
+                temp = set(candidatesSelection, 'legislative.principal', {} )
+                temp = set(candidatesSelection, 'legislative.principal.status', 'void' )
+                closeModalState('lPrincipal')()
+                setCandidate(temp)
+            }
+            if( position === 'legislative.list' ){
+                temp = set(candidatesSelection, `legislative.list[${index}]`, {} )
+                temp = set(candidatesSelection, `legislative.list[${index}].status`, 'void' )
+                closeModalState('lList')()
+                setCandidate(temp)
+            }
+            if( position === 'legislative.nominal' ){
+                temp = set(candidatesSelection, `legislative.nominal[${index}]`, {} )
+                temp = set(candidatesSelection, `legislative.nominal[${index}].status`, 'void' )
+                closeModalState('lNominal')()
+                setCandidate(temp)
+            }
+        // Municipal
+            if( position === 'municipal.principal' ){
+                temp = set(candidatesSelection, 'municipal.principal', {} )
+                temp = set(candidatesSelection, 'municipal.principal.status', 'void' )
+                closeModalState('mPrincipal')()
+                setCandidate(temp)
+            }
+            if( position === 'municipal.list' ){
+                temp = set(candidatesSelection, `municipal.list[${index}]`, {} )
+                temp = set(candidatesSelection, `municipal.list[${index}].status`, 'void' )
+                closeModalState('mList')()
+                setCandidate(temp)
+            }
+            if( position === 'municipal.nominal' ){
+                temp = set(candidatesSelection, `municipal.nominal[${index}]`, {} )
+                temp = set(candidatesSelection, `municipal.nominal[${index}].status`, 'void' )
+                closeModalState('mNominal')()
+                setCandidate(temp)
+            }
+    }
 
     return (
         <div className = {`ballot ${ className ? className : '' }`}>
             <Container fluid className = 'columns respect-aspect-ratio'>
-
                 {/* Column One */}
-                <div className = 'column bg-light'>
+                <div className = 'column'>
                     <h2 className = 'title'>
                         {titles.lTitle}
                     </h2>
@@ -89,38 +168,31 @@ export default function Ballot (
                                 {titles.lPrincipal}
                             </h3>
                             <div className = 'blurbs'>
-                                {
-                                    initialBallot.legislative.principal ?
-                                        <CandidateCard 
-                                            className       = '' 
-                                            onClick         = { openModalState('lPrincipal') }
-                                            // Candidate
-                                            name            = { initialBallot.legislative.principal.candidatoDetails.candidatoName }
-                                            photo           = { initialBallot.legislative.principal.candidatoDetails.candidatoPhoto?.localFile.childImageSharp.gatsbyImageData }
-                                            // Party
-                                            title           = { initialBallot.legislative.principal.party.partidoDetails.partidoTitle }
-                                            overlayColor    = { initialBallot.legislative.principal.party.partidoDetails.partidoColor }
-                                            logo            = { initialBallot.legislative.principal.party.partidoDetails.partidoLogo?.localFile.childImageSharp.gatsbyImageData }
-                                            layoutType      = 'principal'
-                                        />
-                                    : 
-                                        <CandidateCard 
-                                            className       = '' 
-                                            onClick         = { openModalState('lPrincipal') }
-                                            linkText        = { linkTextEmpty }
-                                            name            = { linkTextEmpty }
-                                            layoutType      = 'principal empty'
-                                        />
-                                }
+                                <CandidateCard 
+                                    className       = 'lprincipal' 
+                                    onClick         = { openModalState('lPrincipal') }
+                                    status          = { candidatesSelection.legislative.principal.status }
+                                    // Candidate
+                                    name            = { candidatesSelection.legislative.principal.candidatoDetails?.candidatoName }
+                                    photo           = { candidatesSelection.legislative.principal.candidatoDetails?.candidatoPhoto?.localFile.childImageSharp.gatsbyImageData }
+                                    // Party
+                                    title           = { candidatesSelection.legislative.principal.party?.partidoTitle }
+                                    overlayColor    = { candidatesSelection.legislative.principal.party?.partidoColor }
+                                    logo            = { candidatesSelection.legislative.principal.party?.partidoLogo?.localFile.childImageSharp.gatsbyImageData }
+                                    layoutType      = 'principal'
+                                />
                                 <Swap 
                                     className           = {''}
                                     title               = 'Seleccione Gobernador'
-                                    noticeMessage       = { titles.messageModal }
                                     candidates          = { candidates.legislative.principals }
                                     cardStyle           = 'principal'
                                     show                = { modalArrayShow.lPrincipal }
-                                    onHide              = { closeModalState('lPrincipal') } 
-                                    // onClick             = { setCandidate }
+                                    onHide              = { closeModalState('lPrincipal') }
+                                    noticeMessage       = { titles.messageModal }
+                                    candidateTarget     = 'legislative.principal'
+                                    modifyCandidate     = { modifyCandidate }
+                                    voidCandidate       = { voidCandidate }
+                                    fullScreen
                                 />
                             </div>
                         </div>
@@ -130,30 +202,21 @@ export default function Ballot (
                             </h3>
                             <div className = 'blurbs'>
                                 {
-                                    initialBallot.legislative.list?.length > 0 ?
-                                        initialBallot.legislative.list.map( ( _, index ) => (
-                                            _.id != 0 ?
-                                                <CandidateCard 
-                                                    key             = { index }
-                                                    className       = '' 
-                                                    onClick         = { openModalState('lList') }
-                                                    // Candidate
-                                                    name            = { _.candidatoDetails.candidatoName }
-                                                    // Party
-                                                    title           = { _.party.partidoDetails.partidoTitle }
-                                                    overlayColor    = { _.party.partidoDetails.partidoColor }
-                                                    logo            = { _.party.partidoDetails.partidoLogo?.localFile.childImageSharp.gatsbyImageData }
-                                                    layoutType      = 'list'
-                                                />
-                                            :
-                                                <CandidateCard 
-                                                    key             = { index }
-                                                    className       = ''
-                                                    onClick         = { openModalState('lList') }
-                                                    linkText        = { linkTextEmpty }
-                                                    name            = { linkTextEmpty }
-                                                    layoutType      = 'list empty'
-                                                />
+                                    candidatesSelection.legislative.list?.length > 0 ?
+                                        candidatesSelection.legislative.list.map( ( _, index ) => (
+                                            <CandidateCard 
+                                                key             = { index }
+                                                status          = { _.status }
+                                                className       = '' 
+                                                onClick         = { openModalState('lList', index) }
+                                                // Candidate
+                                                name            = { _.candidatoDetails?.candidatoName }
+                                                // Party
+                                                title           = { _.party?.partidoTitle }
+                                                overlayColor    = { _.party?.partidoColor }
+                                                logo            = { _.party?.partidoLogo?.localFile.childImageSharp.gatsbyImageData }
+                                                layoutType      = 'list'
+                                            />
                                         ))
                                     : undefined
                                 }
@@ -165,6 +228,11 @@ export default function Ballot (
                                     show            = { modalArrayShow.lList }
                                     onHide          = { closeModalState('lList') } 
                                     noticeMessage   = { titles.messageModal }
+                                    candidateTarget = 'legislative.list'
+                                    modifyCandidate = { modifyCandidate }
+                                    indexClicked    = { indexClicked }
+                                    voidCandidate   = { voidCandidate }
+                                    fullScreen
                                 />
                             </div>
                         </div>
@@ -173,31 +241,23 @@ export default function Ballot (
                                 {titles.lNominal}
                             </h3>
                             <div className = 'blurbs'>
+
                                 {
-                                    initialBallot.legislative.nominal?.length > 0 ?
-                                        initialBallot.legislative.nominal.map( ( _, index ) => (
-                                            _.id != 0 ?
-                                                <CandidateCard 
-                                                    key             = { index }
-                                                    className       = '' 
-                                                    onClick         = { openModalState('lNominal') }
-                                                    // Candidate
-                                                    name            = { _.candidatoDetails.candidatoName }
-                                                    // Party
-                                                    title           = { _.party.partidoDetails.partidoTitle }
-                                                    overlayColor    = { _.party.partidoDetails.partidoColor }
-                                                    logo            = { _.party.partidoDetails.partidoLogo?.localFile.childImageSharp.gatsbyImageData }
-                                                    layoutType      = 'list'
-                                                />
-                                            :
-                                                <CandidateCard 
-                                                    key             = { index }
-                                                    className       = '' 
-                                                    onClick         = { openModalState('lNominal') }
-                                                    linkText        = { linkTextEmpty }
-                                                    name            = { linkTextEmpty }
-                                                    layoutType      = 'list empty'
-                                                />
+                                    candidatesSelection.legislative.nominal?.length > 0 ?
+                                        candidatesSelection.legislative.nominal.map( ( _, index ) => (
+                                            <CandidateCard 
+                                                key             = { index }
+                                                status          = { _.status }
+                                                className       = '' 
+                                                onClick         = { openModalState('lNominal', index) }
+                                                // Candidate
+                                                name            = { _.candidatoDetails?.candidatoName }
+                                                // Party
+                                                title           = { _.party?.partidoTitle }
+                                                overlayColor    = { _.party?.partidoColor }
+                                                logo            = { _.party?.partidoLogo?.localFile.childImageSharp.gatsbyImageData }
+                                                layoutType      = 'list'
+                                            />
                                         ))
                                     : undefined
                                 }
@@ -209,6 +269,11 @@ export default function Ballot (
                                     show            = { modalArrayShow.lNominal }
                                     onHide          = { closeModalState('lNominal') } 
                                     noticeMessage   = { titles.messageModal }
+                                    candidateTarget = 'legislative.nominal'
+                                    modifyCandidate = { modifyCandidate }
+                                    indexClicked    = { indexClicked }
+                                    voidCandidate   = { voidCandidate }
+                                    fullScreen
                                 />
                             </div>
                         </div> 
@@ -216,7 +281,7 @@ export default function Ballot (
                 </div>
 
                 {/* Column Two */}
-                <div className = 'column bg-light'>
+                <div className = 'column'>
                     <h2 className = 'title'>
                         {titles.mTitle}
                     </h2>
@@ -226,37 +291,31 @@ export default function Ballot (
                                 {titles.mPrincipal}
                             </h3>
                             <div className = 'blurbs'>
-                                {
-                                    initialBallot.municipal.principal ?
-                                        <CandidateCard 
-                                            className       = ''
-                                            onClick         = { openModalState('mPrincipal') }
-                                            // Candidate
-                                            name            = { initialBallot.municipal.principal.candidatoDetails.candidatoName }
-                                            photo           = { initialBallot.municipal.principal.candidatoDetails.candidatoPhoto?.localFile.childImageSharp.gatsbyImageData }
-                                            // Party
-                                            title           = { initialBallot.municipal.principal.party.partidoDetails.partidoTitle }
-                                            overlayColor    = { initialBallot.municipal.principal.party.partidoDetails.partidoColor }
-                                            logo            = { initialBallot.municipal.principal.party.partidoDetails.partidoLogo?.localFile.childImageSharp.gatsbyImageData }
-                                            layoutType      = 'principal'
-                                        />
-                                    : 
-                                        <CandidateCard 
-                                            className       = '' 
-                                            onClick         = { openModalState('mPrincipal') }
-                                            linkText        = { linkTextEmpty }
-                                            name            = { linkTextEmpty }
-                                            layoutType      = 'principal empty'
-                                        />
-                                }
+                                <CandidateCard 
+                                    className       = 'mprincipal' 
+                                    onClick         = { openModalState('mPrincipal') }
+                                    status          = { candidatesSelection.municipal.principal.status }
+                                    // Candidate
+                                    name            = { candidatesSelection.municipal.principal.candidatoDetails?.candidatoName }
+                                    photo           = { candidatesSelection.municipal.principal.candidatoDetails?.candidatoPhoto?.localFile.childImageSharp.gatsbyImageData }
+                                    // Party
+                                    title           = { candidatesSelection.municipal.principal.party?.partidoTitle }
+                                    overlayColor    = { candidatesSelection.municipal.principal.party?.partidoColor }
+                                    logo            = { candidatesSelection.municipal.principal.party?.partidoLogo?.localFile.childImageSharp.gatsbyImageData }
+                                    layoutType      = 'principal'
+                                />
                                 <Swap 
-                                    className       = {''}
-                                    title           = {`Seleccione ${titles.mPrincipal}` }
-                                    candidates      = { candidates.municipal.principals }
-                                    cardStyle       = 'principal'
-                                    show            = { modalArrayShow.mPrincipal }
-                                    onHide          = { closeModalState('mPrincipal') } 
-                                    noticeMessage   = { titles.messageModal }
+                                    className           = {''}
+                                    title               = 'Seleccione Gobernador'
+                                    candidates          = { candidates.municipal.principals }
+                                    cardStyle           = 'principal'
+                                    show                = { modalArrayShow.mPrincipal }
+                                    onHide              = { closeModalState('mPrincipal') }
+                                    noticeMessage       = { titles.messageModal }
+                                    candidateTarget     = 'municipal.principal'
+                                    modifyCandidate     = { modifyCandidate }
+                                    voidCandidate       = { voidCandidate }
+                                    fullScreen
                                 />
                             </div>
                         </div>
@@ -266,30 +325,21 @@ export default function Ballot (
                             </h3>
                             <div className = 'blurbs'>
                                 {
-                                    initialBallot.municipal.list?.length > 0 ?
-                                        initialBallot.municipal.list.map( ( _, index ) => (
-                                            _.id != 0 ?
-                                                <CandidateCard 
-                                                    key             = { index }
-                                                    className       = '' 
-                                                    onClick         = { openModalState('mList') }
-                                                    // Candidate
-                                                    name            = { _.candidatoDetails.candidatoName }
-                                                    // Party
-                                                    title           = { _.party.partidoDetails.partidoTitle }
-                                                    overlayColor    = { _.party.partidoDetails.partidoColor }
-                                                    logo            = { _.party.partidoDetails.partidoLogo?.localFile.childImageSharp.gatsbyImageData }
-                                                    layoutType      = 'list'
-                                                />
-                                            :
-                                                <CandidateCard 
-                                                    key             = { index }
-                                                    className       = '' 
-                                                    onClick         = { openModalState('mList') }
-                                                    linkText        = { linkTextEmpty }
-                                                    name            = { linkTextEmpty }
-                                                    layoutType      = 'list empty'
-                                                />
+                                    candidatesSelection.municipal.list?.length > 0 ?
+                                        candidatesSelection.municipal.list.map( ( _, index ) => (
+                                            <CandidateCard 
+                                                key             = { index }
+                                                status          = { _.status }
+                                                className       = '' 
+                                                onClick         = { openModalState('mList', index) }
+                                                // Candidate
+                                                name            = { _.candidatoDetails?.candidatoName }
+                                                // Party
+                                                title           = { _.party?.partidoTitle }
+                                                overlayColor    = { _.party?.partidoColor }
+                                                logo            = { _.party?.partidoLogo?.localFile.childImageSharp.gatsbyImageData }
+                                                layoutType      = 'list'
+                                            />
                                         ))
                                     : undefined
                                 }
@@ -301,6 +351,11 @@ export default function Ballot (
                                     show            = { modalArrayShow.mList }
                                     onHide          = { closeModalState('mList') } 
                                     noticeMessage   = { titles.messageModal }
+                                    candidateTarget = 'municipal.list'
+                                    modifyCandidate = { modifyCandidate }
+                                    indexClicked    = { indexClicked }
+                                    voidCandidate   = { voidCandidate }
+                                    fullScreen
                                 />
                             </div>
                         </div>
@@ -310,30 +365,21 @@ export default function Ballot (
                             </h3>
                             <div className = 'blurbs'>
                                 {
-                                    initialBallot.municipal.nominal?.length > 0 ?
-                                        initialBallot.municipal.nominal.map( ( _, index ) => (
-                                            _.id != 0 ?
-                                                <CandidateCard 
-                                                    key             = { index }
-                                                    className       = '' 
-                                                    onClick         = { openModalState('mNominal') }
-                                                    // Candidate
-                                                    name            = { _.candidatoDetails.candidatoName }
-                                                    // Party
-                                                    title           = { _.party.partidoDetails.partidoTitle }
-                                                    overlayColor    = { _.party.partidoDetails.partidoColor }
-                                                    logo            = { _.party.partidoDetails.partidoLogo?.localFile.childImageSharp.gatsbyImageData }
-                                                    layoutType      = 'list'
-                                                />
-                                            :
-                                                <CandidateCard 
-                                                    key             = { index }
-                                                    className       = '' 
-                                                    onClick         = { openModalState('mNominal') }
-                                                    linkText        = { linkTextEmpty }
-                                                    name            = { linkTextEmpty }
-                                                    layoutType      = 'list empty'
-                                                />
+                                    candidatesSelection.municipal.nominal?.length > 0 ?
+                                        candidatesSelection.municipal.nominal.map( ( _, index ) => (
+                                            <CandidateCard 
+                                                key             = { index }
+                                                status          = { _.status }
+                                                className       = '' 
+                                                onClick         = { openModalState('mNominal', index) }
+                                                // Candidate
+                                                name            = { _.candidatoDetails?.candidatoName }
+                                                // Party
+                                                title           = { _.party?.partidoTitle }
+                                                overlayColor    = { _.party?.partidoColor }
+                                                logo            = { _.party?.partidoLogo?.localFile.childImageSharp.gatsbyImageData }
+                                                layoutType      = 'list'
+                                            />
                                         ))
                                     : undefined
                                 }
@@ -345,6 +391,11 @@ export default function Ballot (
                                     show            = { modalArrayShow.mNominal }
                                     onHide          = { closeModalState('mNominal') } 
                                     noticeMessage   = { titles.messageModal }
+                                    candidateTarget = 'municipal.nominal'
+                                    modifyCandidate = { modifyCandidate }
+                                    indexClicked    = { indexClicked }
+                                    voidCandidate   = { voidCandidate }
+                                    fullScreen
                                 />
                             </div>
                         </div> 

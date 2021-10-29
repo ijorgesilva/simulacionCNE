@@ -3,6 +3,7 @@
 .candidates {
     display: flex;
     flex-grow: 1;
+    padding: 1rem;
     .container,
     .container-fluid {
         display: grid;

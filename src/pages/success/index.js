@@ -4,8 +4,7 @@ import { Container, Alert, Button } from 'react-bootstrap'
 import  { 
   faScroll,
   faRedo,
-  faEnvelope, 
-  faShareSquare
+  faEnvelope,
 } from '@fortawesome/free-solid-svg-icons'
 import { faTwitter, faFacebook, faWhatsapp } from '@fortawesome/free-brands-svg-icons'
 import { FacebookShareButton, TwitterShareButton, EmailShareButton, WhatsappShareButton } from 'react-share'

@@ -33,7 +33,7 @@ export default function IndexPage ( { location, data, pageContext } ) {
                                 noIndex: false,
                             }}
           showBar
-          noticeText    = { 'Presione sobre el candidato que desee cambiar. Cuando termine presione el botón “SIGUIENTE”.' }
+          noticeText    = { 'REVISE SUS OPCIONES Y PRESIONE EL BOTÓN "VOTAR"' }
       />
 
       <Container fluid className = 'main ballotPage'>
@@ -56,12 +56,11 @@ export default function IndexPage ( { location, data, pageContext } ) {
       <Footer
         before        = '/'
         buttonUrl     = '/success'
-        buttonText    = 'Siguiente'
-        buttonVariant = 'primary'
+        buttonText    = 'VOTAR'
+        buttonVariant = 'outline-dark'
         tour          = {{
                             steps: '',
                         }}
-         
       />
 
     </>
@@ -99,6 +98,7 @@ export const query = graphql`
         papeletaPartidoGobernador {
           ... on WpCandidato {
             id
+            status
             candidatoDetails {
               candidatoName
               candidatoPhoto {
@@ -114,6 +114,7 @@ export const query = graphql`
         papeletaPartidoLista {
           ... on WpCandidato {
             id
+            status
             candidatoDetails {
               candidatoName
               candidatoPhoto {
@@ -129,6 +130,7 @@ export const query = graphql`
         papeletaPartidoNominal {
           ... on WpCandidato {
             id
+            status
             candidatoDetails {
               candidatoName
               candidatoPhoto {
@@ -146,6 +148,7 @@ export const query = graphql`
         papeletaPartidoAlcalde {
           ... on WpCandidato {
             id
+            status
             candidatoDetails {
               candidatoName
               candidatoPhoto {
@@ -161,6 +164,7 @@ export const query = graphql`
         papeletaPartidoCmLista {
           ... on WpCandidato {
             id
+            status
             candidatoDetails {
               candidatoName
               candidatoPhoto {
@@ -176,6 +180,7 @@ export const query = graphql`
         papeletaPartidoCmNominal {
           ... on WpCandidato {
             id
+            status
             candidatoDetails {
               candidatoName
               candidatoPhoto {

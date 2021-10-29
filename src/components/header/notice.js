@@ -6,13 +6,19 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import './notice.scss'
 
-export default function Notice ( { text } ) {
+export default function Notice ( { text, showIcon } ) {
     return (
         <>
             {
                 text ?
                     <div className = 'notice' >
-                        <p> <FontAwesomeIcon className='icon' icon={faExclamationCircle} size='lg'/> { text } </p>
+                        <p> 
+                            {
+                                showIcon ?
+                                    <FontAwesomeIcon className='icon' icon={faExclamationCircle} size='lg'/>
+                                : undefined
+                            }
+                            { text } </p>
                     </div>
                 :
                     undefined

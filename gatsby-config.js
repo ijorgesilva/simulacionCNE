@@ -14,11 +14,6 @@ require('dotenv').config({
 
 module.exports = {
 
-  flags: {
-    FAST_DEV: true,
-    FAST_REFRESH: true
-  },
-
   pathPrefix: config.pathPrefix === "" ? "/" : config.pathPrefix,
 
   siteMetadata: {
