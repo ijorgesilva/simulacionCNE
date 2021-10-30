@@ -6,17 +6,17 @@ export const checkCandidatesStatus = ( candidates ) => {
     
     // Check if empty candidates
     // Legislative
-    if(includes( candidates.legislative.principal , 'unset' ) === true ) {
+    if(includes( candidates.legislative?.principal , 'unset' ) === true ) {
         confirmation = true
     }
-    if ( candidates.legislative.list ){
+    if ( candidates.legislative?.list ){
         candidates.legislative.list.forEach( (_, index) => {
             if(includes( _ , 'unset' ) === true ) {
                 confirmation = true
             }
         })
     }
-    if ( candidates.legislative.nominal ){
+    if ( candidates.legislative?.nominal ){
         candidates.legislative.nominal.forEach( (_, index) => {
             if(includes( _ , 'unset' ) === true ) {
                 confirmation = true
@@ -24,17 +24,17 @@ export const checkCandidatesStatus = ( candidates ) => {
         })
     }
     // Legislative
-    if(includes( candidates.municipal.principal , 'unset' ) === true ) {
+    if(includes( candidates.municipal?.principal , 'unset' ) === true ) {
         confirmation = true
     }
-    if ( candidates.municipal.list ){
+    if ( candidates.municipal?.list ){
         candidates.municipal.list.forEach( (_, index) => {
             if(includes( _ , 'unset' ) === true ) {
                 confirmation = true
             }
         })
     }
-    if ( candidates.municipal.nominal ){
+    if ( candidates.municipal?.nominal ){
         candidates.municipal.nominal.forEach( (_, index) => {
             if(includes( _ , 'unset' ) === true ) {
                 confirmation = true
