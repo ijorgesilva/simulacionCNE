@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Container } from 'react-bootstrap'
 import { graphql } from 'gatsby'
 
@@ -12,8 +12,27 @@ export default function IndexPage ( { location, data, pageContext } ) {
 
   const { title, periodSlug } = pageContext
   const { listParties } = data
+
   const [ onBoard, setOnBoard ] = useState(false)
   
+  // Check if it is the first simulation 
+  useEffect( () => {
+    if ( localStorage.getItem('onBoard') === null ) {
+      modifyOnBoard(true)()
+    }
+  })
+
+  const modifyOnBoard = ( status ) => () => {
+    if (status === true ){
+      setOnBoard(true)
+      localStorage.setItem('onBoard', 'false')
+    }
+    if (status === false ){
+      setOnBoard(false)
+      localStorage.setItem('onBoard', 'false')
+    }
+  }
+
   const content = {
     textFooter: 'Centro #140921920. Mesa #8',
     noticeText: 'Seleccione el partido por el cual desea votar',
@@ -22,9 +41,9 @@ export default function IndexPage ( { location, data, pageContext } ) {
   const onBoardTour = { 
     title: 'Bienvenido al Simulador del Voto',
     className: '',
-    onClick: () => setOnBoard(true), 
+    onClick: modifyOnBoard(true), 
     show: onBoard,
-    onHide: () => setOnBoard(false),
+    onHide: modifyOnBoard(false),
     content: {
       linkTitle: 'Ayuda'
     },

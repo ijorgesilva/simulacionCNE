@@ -13,7 +13,7 @@ export default function Parties (
 
     return (
         <main className = 'parties'>
-            <Container fluid className = 'respect-aspect-ratio'>
+            <Container fluid className = ''>
                 {
                     items?.length > 0 ?
                         items.map ( (_, index) => (

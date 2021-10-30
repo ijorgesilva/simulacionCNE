@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link, navigate } from 'gatsby'
 import { Container, Button } from 'react-bootstrap'
 import  { 
@@ -13,11 +13,14 @@ import OnBoard from '../onboard'
 import './footer.scss'
 
 export default function Footer ( {
+    className,
+    mode,
     before,
     next,
     textCenter,
     buttonUrl,
     buttonText,
+    buttonOnClick,
     buttonVariant,
     tour,
     onboard,
@@ -25,10 +28,25 @@ export default function Footer ( {
     voidCandidate,
     candidateTarget,
 } ) {
+
+    const [ nextButton, setNextButton ] = useState(false)
+    
+    useEffect( () => {
+        if ( localStorage.getItem('nextButton') ){
+            setNextButton(true)
+            localStorage.setItem('nextButton', 'true')
+        }
+    })
+
+    const onNextButton = () => () => {
+        setNextButton(true)
+        localStorage.setItem('nextButton', 'true')
+        navigate(-1)
+    }
     
     return (
         <>
-            <footer className = 'footer'>
+            <footer className = {`footer ${ className ? className : '' } ${ mode ? mode : 'light' }`}>
                 <Container fluid>
                     <div className = 'left'>
                         {   
@@ -87,14 +105,23 @@ export default function Footer ( {
                         {
                             buttonUrl && buttonText ?
                                 <Button 
-                                    as      = { Link } 
+                                    as      = { Link }
                                     to      = { buttonUrl }
                                     variant = { buttonVariant ? buttonVariant : 'primary' }
                                     size    = 'lg'
                                 >
                                     { buttonText }
                                 </Button>
-                            : undefined
+                            : 
+                                buttonOnClick && buttonText ?
+                                    <Button 
+                                        onClick = { buttonOnClick() }
+                                        variant = { buttonVariant ? buttonVariant : 'primary' }
+                                        size    = 'lg'
+                                    >
+                                        { buttonText }
+                                    </Button>
+                                : undefined
                         }
                         {
                             textCenter ?
@@ -105,11 +132,11 @@ export default function Footer ( {
 
                     <div className = 'right'>
                         {
-                            next ? 
+                            next && nextButton ? 
                                 <Button
                                     variant     = 'outline-dark'
                                     className   = 'next' 
-                                    onClick     = { () => navigate(-1) }
+                                    onClick     = { onNextButton() }
                                     title       = 'Siguiente'
                                 >
                                     <FontAwesomeIcon className='icon' icon={faArrowAltCircleRight} size='lg'/>

@@ -1,8 +1,60 @@
 @import "~include-media/dist/_include-media.scss";
 
 .footer {
-    color: hsla(var(--color-dark-h), var(--color-dark-s), var(--color-dark-s), 0.7);
-    background-color: hsla(var(--color-light-h), var(--color-light-s), 90%, 1);
+
+    &.dark {
+        color: hsla(var(--color-light-h), var(--color-light-s), var(--color-light-s), 0.7);
+        background-color: hsla(var(--color-dark-h), var(--color-dark-s), 40%, 1);
+        .container,
+        .container-fluid {
+            .center,
+            .left, 
+            .right {
+                .btn {
+                    color: hsla( var(--color-light-h),var(--color-light-s), var(--color-light-l), 0.6 );
+                    border-color: hsla( var(--color-light-h),var(--color-light-s), var(--color-light-l), 0.6 );
+                    &:hover {
+                        color: hsla( var(--color-dark-h),var(--color-dark-s), var(--color-dark-l), 1 );
+                        border-color: hsla( var(--color-light-h),var(--color-light-s), var(--color-light-l), 1 );
+                    }
+                }
+            }
+            .center {
+                .btn {
+                    color: hsla( var(--color-light-h),var(--color-light-s), var(--color-light-l), 1 );
+                }
+            }
+        }
+
+    }
+    &.light {
+        color: hsla(var(--color-dark-h), var(--color-dark-s), var(--color-dark-s), 0.7);
+        background-color: hsla(var(--color-light-h), var(--color-light-s), 90%, 1);
+        .container,
+        .container-fluid {
+            .center,
+            .left, 
+            .right {
+                .btn {
+                    color: hsla( var(--color-dark-h),var(--color-dark-s), var(--color-dark-l), 0.6 );
+                    border-color: hsla( var(--color-dark-h),var(--color-dark-s), var(--color-dark-l), 0.6 );
+                    background-color: hsla(var(--color-light-h), var(--color-light-s), var(--color-light-l), 0.6);
+                    &:hover {
+                        color: hsla( var(--color-light-h),var(--color-light-s), var(--color-light-l), 1 );
+                        border-color: hsla( var(--color-dark-h),var(--color-dark-s), var(--color-dark-l), 1 );
+                        background-color: hsla(var(--color-dark-h), var(--color-dark-s), var(--color-dark-l), 1);
+                    }
+                }
+            }
+            .center {
+                .btn {
+                    color: hsla( var(--color-dark-h),var(--color-dark-s), var(--color-dark-l), 1 );
+                }
+            }
+        }
+
+    }
+
     height: 90px;
     padding: 1rem 0;
     display: flex;
@@ -15,20 +67,14 @@
         .left, 
         .right {
             .btn {
-                color: hsla( var(--color-dark-h),var(--color-dark-s), var(--color-dark-l), 0.6 );
-                border-color: hsla( var(--color-dark-h),var(--color-dark-s), var(--color-dark-l), 0.6 );
                 .icon {
                     width: 42px;
                     height: 42px;
                     transition: var(--transition-fast);
                 }
-                &:hover {
-                    color: hsla( var(--color-light-h),var(--color-light-s), var(--color-light-l), 1 );
-                    border-color: hsla( var(--color-dark-h),var(--color-dark-s), var(--color-dark-l), 1 );
-                }
             }
             > p{
-                font-size: 0.7rem;
+                font-size: 1rem;
                 margin-top: 0.2rem;
                 margin-bottom: 0;
             }
@@ -50,14 +96,12 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            .btn {
-                color: hsla( var(--color-dark-h),var(--color-dark-s), var(--color-dark-l), 1 );
-            }
         }
         .left {
             justify-items: start;
         }
         .right {
+            grid-template-columns: 1fr;
             justify-items: end;
         }
     }

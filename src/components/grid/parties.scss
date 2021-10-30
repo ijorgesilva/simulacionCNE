@@ -1,15 +1,14 @@
 @import "~include-media/dist/_include-media.scss";
 
 .parties {
-    display: flex;
-    flex-grow: 1;
     padding: 1rem;
-    height: var(--main-container-height);
+    max-height: var(--main-container-height);
+    overflow-y: auto;
     .container,
     .container-fluid {
         display: grid;
-        grid-template-columns: repeat(7, 1fr);
-        grid-template-rows: repeat(7, 1fr);
+        grid-template-columns: repeat( 7, minmax( calc( ( 100vw - 4rem - 60px ) / 7 ), 1fr) );
+        grid-template-rows: repeat(7, minmax(calc((100vh - 45px - 80px - 90px - 6rem) / 7), 1fr));
         align-items: start;
         grid-template-areas:"c1x1 c2x1 c3x1 c4x1 c5x1 c6x1 c7x1"
                             "c1x2 c2x2 c3x2 c4x2 c5x2 c6x2 c7x2"
@@ -18,8 +17,8 @@
                             "c1x5 c2x5 c3x5 c4x5 c5x5 c6x5 c7x5"
                             "c1x6 c2x6 c3x6 c4x6 c5x6 c6x6 c7x6"
                             "c1x7 c2x7 c3x7 c4x7 c5x7 c6x7 c7x7";
-        flex-grow: 1;
         gap: 10px;
+        max-height: var(--main-container-height);
     }
     > .div {
         background-color: hsla(0,0%,0%,0.1);

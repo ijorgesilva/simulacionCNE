@@ -45,7 +45,7 @@
             .candidates {
                 display: grid;
                 grid-template-columns: repeat(2, 1fr);
-                grid-template-rows: 1fr 1fr;
+                grid-template-rows: auto;
                 grid-column-gap: 0px;
                 grid-row-gap: 0px; 
                 gap: 10px;

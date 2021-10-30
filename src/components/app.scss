@@ -29,8 +29,8 @@ html {
 }
 body {
     overflow-x: hidden;
-    > div {
-        > div {
+    > #___gatsby {
+        > #gatsby-focus-wrapper {
             display: flex;
             flex-direction: column;
             margin: auto;
@@ -50,7 +50,7 @@ body {
     .btn {
         // TODO: Improve manual overwrite
         border-width: 2px;
-        background-color: hsla(var(--color-light-h),var(--color-light-s),var(--color-light-l),0.7);
+        // background-color: hsla(var(--color-light-h),var(--color-light-s),var(--color-light-l),0.7);
     }
 }
 

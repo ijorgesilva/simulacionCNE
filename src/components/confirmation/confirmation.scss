@@ -1,0 +1,24 @@
+.confirmation {
+
+    .modal-content {
+        .modal-header {
+            color:  hsla( var(--color-light-h),var(--color-light-s), var(--color-light-l), 1 );
+            background-color: #DD9118;
+        }
+        .modal-body {
+            .content {
+                font-size: 1.5rem;
+                margin-bottom: 2rem;
+                text-align: center;
+            }
+            .btn-list {
+                display: grid;
+                gap: 10px;
+                grid-template-columns: 1fr 1fr;
+                .secondary {
+                    color:  hsla( var(--color-dark-h),var(--color-dark-s), var(--color-dark-l), 0.6 );
+                }
+            }
+        }
+    }
+}

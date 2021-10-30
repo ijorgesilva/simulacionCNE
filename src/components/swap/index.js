@@ -45,8 +45,10 @@ export default function Swap (
                 <Candidates 
                     items           = { candidates }
                     cardStyle       = { cardStyle }
+                    indexClicked    = { indexClicked }
                     candidateTarget = { candidateTarget }
                     modifyCandidate = { modifyCandidate }
+                    contextClass    = { 'swap' }
                 />
                 <Footer
                     indexClicked    = { indexClicked }

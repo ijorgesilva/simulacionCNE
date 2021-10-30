@@ -7,8 +7,8 @@
     .container,
     .container-fluid {
         display: grid;
-        grid-template-columns: repeat( 7, minmax(190px, 1fr) );
-        grid-template-rows: repeat( 7, 1fr );
+        grid-template-columns: repeat( 7, minmax( calc( ( 100vw - 4rem - 60px ) / 7 ), 1fr) );
+        grid-template-rows: repeat( 7, minmax( calc( ( 100vh - 45px - 70px - 90px - 6rem ) / 7 ), 1fr ) ); // minmax( 1fr, calc( ( 100vh - 45px - 70px - 90px ) / 7 ) ) 
         align-items: start;
         grid-auto-flow: column;
         flex-grow: 1;

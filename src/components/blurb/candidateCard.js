@@ -6,6 +6,7 @@ import './candidateCard.scss'
 
 export default function CandidateCard ( 
     { 
+        contextClass,
         status,
         className, 
         style,
@@ -28,7 +29,7 @@ export default function CandidateCard (
     switch(status){
         case 'unset': {
             return (
-                <div className =  {`candidateCard card unset ${ className ? className : ''}`} style = { style }>
+                <div className =  {`candidateCard card unset ${ className ? className : ''} ${ contextClass ? contextClass : ''}`} style = { style }>
                     <Button 
                         variant     = 'none'
                         onClick     = { onClick }
@@ -36,15 +37,16 @@ export default function CandidateCard (
                         className   = {`card-body link ${ layoutType ? layoutType : 'list'}`}
                     >
                         <div className='main'>
-                            <h3>Opción sin seleccionar</h3>
+                            <h3>Opción sin <br/>seleccionar</h3>
                         </div>
+                        <div className = {`background ${ overlayColor ? 'overlay' : ''}`}></div>
                     </Button>
                 </div>
             )
         }
         case 'void': {
             return (
-                <div className =  {`candidateCard card void ${ className ? className : ''}`} style = { style }>
+                <div className =  {`candidateCard card void ${ className ? className : ''} ${ contextClass ? contextClass : ''}`} style = { style }>
                     <Button 
                         variant     = 'none'
                         onClick     = { onClick }
@@ -54,13 +56,14 @@ export default function CandidateCard (
                         <div className='main'>
                             <h3>Nulo</h3>
                         </div>
+                        <div className = {`background ${ overlayColor ? 'overlay' : ''}`}></div>
                     </Button>
                 </div>
             )
         }
         case 'publish': {
             return (
-                <div className = {`candidateCard card publish ${ className ? className : ''}`} style = { style }>
+                <div className = {`candidateCard card publish ${ className ? className : ''} ${ contextClass ? contextClass : ''}`} style = { style }>
                     <Button 
                         variant     = 'none'
                         onClick     = { onClick }
@@ -75,7 +78,7 @@ export default function CandidateCard (
                                             className       = { '' }
                                             image           = { photo }
                                             alt             = { name }
-                                            objectFit       = 'contain'
+                                            objectFit       = 'cover'
                                             objectPosition  = 'center center'
                                         />
                                     : undefined

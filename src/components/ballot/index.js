@@ -1,29 +1,21 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Container } from 'react-bootstrap'
 import { set } from 'lodash'
 
 import { CandidateCard } from '../blurb'
 import Swap from '../swap'
 import './ballot.scss'
-import { useCreateInitialBallot } from '../../hooks/useCreateInitialBallot'
 import { useGetCandidates } from '../../hooks/useGetCandidates'
 import '../app.scss'
 
 export default function Ballot ( 
     {
         className,
-        party,
-        // Governors and State Legislative Council 
-        governor,
-        list,
-        nominal,
-        // Mayor and Municipal Council 
-        mayor,
-        municipalList,
-        municipalNominal,
+        location,
+        initialBallot,
     } 
 ) {
-
+    
     const [ modalArrayShow, setArrayModalShow ] = useState({
         lPrincipal: false,
         lList: false,
@@ -51,12 +43,18 @@ export default function Ballot (
     }
 
     // Candidate Selection Logic
+    const pathName = String(location.pathname).replace(/\//g, '')
     const candidates = useGetCandidates()
-
-    const initialBallot = useCreateInitialBallot( party, governor, list, nominal, mayor, municipalList, municipalNominal)
     const [ candidatesSelection, setCandidate ] = useState({...initialBallot})
-    console.log(candidatesSelection)
-    const linkTextEmpty = 'Postular Candidato'
+    
+
+    // Check if Candidates have been selected previously
+    useEffect(() => {
+        if (localStorage.getItem(`candidates-${pathName}`)) {
+            setCandidate(JSON.parse(localStorage.getItem(`candidates-${pathName}`)))
+        }
+    }, [])
+    
     const titles = {
         postulateCandidate: 'Postular Candidato',
         messageModal: 'Seleccione el candidato de su preferencia',
@@ -77,40 +75,36 @@ export default function Ballot (
                 temp = set(candidatesSelection, 'legislative.principal.status', 'publish' )
                 temp = set(candidatesSelection, 'legislative.principal', candidate )
                 closeModalState('lPrincipal')()
-                setCandidate(temp)
             }
             if( position === 'legislative.list' ){
                 temp = set(candidatesSelection, `legislative.list[${index}]`, candidate )
                 temp = set(candidatesSelection, `legislative.list[${index}].status`, 'publish' )
                 closeModalState('lList')()
-                setCandidate(temp)
             }
             if( position === 'legislative.nominal' ){
                 temp = set(candidatesSelection, `legislative.nominal[${index}]`, candidate )
                 temp = set(candidatesSelection, `legislative.nominal[${index}].status`, 'publish' )
                 closeModalState('lNominal')()
-                setCandidate(temp)
             }
         // Municipal
             if( position === 'municipal.principal' ){
                 temp = set(candidatesSelection, 'municipal.principal.status', 'publish' )
                 temp = set(candidatesSelection, 'municipal.principal', candidate )
                 closeModalState('mPrincipal')()
-                setCandidate(temp)
             }
             if( position === 'municipal.list' ){
                 temp = set(candidatesSelection, `municipal.list[${index}]`, candidate )
                 temp = set(candidatesSelection, `municipal.list[${index}].status`, 'publish' )
                 closeModalState('mList')()
-                setCandidate(temp)
             }
             if( position === 'municipal.nominal' ){
                 temp = set(candidatesSelection, `municipal.nominal[${index}]`, candidate )
                 temp = set(candidatesSelection, `municipal.nominal[${index}].status`, 'publish' )
                 closeModalState('mNominal')()
-                setCandidate(temp)
             }
-
+        // Save values on Localstorage and State
+        setCandidate(temp)
+        localStorage.setItem(`candidates-${pathName}`, JSON.stringify(temp))
     }
 
     const voidCandidate = ( position, index ) => () => {
@@ -119,40 +113,38 @@ export default function Ballot (
                 temp = set(candidatesSelection, 'legislative.principal', {} )
                 temp = set(candidatesSelection, 'legislative.principal.status', 'void' )
                 closeModalState('lPrincipal')()
-                setCandidate(temp)
             }
             if( position === 'legislative.list' ){
                 temp = set(candidatesSelection, `legislative.list[${index}]`, {} )
                 temp = set(candidatesSelection, `legislative.list[${index}].status`, 'void' )
                 closeModalState('lList')()
-                setCandidate(temp)
             }
             if( position === 'legislative.nominal' ){
                 temp = set(candidatesSelection, `legislative.nominal[${index}]`, {} )
                 temp = set(candidatesSelection, `legislative.nominal[${index}].status`, 'void' )
                 closeModalState('lNominal')()
-                setCandidate(temp)
             }
         // Municipal
             if( position === 'municipal.principal' ){
                 temp = set(candidatesSelection, 'municipal.principal', {} )
                 temp = set(candidatesSelection, 'municipal.principal.status', 'void' )
                 closeModalState('mPrincipal')()
-                setCandidate(temp)
             }
             if( position === 'municipal.list' ){
                 temp = set(candidatesSelection, `municipal.list[${index}]`, {} )
                 temp = set(candidatesSelection, `municipal.list[${index}].status`, 'void' )
                 closeModalState('mList')()
-                setCandidate(temp)
             }
             if( position === 'municipal.nominal' ){
                 temp = set(candidatesSelection, `municipal.nominal[${index}]`, {} )
                 temp = set(candidatesSelection, `municipal.nominal[${index}].status`, 'void' )
                 closeModalState('mNominal')()
-                setCandidate(temp)
             }
+        // Save values on Localstorage and State
+        setCandidate(temp)
+        localStorage.setItem(`candidates-${pathName}`, JSON.stringify(temp))
     }
+    localStorage.setItem('nextButton', 'true')
 
     return (
         <div className = {`ballot ${ className ? className : '' }`}>
@@ -169,7 +161,8 @@ export default function Ballot (
                             </h3>
                             <div className = 'blurbs'>
                                 <CandidateCard 
-                                    className       = 'lprincipal' 
+                                    className       = 'lprincipal publish' 
+                                    contextClass    = 'ballot'
                                     onClick         = { openModalState('lPrincipal') }
                                     status          = { candidatesSelection.legislative.principal.status }
                                     // Candidate
@@ -190,6 +183,7 @@ export default function Ballot (
                                     onHide              = { closeModalState('lPrincipal') }
                                     noticeMessage       = { titles.messageModal }
                                     candidateTarget     = 'legislative.principal'
+                                    indexClicked        = { indexClicked }
                                     modifyCandidate     = { modifyCandidate }
                                     voidCandidate       = { voidCandidate }
                                     fullScreen
@@ -208,6 +202,7 @@ export default function Ballot (
                                                 key             = { index }
                                                 status          = { _.status }
                                                 className       = '' 
+                                                contextClass    = 'ballot'
                                                 onClick         = { openModalState('lList', index) }
                                                 // Candidate
                                                 name            = { _.candidatoDetails?.candidatoName }
@@ -229,8 +224,8 @@ export default function Ballot (
                                     onHide          = { closeModalState('lList') } 
                                     noticeMessage   = { titles.messageModal }
                                     candidateTarget = 'legislative.list'
-                                    modifyCandidate = { modifyCandidate }
                                     indexClicked    = { indexClicked }
+                                    modifyCandidate = { modifyCandidate }
                                     voidCandidate   = { voidCandidate }
                                     fullScreen
                                 />
@@ -248,7 +243,8 @@ export default function Ballot (
                                             <CandidateCard 
                                                 key             = { index }
                                                 status          = { _.status }
-                                                className       = '' 
+                                                className       = ''
+                                                contextClass    = 'ballot'
                                                 onClick         = { openModalState('lNominal', index) }
                                                 // Candidate
                                                 name            = { _.candidatoDetails?.candidatoName }
@@ -270,8 +266,8 @@ export default function Ballot (
                                     onHide          = { closeModalState('lNominal') } 
                                     noticeMessage   = { titles.messageModal }
                                     candidateTarget = 'legislative.nominal'
-                                    modifyCandidate = { modifyCandidate }
                                     indexClicked    = { indexClicked }
+                                    modifyCandidate = { modifyCandidate }
                                     voidCandidate   = { voidCandidate }
                                     fullScreen
                                 />
@@ -292,7 +288,8 @@ export default function Ballot (
                             </h3>
                             <div className = 'blurbs'>
                                 <CandidateCard 
-                                    className       = 'mprincipal' 
+                                    className       = 'mprincipal publish' 
+                                    contextClass    = 'ballot'
                                     onClick         = { openModalState('mPrincipal') }
                                     status          = { candidatesSelection.municipal.principal.status }
                                     // Candidate
@@ -313,6 +310,7 @@ export default function Ballot (
                                     onHide              = { closeModalState('mPrincipal') }
                                     noticeMessage       = { titles.messageModal }
                                     candidateTarget     = 'municipal.principal'
+                                    indexClicked        = { indexClicked }
                                     modifyCandidate     = { modifyCandidate }
                                     voidCandidate       = { voidCandidate }
                                     fullScreen
@@ -331,6 +329,7 @@ export default function Ballot (
                                                 key             = { index }
                                                 status          = { _.status }
                                                 className       = '' 
+                                                contextClass    = 'ballot'
                                                 onClick         = { openModalState('mList', index) }
                                                 // Candidate
                                                 name            = { _.candidatoDetails?.candidatoName }
@@ -352,8 +351,8 @@ export default function Ballot (
                                     onHide          = { closeModalState('mList') } 
                                     noticeMessage   = { titles.messageModal }
                                     candidateTarget = 'municipal.list'
-                                    modifyCandidate = { modifyCandidate }
                                     indexClicked    = { indexClicked }
+                                    modifyCandidate = { modifyCandidate }
                                     voidCandidate   = { voidCandidate }
                                     fullScreen
                                 />
@@ -371,6 +370,7 @@ export default function Ballot (
                                                 key             = { index }
                                                 status          = { _.status }
                                                 className       = '' 
+                                                contextClass    = 'ballot'
                                                 onClick         = { openModalState('mNominal', index) }
                                                 // Candidate
                                                 name            = { _.candidatoDetails?.candidatoName }
@@ -392,8 +392,8 @@ export default function Ballot (
                                     onHide          = { closeModalState('mNominal') } 
                                     noticeMessage   = { titles.messageModal }
                                     candidateTarget = 'municipal.nominal'
-                                    modifyCandidate = { modifyCandidate }
                                     indexClicked    = { indexClicked }
+                                    modifyCandidate = { modifyCandidate }
                                     voidCandidate   = { voidCandidate }
                                     fullScreen
                                 />

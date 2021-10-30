@@ -11,19 +11,11 @@ export default function PartyCard (
         overlayColor,
         url,
 
-        // Candidato
-        photo,
-        name,
-
         // Partido
-        title,
         logo,
-        color,
+        title,
         poster,
         
-        // Regular Card
-        text,
-        textSmall,
     } 
 ) {
     
@@ -32,62 +24,34 @@ export default function PartyCard (
             <Link 
                 to = { url } 
                 title = {`Votar ${ title ? 'por ' + title : '' }`}
-                className='row'
             >
-                {
-                    photo ? 
-                        <div className={`col-md-4`}>
+                <div className = 'card-body'>
+                    {
+                        logo && !poster ?
                             <GatsbyImage
-                                className       = { '' }
-                                image           = { photo }
+                                className       = { 'logo' }
+                                image           = { logo }
                                 objectFit       = { 'contain' }
-                                alt             = { name }
+                                alt             = { title }
                             />
-                        </div>
-                    : undefined
-                }
-                <div className={`col-md-${ photo ? '8' : '12' }`}>
-                    <div className='card-body'>
-
-                        {/* Candidato / Partido */}
+                        : undefined
+                    }
+                    <div 
+                        className = {`background ${ overlayColor ? 'overlay' : ''}`}
+                        style = {{
+                            backgroundColor: overlayColor,
+                        }}
+                    >
                         {
                             logo ?
                                 <GatsbyImage
-                                    className       = { 'logo' }
-                                    image           = { logo }
+                                    className       = { 'poster' }
+                                    image           = { poster }
                                     objectFit       = { 'contain' }
                                     alt             = { title }
                                 />
                             : undefined
                         }
-
-                        {/* Candidato */}
-                        {
-                            name ? 
-                                <h5 className='card-title'> { name } </h5>
-                            : undefined
-                        }
-
-                        {/* Regular Card */}
-                        {
-                            text ?
-                                <p className='card-text'> { text } </p>
-                            : undefined
-                        }
-                        {
-                            textSmall ?
-                            <p className='card-text'><small className='text-muted'>{textSmall}</small></p>
-                            : undefined
-                        }
-
-                        {/* Candidato / Partido */}
-                        <div 
-                            className = {`background ${ overlayColor ? 'overlay' : ''}`}
-                            style = {{
-                                backgroundColor: overlayColor,
-                            }}
-                        >
-                        </div>
                     </div>
                 </div>
             </Link>

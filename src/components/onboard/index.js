@@ -1,15 +1,15 @@
-import React, { useRef, useState } from 'react'
+import React, { useState } from 'react'
 import { Modal, Button } from 'react-bootstrap'
+import SwiperCore, { Virtual, Pagination, Navigation } from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/react'
-// Import Swiper styles
+
 import 'swiper/css';
 import 'swiper/css/pagination'
 import 'swiper/css/navigation'
-import SwiperCore, { Pagination,Navigation } from 'swiper'
 import './onboard.scss'
 
 // install Swiper modules
-SwiperCore.use([Pagination,Navigation])
+SwiperCore.use( [ Virtual, Pagination, Navigation ] )
 
 export default function OnBoard ( 
     {
@@ -24,7 +24,13 @@ export default function OnBoard (
         slides,
     } 
 ) {
+
+    const [swiperRef, setSwiperRef] = useState(null)
     
+    const slideToSlide = (index) => () => {
+        swiperRef.slideTo(index - 1, 0)
+    }
+
     return (
         <Modal 
             className       = {`onboard ${ className ? className : ''} ${ fullScreen ? 'fullscreen' : ''}`}
@@ -44,27 +50,42 @@ export default function OnBoard (
                     {
                         slides?.length > 0 ?
                             <Swiper 
-                                navigation      = {true} 
-                                className       = 'mySwiper'
+                                onSwiper        = { setSwiperRef }
+                                className       = 'slider'
+                                navigation      = { true } 
                                 pagination      =   {{
-                                                        'type': 'progressbar'
+                                                        'type': 'fraction'//progressbar
                                                     }} 
+                                virtual
                             >
                                 {
                                     slides.map( ( _, index ) => (
                                         index === 0 ?
-                                            <SwiperSlide>
+                                            <SwiperSlide
+                                                key             = { _.title }
+                                                virtualIndex    = { index }
+                                            >
                                                 <div className = 'content'>
                                                     <h3>{_.title}</h3>
                                                     <p>{_.text}</p>
-                                                    <Button 
-                                                        variant     = 'outline-dark'
-                                                        className   = 'help onboard' 
-                                                        onClick     = { onHide }
-                                                        title       = { 'Saltar' }
-                                                    >
-                                                        Saltar
-                                                    </Button>
+                                                    <div className = 'btn-list'>
+                                                        <Button 
+                                                            variant     = 'unset'
+                                                            className   = 'secondary' 
+                                                            onClick     = { onHide }
+                                                            title       = { 'Saltar' }
+                                                        >
+                                                            Saltar
+                                                        </Button>
+                                                        <Button 
+                                                            variant     = 'outline-dark'
+                                                            className   = 'help' 
+                                                            onClick     = { slideToSlide( index + 2) }
+                                                            title       = { 'Siguiente' }
+                                                        >
+                                                            Siguiente
+                                                        </Button>
+                                                    </div>
                                                 </div>
                                             </SwiperSlide>
                                         :
@@ -73,14 +94,24 @@ export default function OnBoard (
                                                     <div className = 'content'>
                                                         <h3>{_.title}</h3>
                                                         <p>{_.text}</p>
-                                                        <Button 
-                                                            variant     = 'primary'
-                                                            className   = 'help onboard' 
-                                                            onClick     = { onHide }
-                                                            title       = { 'Cerrar' }
-                                                        >
-                                                            Comenzar
-                                                        </Button>
+                                                        <div className = 'btn-list'>
+                                                            <Button 
+                                                                variant     = 'unset'
+                                                                className   = 'secondary' 
+                                                                onClick     = { slideToSlide( index - 2) }
+                                                                title       = { 'Siguiente' }
+                                                            >
+                                                                Anterior
+                                                            </Button>
+                                                            <Button 
+                                                                variant     = 'success'
+                                                                className   = 'help' 
+                                                                onClick     = { onHide }
+                                                                title       = { 'Cerrar' }
+                                                            >
+                                                                Comenzar
+                                                            </Button>
+                                                        </div>
                                                     </div>
                                                 </SwiperSlide>
                                             :
@@ -88,6 +119,24 @@ export default function OnBoard (
                                                     <div className = 'content'>
                                                         <h3>{_.title}</h3>
                                                         <p>{_.text}</p>
+                                                        <div className = 'btn-list'>
+                                                            <Button 
+                                                                variant     = 'unset'
+                                                                className   = 'secondary' 
+                                                                onClick     = { slideToSlide( index - 2) }
+                                                                title       = { 'Siguiente' }
+                                                            >
+                                                                Anterior
+                                                            </Button>
+                                                            <Button 
+                                                                variant     = 'outline-dark'
+                                                                className   = 'help' 
+                                                                onClick     = { slideToSlide( index + 2) }
+                                                                title       = { 'Siguiente' }
+                                                            >
+                                                                Siguiente
+                                                            </Button>
+                                                        </div>
                                                     </div>
                                                 </SwiperSlide>
 
@@ -96,7 +145,7 @@ export default function OnBoard (
                             </Swiper>
                         : undefined
                     }
-                {/* END Carousel Onboarding */}
+                {/* END Carousel Onboarding */}   
             </Modal.Body>
         </Modal>
     )

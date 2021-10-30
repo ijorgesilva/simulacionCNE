@@ -1,0 +1,35 @@
+.simulatorNotice {
+    display: none;
+    color: hsla(var(--color-dark-h),var(--color-dark-s),var(--color-dark-l),1);
+    background-color: hsla(var(--color-light-h),var(--color-light-s),var(--color-light-l),1);
+    z-index: 999;
+    .content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100vw;
+        height: 100vh;
+        font-size: 1.5rem;
+        padding-bottom: 150px; // Lottie animation offset
+        .alert {
+            padding: 2rem;
+        }
+    }
+        
+}
+
+/* Target only landscape mobile users */
+@media (orientation: portrait) and (hover: none) and (pointer: coarse) {
+    .simulatorNotice {
+        position: absolute;
+        display: block;
+        width: 100vw;
+        height: 100vh;
+    }
+}
+@media (orientation: landscape) and (hover: none) and (pointer: coarse) {
+    .simulatorNotice {
+        display: none;
+    }
+}

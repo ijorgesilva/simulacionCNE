@@ -20,7 +20,10 @@ export default function SuccessPage ( { location } ) {
 
     const messageShare = 'Revisa el simulador de votación para las elecciones.'
     const currentPeriodTitle = useCurrentPeriod().periodoDetails.periodoTitle
-    const canonicalUrl = config.siteUrl + location.pathname
+    const canonicalUrl = config.siteUrl
+
+    // Clear Local Storage variables for Candidates
+    localStorage.clear()
 
     return (
       <>

@@ -1,11 +1,15 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Container } from 'react-bootstrap'
 import { graphql } from 'gatsby'
 
+import Confirmation from '../../confirmation'
 import Header from '../../header'
 import Ballot from '../../ballot'
 import Footer from '../../footer'
 
+import { useFirstRender } from '../../../hooks/useFirstRender'
+import { useCreateInitialBallot } from '../../../hooks/useCreateInitialBallot'
+import { checkCandidatesStatus } from '../../../hooks/checkCandidatesStatus'
 import '../../app.scss'
 
 const steps = [
@@ -18,7 +22,47 @@ const steps = [
 export default function IndexPage ( { location, data, pageContext } ) {
 
   const { periodTitle } = pageContext
-  const { ballot } = data
+  const firstRender = useFirstRender()
+
+  const initialBallot = useCreateInitialBallot(
+      data.ballot.papeletaDetails.papeletaPartidoPartido,
+      data.ballot.papeletaDetails.papeletaPartidoGobernador,
+      data.ballot.papeletaDetails.papeletaPartidoLista,
+      data.ballot.papeletaDetails.papeletaPartidoNominal,
+      data.ballot.papeletaDetails.papeletaPartidoAlcalde,
+      data.ballot.papeletaDetails.papeletaPartidoCmList,
+      data.ballot.papeletaDetails.papeletaPartidoCmNomina,
+  )
+  const [ confirmation, setConfirmation ] = useState(checkCandidatesStatus(initialBallot))
+  const [ candidatesSelection, setCandidatesSelection ] = useState('')
+  console.log(candidatesSelection)
+  const [ show, setShow ] = useState(false)
+  const handleClose = () => setShow(false)
+  const handleShow = () => setShow(true)
+  
+  useEffect(() => {
+    if ( firstRender ) {
+      console.log('First render baby!')
+    }
+    if ( !firstRender ) {
+      console.log('Not the first render!')
+      if ( !checkCandidatesStatus(candidatesSelection) ) {
+        console.log('Ready to next step! Yayyyy!')
+        setConfirmation(false)
+      }
+    }
+  })
+
+  const voteNow = () => () => {
+    console.log('voteNow confirmation')
+    console.log(confirmation)
+    if ( confirmation ) {
+      handleShow()
+    }
+    else {
+      setConfirmation(false)
+    }
+  }
 
   return (
     <>
@@ -39,28 +83,30 @@ export default function IndexPage ( { location, data, pageContext } ) {
       <Container fluid className = 'main ballotPage'>
 
         <Ballot 
-          className           = {''}
-          party               = { ballot.papeletaDetails.papeletaPartidoPartido }
-          
-          governor            = { ballot.papeletaDetails.papeletaPartidoGobernador }
-          list                = { ballot.papeletaDetails.papeletaPartidoLista }
-          nominal             = { ballot.papeletaDetails.papeletaPartidoNominal }
-
-          mayor               = { ballot.papeletaDetails.papeletaPartidoAlcalde }
-          municipalList       = { ballot.papeletaDetails.papeletaPartidoCmLista}
-          municipalNominal    = { ballot.papeletaDetails.papeletaPartidoCmNominal}
+          className                 = {''}
+          location                  = { location }
+          initialBallot             = { initialBallot }
         />
 
       </Container>
 
+      <Confirmation 
+        onHide        = { handleClose}
+        show          = { show }
+        buttonUrl     = '/success'
+        buttonText    = 'Votar'
+      />
+
       <Footer
         before        = '/'
-        buttonUrl     = '/success'
-        buttonText    = 'VOTAR'
+        buttonOnClick = { voteNow }
+        buttonText    = { 'Votar' }
+        buttonUrl     = { confirmation ? undefined : '/success' }
+
         buttonVariant = 'outline-dark'
-        tour          = {{
-                            steps: '',
-                        }}
+        // tour          = {{
+        //                     steps: '',
+        //                 }}
       />
 
     </>

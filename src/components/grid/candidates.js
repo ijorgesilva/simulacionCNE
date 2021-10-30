@@ -8,12 +8,13 @@ export default function Candidates (
     { 
         items,
         cardStyle,
+        indexClicked,
         candidateTarget,
         modifyCandidate,
+        contextClass,
     } 
 ) {
-    // console.log('candidateTarget')
-    // console.log(candidateTarget)
+    
     return (
         <main className = 'candidates'>
             <Container fluid className = 'respect-aspect-ratio'>
@@ -23,6 +24,7 @@ export default function Candidates (
                             <CandidateCard 
                                 key             = { index }
                                 className       = '' 
+                                contextClass    = 'swap'
                                 status          = 'publish'
                                 // Candidate
                                 name            = { _.candidatoDetails.candidatoName }
@@ -32,7 +34,7 @@ export default function Candidates (
                                 overlayColor    = { _.party?.partidoColor }
                                 logo            = { _.party?.partidoLogo?.localFile.childImageSharp.gatsbyImageData }
                                 layoutType      = { cardStyle ? cardStyle : 'principal' }
-                                onClick         = { modifyCandidate( _, candidateTarget, index ) }
+                                onClick         = { modifyCandidate( _, candidateTarget, indexClicked ) }
                             />
                         ))
                     :

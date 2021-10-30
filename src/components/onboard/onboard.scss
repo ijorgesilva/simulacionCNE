@@ -8,6 +8,7 @@
             border-radius: var(--border-radius);
             > .modal-body {
                 overflow-x: hidden;
+                padding: 0px;
                 > main {
                     overflow-x: hidden;
                     overflow-y: auto;
@@ -50,6 +51,14 @@
                     width: 100%;
                     height: 100%;
                     object-fit: cover;
+                }
+                .btn-list {
+                    display: grid;
+                    gap: 10px;
+                    grid-template-columns: 1fr 1fr;
+                    .secondary {
+                        color:  hsla( var(--color-dark-h),var(--color-dark-s), var(--color-dark-l), 0.6 );
+                    }
                 }
 
             }

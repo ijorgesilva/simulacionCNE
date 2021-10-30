@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet'
 
 import SEO from '../seo'
 import HeaderBar from './headerBar'
+import SimulatorNotice from '../simulatorNotice'
 
 export default function Header ( 
     { 
@@ -11,7 +12,7 @@ export default function Header (
 ){
     
     const url = location?.href ? location.href : ''
-    
+
     return (
         <>
             <Helmet>
@@ -23,6 +24,7 @@ export default function Header (
                         undefined
                 }
             </Helmet>
+            <SimulatorNotice />
             <SEO 
                 postPath    = { url } 
                 title       = { title } 

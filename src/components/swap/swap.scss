@@ -41,7 +41,9 @@
                     > main {
                         overflow-x: hidden;
                         overflow-y: auto;
-                        max-height: var(--main-container-height);
+                        height: calc( 100vh - 45px - 70px - 90px );
+                        min-height: unset;
+                        max-height: unset;
                     }
                 }
             }
