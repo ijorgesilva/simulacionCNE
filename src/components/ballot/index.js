@@ -53,6 +53,7 @@ export default function Ballot (
         if (localStorage.getItem(`candidates-${pathName}`)) {
             setCandidate(JSON.parse(localStorage.getItem(`candidates-${pathName}`)))
         }
+        localStorage.setItem('nextButton', 'true')
     }, [])
     
     const titles = {
@@ -144,7 +145,6 @@ export default function Ballot (
         setCandidate(temp)
         localStorage.setItem(`candidates-${pathName}`, JSON.stringify(temp))
     }
-    localStorage.setItem('nextButton', 'true')
 
     return (
         <div className = {`ballot ${ className ? className : '' }`}>

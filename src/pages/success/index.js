@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link } from 'gatsby'
 import { Container, Alert, Button } from 'react-bootstrap'
 import  { 
@@ -22,8 +22,10 @@ export default function SuccessPage ( { location } ) {
     const currentPeriodTitle = useCurrentPeriod().periodoDetails.periodoTitle
     const canonicalUrl = config.siteUrl
 
-    // Clear Local Storage variables for Candidates
-    localStorage.clear()
+    // Clear Local Storage variables for Candidates    useEffect(() => {
+    useEffect(() => {
+      localStorage.clear()
+    }, [])
 
     return (
       <>
