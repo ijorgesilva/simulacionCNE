@@ -1,14 +1,13 @@
 import { useGetBallots } from './useGetBallots'
 import { useCurrentPeriod } from './useCurrentPeriod'
-import Helper from '../utils/utils'
 
 export const useGetCandidates = () => { 
 
-    const currentPeriodId = useCurrentPeriod().databaseId
+    const currentPeriodId = useCurrentPeriod()
     const allBallots = useGetBallots()
 
     const filteredByPeriod = allBallots.nodes.filter( 
-                                _ => (_.papeletaDetails.papeletaPartidoPeriodo[0].databaseId === currentPeriodId)
+                                _ => (_.papeletaDetails.papeletaPartidoPeriodo[0].databaseId === currentPeriodId.databaseId)
                              );
 
     let candidateList = {

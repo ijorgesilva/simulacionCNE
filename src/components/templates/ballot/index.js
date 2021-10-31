@@ -35,27 +35,27 @@ export default function IndexPage ( { location, data, pageContext } ) {
   )
   const [ confirmation, setConfirmation ] = useState(checkCandidatesStatus(initialBallot))
   const [ candidatesSelection, setCandidatesSelection ] = useState('')
-  console.log(candidatesSelection)
+  
   const [ show, setShow ] = useState(false)
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
   
   useEffect(() => {
     if ( firstRender ) {
-      console.log('First render baby!')
+      // console.log('First render baby!')
     }
     if ( !firstRender ) {
-      console.log('Not the first render!')
+      // console.log('Not the first render!')
       if ( !checkCandidatesStatus(candidatesSelection) ) {
-        console.log('Ready to next step! Yayyyy!')
+        // console.log('Ready to next step! Yayyyy!')
         setConfirmation(false)
       }
     }
   })
 
   const voteNow = () => () => {
-    console.log('voteNow confirmation')
-    console.log(confirmation)
+    // console.log('voteNow confirmation')
+    // console.log(confirmation)
     if ( confirmation ) {
       handleShow()
     }
@@ -130,6 +130,13 @@ export const query = graphql`
               partidoTitle
               partidoColor
               partidoLogo {
+                localFile {
+                  childImageSharp {
+                    gatsbyImageData
+                  }
+                }
+              }
+              partidoPoster {
                 localFile {
                   childImageSharp {
                     gatsbyImageData

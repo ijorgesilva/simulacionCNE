@@ -6,6 +6,8 @@ import { CandidateCard } from '../blurb'
 import Swap from '../swap'
 import './ballot.scss'
 import { useGetCandidates } from '../../hooks/useGetCandidates'
+import { useGetInitialSwapList } from '../../hooks/useGetInitialSwapList'
+import { swapListRemoveCandidate } from '../../hooks/swapListRemoveCandidate'
 import '../app.scss'
 
 export default function Ballot ( 
@@ -15,47 +17,7 @@ export default function Ballot (
         initialBallot,
     } 
 ) {
-    
-    const [ modalArrayShow, setArrayModalShow ] = useState({
-        lPrincipal: false,
-        lList: false,
-        lNominal: false,
-        mPrincipal: false,
-        mList: false,
-        mNominal: false,
-    })
-    const [ indexClicked, setIndexClicked ] = useState(0)
-
-    let newState
-    let temp = {}
-
-    // TODO: DRY, transform into toggle function
-    const closeModalState = ( key ) => () => {
-        newState = {...modalArrayShow}
-        newState[key] = false
-        setArrayModalShow(newState)
-    }
-    const openModalState = ( key, indexClicked ) => () => {
-        newState = {...modalArrayShow}
-        newState[key] = true
-        setIndexClicked(indexClicked)
-        setArrayModalShow(newState)
-    }
-
-    // Candidate Selection Logic
-    const pathName = String(location.pathname).replace(/\//g, '')
-    const candidates = useGetCandidates()
-    const [ candidatesSelection, setCandidate ] = useState({...initialBallot})
-    
-
-    // Check if Candidates have been selected previously
-    useEffect(() => {
-        if (localStorage.getItem(`candidates-${pathName}`)) {
-            setCandidate(JSON.parse(localStorage.getItem(`candidates-${pathName}`)))
-        }
-        localStorage.setItem('nextButton', 'true')
-    }, [])
-    
+    // STRINGS
     const titles = {
         postulateCandidate: 'Postular Candidato',
         messageModal: 'Seleccione el candidato de su preferencia',
@@ -69,38 +31,84 @@ export default function Ballot (
         mNominal: 'Consejo Municipal Nominal'
     }
 
-    const modifyCandidate = ( candidate, position, index ) => () => {
+    // MODALS: General state Management
+    let newState
+    const [ modalArrayShow, setArrayModalShow ] = useState({
+        lPrincipal: false,
+        lList: false,
+        lNominal: false,
+        mPrincipal: false,
+        mList: false,
+        mNominal: false,
+    })
+    const closeModalState = ( key ) => () => {
+        newState = {...modalArrayShow}
+        newState[key] = false
+        setArrayModalShow(newState)
+    }
+    const openModalState = ( key, indexClicked ) => () => {
+        newState = {...modalArrayShow}
+        newState[key] = true
+        setIndexClicked(indexClicked)
+        setArrayModalShow(newState)
+    }
+
+    // CANDIDATES: Initial Selection Logic
+    let temp = {}
+    const pathName = String(location.pathname).replace(/\//g, '')
+    const candidates = Object.assign({}, useGetCandidates())
+    const [ candidatesSelection, setCandidate ] = useState({...initialBallot})
+    const [ indexClicked, setIndexClicked ] = useState(0)
+
+    // SWAP LIST: Initial Swap List
+    let tempSwap
+    const initialSwapList =  Object.assign({}, useGetInitialSwapList({...initialBallot}))
+    const [ candidatesOnSwap, setCandidatesOnSwap ] = useState(initialSwapList)
+    useEffect(() => { // Check if Candidates have been selected previously
+        if (localStorage.getItem(`candidates-${pathName}`)) {
+            setCandidate(JSON.parse(localStorage.getItem(`candidates-${pathName}`)))
+        }
+        localStorage.setItem('nextButton', 'true')
+    }, [])
+
+    const modifyCandidate = ( candidate, position, index, id ) => () => {
         // TODO: Single/dynamic setting DRY
         // Legislative
             if( position === 'legislative.principal' ){
                 temp = set(candidatesSelection, 'legislative.principal.status', 'publish' )
                 temp = set(candidatesSelection, 'legislative.principal', candidate )
+                setCandidatesOnSwap(swapListRemoveCandidate( temp, 'legislative.principal', candidate, id ))
                 closeModalState('lPrincipal')()
             }
             if( position === 'legislative.list' ){
                 temp = set(candidatesSelection, `legislative.list[${index}]`, candidate )
                 temp = set(candidatesSelection, `legislative.list[${index}].status`, 'publish' )
+                setCandidatesOnSwap(swapListRemoveCandidate( temp, 'legislative.list', candidate, id ))
                 closeModalState('lList')()
             }
             if( position === 'legislative.nominal' ){
                 temp = set(candidatesSelection, `legislative.nominal[${index}]`, candidate )
                 temp = set(candidatesSelection, `legislative.nominal[${index}].status`, 'publish' )
+                setCandidatesOnSwap(swapListRemoveCandidate( temp, 'legislative.nominal', candidate, id ))
                 closeModalState('lNominal')()
             }
         // Municipal
             if( position === 'municipal.principal' ){
                 temp = set(candidatesSelection, 'municipal.principal.status', 'publish' )
                 temp = set(candidatesSelection, 'municipal.principal', candidate )
+                setCandidatesOnSwap(swapListRemoveCandidate( temp, 'municipal.principal', candidate, id ))
                 closeModalState('mPrincipal')()
             }
             if( position === 'municipal.list' ){
                 temp = set(candidatesSelection, `municipal.list[${index}]`, candidate )
                 temp = set(candidatesSelection, `municipal.list[${index}].status`, 'publish' )
+                setCandidatesOnSwap(swapListRemoveCandidate( temp, 'municipal.list', candidate, id ))
                 closeModalState('mList')()
             }
             if( position === 'municipal.nominal' ){
                 temp = set(candidatesSelection, `municipal.nominal[${index}]`, candidate )
                 temp = set(candidatesSelection, `municipal.nominal[${index}].status`, 'publish' )
+                setCandidatesOnSwap(swapListRemoveCandidate( temp, 'municipal.nominal', candidate, id ))
                 closeModalState('mNominal')()
             }
         // Save values on Localstorage and State
@@ -112,12 +120,14 @@ export default function Ballot (
         // Legislative
             if( position === 'legislative.principal' ){
                 temp = set(candidatesSelection, 'legislative.principal', {} )
-                temp = set(candidatesSelection, 'legislative.principal.status', 'void' )
+                temp = set(candidatesSelection, 'legislative.principal.status', 'void' )                
+                setCandidatesOnSwap(set(candidatesOnSwap, `legislative.principal[${index}]`, candidates.legislative.principal[index] ))
                 closeModalState('lPrincipal')()
             }
             if( position === 'legislative.list' ){
                 temp = set(candidatesSelection, `legislative.list[${index}]`, {} )
                 temp = set(candidatesSelection, `legislative.list[${index}].status`, 'void' )
+                setCandidatesOnSwap(tempSwap)
                 closeModalState('lList')()
             }
             if( position === 'legislative.nominal' ){
@@ -172,17 +182,18 @@ export default function Ballot (
                                     title           = { candidatesSelection.legislative.principal.party?.partidoTitle }
                                     overlayColor    = { candidatesSelection.legislative.principal.party?.partidoColor }
                                     logo            = { candidatesSelection.legislative.principal.party?.partidoLogo?.localFile.childImageSharp.gatsbyImageData }
+                                    poster          = { candidatesSelection.legislative.principal.party?.partidoPoster?.localFile.childImageSharp.gatsbyImageData }
                                     layoutType      = 'principal'
                                 />
                                 <Swap 
                                     className           = {''}
                                     title               = 'Seleccione Gobernador'
-                                    candidates          = { candidates.legislative.principals }
                                     cardStyle           = 'principal'
                                     show                = { modalArrayShow.lPrincipal }
                                     onHide              = { closeModalState('lPrincipal') }
                                     noticeMessage       = { titles.messageModal }
                                     candidateTarget     = 'legislative.principal'
+                                    candidates          = { initialSwapList.legislative.principals }
                                     indexClicked        = { indexClicked }
                                     modifyCandidate     = { modifyCandidate }
                                     voidCandidate       = { voidCandidate }
@@ -210,6 +221,7 @@ export default function Ballot (
                                                 title           = { _.party?.partidoTitle }
                                                 overlayColor    = { _.party?.partidoColor }
                                                 logo            = { _.party?.partidoLogo?.localFile.childImageSharp.gatsbyImageData }
+                                                poster          = { _.party?.partidoPoster?.localFile.childImageSharp.gatsbyImageData }
                                                 layoutType      = 'list'
                                             />
                                         ))
@@ -218,11 +230,11 @@ export default function Ballot (
                                 <Swap 
                                     className       = {''}
                                     title           = {`Seleccione ${titles.lList}` }
-                                    candidates      = { candidates.legislative.list }
                                     cardStyle       = 'list'
                                     show            = { modalArrayShow.lList }
                                     onHide          = { closeModalState('lList') } 
                                     noticeMessage   = { titles.messageModal }
+                                    candidates      = { initialSwapList.legislative.list } // TODO: It shound't be initialSwapList, instead swap
                                     candidateTarget = 'legislative.list'
                                     indexClicked    = { indexClicked }
                                     modifyCandidate = { modifyCandidate }
@@ -252,6 +264,7 @@ export default function Ballot (
                                                 title           = { _.party?.partidoTitle }
                                                 overlayColor    = { _.party?.partidoColor }
                                                 logo            = { _.party?.partidoLogo?.localFile.childImageSharp.gatsbyImageData }
+                                                poster          = { _.party?.partidoPoster?.localFile.childImageSharp.gatsbyImageData }
                                                 layoutType      = 'list'
                                             />
                                         ))
@@ -260,11 +273,11 @@ export default function Ballot (
                                 <Swap 
                                     className       = {''}
                                     title           = {`Seleccione ${titles.lNominal}` }
-                                    candidates      = { candidates.legislative.nominal }
                                     cardStyle       = 'list'
                                     show            = { modalArrayShow.lNominal }
                                     onHide          = { closeModalState('lNominal') } 
                                     noticeMessage   = { titles.messageModal }
+                                    candidates      = { initialSwapList.legislative.nominal }
                                     candidateTarget = 'legislative.nominal'
                                     indexClicked    = { indexClicked }
                                     modifyCandidate = { modifyCandidate }
@@ -299,17 +312,18 @@ export default function Ballot (
                                     title           = { candidatesSelection.municipal.principal.party?.partidoTitle }
                                     overlayColor    = { candidatesSelection.municipal.principal.party?.partidoColor }
                                     logo            = { candidatesSelection.municipal.principal.party?.partidoLogo?.localFile.childImageSharp.gatsbyImageData }
+                                    poster          = { candidatesSelection.municipal.principal.party?.partidoPoster?.localFile.childImageSharp.gatsbyImageData }
                                     layoutType      = 'principal'
                                 />
                                 <Swap 
                                     className           = {''}
-                                    title               = 'Seleccione Gobernador'
-                                    candidates          = { candidates.municipal.principals }
+                                    title               = 'Seleccione Alcalde'
                                     cardStyle           = 'principal'
                                     show                = { modalArrayShow.mPrincipal }
                                     onHide              = { closeModalState('mPrincipal') }
                                     noticeMessage       = { titles.messageModal }
                                     candidateTarget     = 'municipal.principal'
+                                    candidates          = { initialSwapList.municipal.principals }
                                     indexClicked        = { indexClicked }
                                     modifyCandidate     = { modifyCandidate }
                                     voidCandidate       = { voidCandidate }
@@ -337,6 +351,7 @@ export default function Ballot (
                                                 title           = { _.party?.partidoTitle }
                                                 overlayColor    = { _.party?.partidoColor }
                                                 logo            = { _.party?.partidoLogo?.localFile.childImageSharp.gatsbyImageData }
+                                                poster          = { _.party?.partidoPoster?.localFile.childImageSharp.gatsbyImageData }
                                                 layoutType      = 'list'
                                             />
                                         ))
@@ -345,11 +360,11 @@ export default function Ballot (
                                 <Swap 
                                     className       = {''}
                                     title           = {`Seleccione ${titles.mList}` }
-                                    candidates      = { candidates.municipal.list }
                                     cardStyle       = 'list'
                                     show            = { modalArrayShow.mList }
                                     onHide          = { closeModalState('mList') } 
                                     noticeMessage   = { titles.messageModal }
+                                    candidates      = { initialSwapList.municipal.list }
                                     candidateTarget = 'municipal.list'
                                     indexClicked    = { indexClicked }
                                     modifyCandidate = { modifyCandidate }
@@ -378,6 +393,7 @@ export default function Ballot (
                                                 title           = { _.party?.partidoTitle }
                                                 overlayColor    = { _.party?.partidoColor }
                                                 logo            = { _.party?.partidoLogo?.localFile.childImageSharp.gatsbyImageData }
+                                                poster          = { _.party?.partidoPoster?.localFile.childImageSharp.gatsbyImageData }
                                                 layoutType      = 'list'
                                             />
                                         ))
@@ -386,11 +402,11 @@ export default function Ballot (
                                 <Swap 
                                     className       = {''}
                                     title           = {`Seleccione ${titles.mNominal}` }
-                                    candidates      = { candidates.municipal.nominal }
                                     cardStyle       = 'list'
                                     show            = { modalArrayShow.mNominal }
                                     onHide          = { closeModalState('mNominal') } 
                                     noticeMessage   = { titles.messageModal }
+                                    candidates      = { initialSwapList.municipal.nominal }
                                     candidateTarget = 'municipal.nominal'
                                     indexClicked    = { indexClicked }
                                     modifyCandidate = { modifyCandidate }

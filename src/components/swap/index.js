@@ -22,6 +22,8 @@ export default function Swap (
         voidCandidate,
     } 
 ) {
+    // console.log('swap candidates')
+    // console.log(candidates)
     return (
         <Modal 
             className       = {`swap ${ className ? className : ''} ${ fullScreen ? 'fullscreen' : ''}`}

@@ -117,6 +117,7 @@ export const query = graphql`
             limit: 49
         ) {
             nodes {
+              databaseId
               papeletaDetails {
                 papeletaPartidoPosicionColumna
                 papeletaPartidoPosicionFila

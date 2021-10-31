@@ -7,10 +7,10 @@ import './candidateCard.scss'
 export default function CandidateCard ( 
     { 
         contextClass,
-        status,
         className, 
         style,
-        overlayColor,
+        // Logic
+        status,
         onClick,
         layoutType,
         // Candidato
@@ -18,9 +18,9 @@ export default function CandidateCard (
         name,
         linkText,
         // Partido
+        overlayColor,
         title,
         logo,
-        color,
         poster,
         
     } 
@@ -87,14 +87,23 @@ export default function CandidateCard (
                             <div className={`information`}>
                                 <div className={`party`}>
                                     {
-                                        logo ?
+                                        poster ?
                                             <GatsbyImage
-                                                className       = { 'logo' }
-                                                image           = { logo }
+                                                className       = { 'poster' }
+                                                image           = { poster }
                                                 objectFit       = { 'contain' }
                                                 alt             = { title }
                                             />
-                                        : undefined
+                                        : 
+                                            logo ?
+                                                <GatsbyImage
+                                                    className       = { 'logo' }
+                                                    image           = { logo }
+                                                    objectFit       = { 'contain' }
+                                                    alt             = { title }
+                                                />
+                                            : 
+                                                <span> {title} </span>
                                     }
                                 </div>
                                 <div className={`candidacy`}>

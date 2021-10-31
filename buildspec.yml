@@ -23,14 +23,8 @@ phases:
 
   post_build:
     commands:
-      # set the cache-control headers for index.html to prevent browser caching | Use ${DeployBucket} with CloudFormation
-      - >
-        aws s3 cp --acl public-read 
-        --cache-control="max-age=0, no-cache, no-store, must-revalidate" 
-        ./public/index.html s3://comovotar2021.com/
-
       # copy the contents of /public to S3  | Use ${DeployBucket} with CloudFormation
-      - aws s3 cp --recursive --acl public-read ./public s3://comovotar2021.com/ 
+      - aws s3 cp --recursive --acl public-read --cache-control="max-age=0, no-cache, no-store, must-revalidate" ./public s3://comovotar2021.com/ 
 
       # invalidate the CloudFront cache for /public | Use ${CloudFrontDistribution} with CloudFormation
       - >

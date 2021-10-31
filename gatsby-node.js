@@ -16,20 +16,24 @@ exports.createPages = async( { page, actions, graphql, reporter } ) => {
         reporter.panicOnBuild(`Error while running GraphQL query.`)
         return
     }
-
+    let periodDbId 
+    let periodTitle 
+    let partyDbId
+    
     /******************* 
      * Create Period selected on Website Configuration
      *******************/
-    let periodTitle
     if ( result.data.periods.configuraciNDelWebsite?.simulatorConfiguration.configurationPeriodo?.length > 0 ) {
-        result.data.periods.configuraciNDelWebsite.simulatorConfiguration.configurationPeriodo.forEach( (_, index) => {
+        result.data.periods.configuraciNDelWebsite.simulatorConfiguration.configurationPeriodo.forEach( ( _, index ) => {
             if ( index === 0 ) {
+                console.log('Creating Entry Point')
+                periodDbId = _.databaseId.toString()
                 periodTitle = _.periodoDetails.periodoTitle
                 actions.createPage({
                     path: `/`,
                     component: path.resolve(`./src/components/templates/main/index.js`),
                     context: {
-                        title: _.periodoDetails.periodoTitle,
+                        title: periodTitle,
                         periodoId: '/' + _.databaseId.toString() + '/',
                         periodSlug: _.slug,
                     }
@@ -42,17 +46,23 @@ exports.createPages = async( { page, actions, graphql, reporter } ) => {
      * Create Ballots per Party
      *******************/
     if ( result.data.parties?.nodes?.length > 0 ) {
-        result.data.parties.nodes.forEach( (_, index) => {
-            actions.createPage({
-                path: `/${_.slug}`,
-                component: path.resolve(`./src/components/templates/ballot/index.js`),
-                context: {
-                    periodTitle: periodTitle,
-                    slug: _.slug,
-                }
-            })
+        result.data.parties.nodes.forEach( ( _, index ) => {
+            partyDbId = _.papeletaDetails.papeletaPeriodoId.toString()
+            if( periodDbId === partyDbId ){
+                console.log('Creating Ballots')
+                console.log('Path created on /'+_.databaseId)
+                actions.createPage({
+                    path: `/${_.databaseId}`,
+                    component: path.resolve(`./src/components/templates/ballot/index.js`),
+                    context: {
+                        periodTitle: periodTitle,
+                        slug: _.slug,
+                    }
+                })
+            }
         })
     }
+
 
     /******************* 
      * Redirects creation 
@@ -98,6 +108,10 @@ const ballots = `
     parties: allWpPosicion(filter: {status: {eq: "publish"}}) {
         nodes {
             slug
+            databaseId
+            papeletaDetails {
+              papeletaPeriodoId
+            }
         }
     }
 `

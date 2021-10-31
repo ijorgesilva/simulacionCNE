@@ -43,12 +43,13 @@ export default function PartyCard (
                         }}
                     >
                         {
-                            logo ?
+                            poster ?
                                 <GatsbyImage
                                     className       = { 'poster' }
                                     image           = { poster }
                                     objectFit       = { 'contain' }
                                     alt             = { title }
+                                    objectPosition  = 'center center'
                                 />
                             : undefined
                         }

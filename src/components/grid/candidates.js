@@ -27,18 +27,19 @@ export default function Candidates (
                                 contextClass    = 'swap'
                                 status          = 'publish'
                                 // Candidate
-                                name            = { _.candidatoDetails.candidatoName }
-                                photo           = { _.candidatoDetails.candidatoPhoto?.localFile.childImageSharp.gatsbyImageData }
+                                name            = { _.candidatoDetails?.candidatoName }
+                                photo           = { _.candidatoDetails?.candidatoPhoto?.localFile.childImageSharp.gatsbyImageData }
                                 // Party
                                 title           = { _.party?.partidoTitle }
                                 overlayColor    = { _.party?.partidoColor }
                                 logo            = { _.party?.partidoLogo?.localFile.childImageSharp.gatsbyImageData }
+                                poster          = { _.party?.partidoPoster?.localFile.childImageSharp.gatsbyImageData }
                                 layoutType      = { cardStyle ? cardStyle : 'principal' }
-                                onClick         = { modifyCandidate( _, candidateTarget, indexClicked ) }
+                                onClick         = { modifyCandidate( _, candidateTarget, indexClicked, _.id ) }
                             />
                         ))
                     :
-                        undefined
+                        <span>No hay más candidatos disponibles. Anule un voto para regresar el candidato a esta lista.</span>
                 }
             </Container>
         </main>
