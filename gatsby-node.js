@@ -26,7 +26,6 @@ exports.createPages = async( { page, actions, graphql, reporter } ) => {
     if ( result.data.periods.configuraciNDelWebsite?.simulatorConfiguration.configurationPeriodo?.length > 0 ) {
         result.data.periods.configuraciNDelWebsite.simulatorConfiguration.configurationPeriodo.forEach( ( _, index ) => {
             if ( index === 0 ) {
-                console.log('Creating Entry Point')
                 periodDbId = _.databaseId.toString()
                 periodTitle = _.periodoDetails.periodoTitle
                 actions.createPage({

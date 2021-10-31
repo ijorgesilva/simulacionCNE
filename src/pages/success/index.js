@@ -19,7 +19,7 @@ import './success.scss'
 export default function SuccessPage ( { location } ) {
 
     const messageShare = 'Revisa el simulador de votación para las elecciones.'
-    const currentPeriodTitle = useCurrentPeriod().periodoDetails.periodoTitle
+    const currentPeriodTitle = useCurrentPeriod()?.periodoDetails.periodoTitle
     const canonicalUrl = config.siteUrl
 
     // Clear Local Storage variables for Candidates    useEffect(() => {
