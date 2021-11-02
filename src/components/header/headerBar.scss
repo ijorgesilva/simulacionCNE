@@ -3,7 +3,6 @@
 .headerBar {
     background-color: var(--color-primary);
     height: 80px;
-
     .navbar-brand {
         &.title {
             flex-grow: 1;
@@ -27,6 +26,40 @@
 
 }
 
-@include media("<desktop") {}
-@include media("<=tablet") {}
-@include media("<=phone") {}
+@include media("≤desktop") {}
+@include media("≤tablet") {
+    .headerBar {
+        .navbar-brand {
+            &.title {
+                flex-grow: 1;
+            }
+            .gatsby-image-wrapper {
+                max-height: 70px;
+                max-width: 100px;
+            }
+        }
+        a {
+            .siteTitle {
+                font-size: 2rem;
+            }
+        }
+    }
+}
+@include media("≤phone") {
+    .headerBar {
+        .navbar-brand {
+            &.title {
+                flex-grow: 1;
+            }
+            .gatsby-image-wrapper {
+                max-height: 70px;
+                max-width: 100px;
+            }
+        }
+        a {
+            .siteTitle {
+                font-size: 2rem;
+            }
+        }
+    }
+}

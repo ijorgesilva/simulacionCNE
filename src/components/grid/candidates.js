@@ -17,7 +17,7 @@ export default function Candidates (
     
     return (
         <main className = 'candidates'>
-            <Container fluid className = 'respect-aspect-ratio'>
+            <Container fluid className = ''>
                 {
                     items?.length > 0 ?
                         items.map ( (_, index) => (

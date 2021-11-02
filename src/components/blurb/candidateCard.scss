@@ -13,25 +13,30 @@
                 display: flex; 
                 border: unset;
                 > .main {
-                    height: 90px;
+                    // height: 90px;
                     display: grid;
                     z-index: 1;
                     border-radius: var(--border-radius);
                     > .photo {
                         background-color: hsla(var(--color-dark-h), var(--color-dark-s), var(--color-dark-l), 0.1);
-                        width: 90px;
-                        height: 90px;
+                        // width: 90px;
+                        // height: 90px;
+                        height: 100%;
                         border-radius: var(--border-radius) 0 0 var(--border-radius);
+                        .gatsby-image-wrapper {
+                            height: 100%;
+                        }
                     }
                     > .information {
                         display: grid;
-                        grid-template-rows: 50px 40px;
+                        // grid-template-rows: 50px 40px;
+                        grid-template-rows: 1fr 0.5fr;
                         grid-template-columns: 1fr;
                         .party { 
                             display: flex;
                             flex-direction: column;
                             align-items: flex-start;
-                            max-height: 50px;
+                            // max-height: 50px;
                             > div {
                                 height: 100%;
                                 width: 100%;
@@ -58,6 +63,7 @@
                                 text-transform: uppercase;
                                 width: 100%;
                                 height: 100%;
+                                font-size: 0.7rem;
                                 text-shadow: 0px 4px 5px rgba(0, 0, 0, 1),0px 0px 3px rgba(0, 0, 0, 1),0px 0px 5px rgba(0, 0, 0, 1),0px 0px 3px rgba(0, 0, 0, 1),0px 0px 3px rgba(0, 0, 0, 1),0px 0px 3px rgba(0, 0, 0, 1),1px 1px 3px rgba(0, 0, 0, 1),-1px -1px 3px rgba(0, 0, 0, 1),1px 1px 3px rgba(0, 0, 0, 1);
                             }
                         }
@@ -102,7 +108,8 @@
             button {
                 &.principal {
                     > .main {
-                        grid-template-columns: 90px 1fr;
+                        // grid-template-columns: 90px 1fr;
+                        grid-template-columns: 0.5fr 1fr;
                         .photo {
 
                         }
@@ -131,6 +138,7 @@
                     grid-template-columns: 1fr; 
                     border: unset;
                     > .main {
+                        padding: 2rem;
                         display: flex;
                         align-items: center;
                         justify-content: center;
@@ -148,6 +156,7 @@
                     grid-template-columns: 1fr; 
                     border: unset;
                     > .main {
+                        padding: 2rem;
                         display: flex;
                         align-items: center;
                         justify-content: center;
@@ -161,6 +170,7 @@
             }
         }
     }
+    // END Statuses
     
     // BALLOT COMPONENT CONTEXT
     &.ballot {
@@ -169,10 +179,8 @@
                 button {
                     &.principal {
                         > .main {
-                            grid-template-columns: 90px 1fr;
-                            .photo {
-    
-                            }
+                            // grid-template-columns: 90px 1fr;
+                            grid-template-columns: 0.5fr 1fr;
                         }
                     }
                     &.list {
@@ -187,6 +195,7 @@
             }
         }
     }
+    // END BALLOT COMPONENT CONTEXT
 
     // BALLOT COMPONENT CONTEXT
     &.swap {
@@ -196,11 +205,9 @@
                     padding: 0;
                     &.principal {
                         > .main {
-                            height: calc( ( 100vh - 45px - 70px - 90px - 2rem - 60px ) / 7 );
-                            grid-template-columns: 90px 1fr;
+                            // height: calc( ( 100vh - 45px - 70px - 90px - 2rem - 6rem ) / 7 );
+                            grid-template-columns: 0.5fr 1fr;
                             > .photo {
-                                width: 90px;
-                                height: calc( ( 100vh - 45px - 70px - 90px - 2rem - 60px ) / 7 );
                                 border-radius: var(--border-radius) 0 0 var(--border-radius);
                                 .gatsby-image-wrapper {
                                     height: 100%;
@@ -219,8 +226,8 @@
                 }
             }
         }
-
     }
+    // END BALLOT COMPONENT CONTEXT
 
 }
 

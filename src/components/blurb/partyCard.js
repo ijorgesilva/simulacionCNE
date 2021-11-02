@@ -25,7 +25,7 @@ export default function PartyCard (
                 to = { url } 
                 title = {`Votar ${ title ? 'por ' + title : '' }`}
             >
-                <div className = 'card-body'>
+                <div className = {`card-body ${ logo ? 'logo' : '' }`}>
                     {
                         logo && !poster ?
                             <GatsbyImage
@@ -37,7 +37,7 @@ export default function PartyCard (
                         : undefined
                     }
                     <div 
-                        className = {`background ${ overlayColor ? 'overlay' : ''}`}
+                        className = {`${ logo ? 'background' : '' } ${ overlayColor ? 'overlay' : ''}`}
                         style = {{
                             backgroundColor: overlayColor,
                         }}

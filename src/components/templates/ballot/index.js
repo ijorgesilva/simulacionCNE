@@ -30,8 +30,8 @@ export default function IndexPage ( { location, data, pageContext } ) {
       data.ballot.papeletaDetails.papeletaPartidoLista,
       data.ballot.papeletaDetails.papeletaPartidoNominal,
       data.ballot.papeletaDetails.papeletaPartidoAlcalde,
-      data.ballot.papeletaDetails.papeletaPartidoCmList,
-      data.ballot.papeletaDetails.papeletaPartidoCmNomina,
+      data.ballot.papeletaDetails.papeletaPartidoCmLista,
+      data.ballot.papeletaDetails.papeletaPartidoCmNominal,
   )
   const [ confirmation, setConfirmation ] = useState(checkCandidatesStatus(initialBallot))
   const [ candidatesSelection, setCandidatesSelection ] = useState('')

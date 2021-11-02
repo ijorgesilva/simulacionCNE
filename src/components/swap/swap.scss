@@ -1,12 +1,17 @@
 @import "~include-media/dist/_include-media.scss";
 
 .swap {
+    &.modal {
+        padding-left: 0px !important;
+    }
     > .modal-dialog {
         max-width: 90vw;
         min-height: var(--modal-size-regular);
         .modal-content {
+            background-color: hsla(var(--color-dark-h), var(--color-dark-s), 97%, 1);
             border-radius: var(--border-radius);
             > .modal-header {
+                height: 60px;
                 color: var(--color-light);
                 background-color: var(--color-primary);
                 > .close {
@@ -15,10 +20,12 @@
             }
             > .modal-body {
                 padding: 0px;
+                overflow-y: hidden;
+
                 > main {
                     overflow-x: hidden;
                     overflow-y: auto;
-                    max-height: var(--modal-size-regular);
+                    max-height: calc(100vh - 62px - 45px - 90px);
                 }
             }
         }
@@ -30,7 +37,6 @@
             min-height: 100vh;
             border-radius: 0;
             .modal-content {
-                height: 100vh;
                 border-radius: 0;
                 > .modal-header {
                     border-top-left-radius: 0px;
@@ -41,9 +47,6 @@
                     > main {
                         overflow-x: hidden;
                         overflow-y: auto;
-                        height: calc( 100vh - 45px - 70px - 90px );
-                        min-height: unset;
-                        max-height: unset;
                     }
                 }
             }
@@ -52,5 +55,7 @@
 }
 
 @include media("<desktop") {}
-@include media("<=tablet") {}
+@include media("<=tablet") {
+    
+}
 @include media("<=phone") {}
