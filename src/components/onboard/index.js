@@ -54,7 +54,7 @@ export default function OnBoard (
                                 className       = 'slider'
                                 navigation      = { true } 
                                 pagination      =   {{
-                                                        'type': 'fraction'//progressbar
+                                                        'type': 'progressbar'
                                                     }} 
                                 virtual
                             >
@@ -66,8 +66,8 @@ export default function OnBoard (
                                                 virtualIndex    = { index }
                                             >
                                                 <div className = 'content'>
-                                                    <h3>{_.title}</h3>
-                                                    <p>{_.text}</p>
+                                                    <h3 dangerouslySetInnerHTML={{ __html: _.title }}></h3>
+                                                    <div dangerouslySetInnerHTML={{ __html: _.text }}></div>
                                                     <div className = 'btn-list'>
                                                         <Button 
                                                             variant     = 'unset'
@@ -92,8 +92,8 @@ export default function OnBoard (
                                             index + 1 === slides.length ?
                                                 <SwiperSlide>
                                                     <div className = 'content'>
-                                                        <h3>{_.title}</h3>
-                                                        <p>{_.text}</p>
+                                                        <h3 dangerouslySetInnerHTML={{ __html: _.title }}></h3>
+                                                        <div dangerouslySetInnerHTML={{ __html: _.text }}></div>
                                                         <div className = 'btn-list'>
                                                             <Button 
                                                                 variant     = 'unset'
@@ -117,8 +117,8 @@ export default function OnBoard (
                                             :
                                                 <SwiperSlide>
                                                     <div className = 'content'>
-                                                        <h3>{_.title}</h3>
-                                                        <p>{_.text}</p>
+                                                        <h3 dangerouslySetInnerHTML={{ __html: _.title }}></h3>
+                                                        <div dangerouslySetInnerHTML={{ __html: _.text }}></div>
                                                         <div className = 'btn-list'>
                                                             <Button 
                                                                 variant     = 'unset'

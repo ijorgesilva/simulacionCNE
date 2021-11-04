@@ -15,7 +15,7 @@
     a {
         text-decoration: unset;
         .siteTitle {
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             font-weight: bolder;
@@ -38,11 +38,6 @@
                 max-width: 100px;
             }
         }
-        a {
-            .siteTitle {
-                font-size: 2rem;
-            }
-        }
     }
 }
 @include media("≤phone") {
@@ -54,11 +49,6 @@
             .gatsby-image-wrapper {
                 max-height: 70px;
                 max-width: 100px;
-            }
-        }
-        a {
-            .siteTitle {
-                font-size: 2rem;
             }
         }
     }

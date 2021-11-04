@@ -2,7 +2,6 @@ import React from 'react'
 import { Modal } from 'react-bootstrap'
 import Notice from '../header/notice'
 import { Candidates } from '../grid'
-import Footer from '../footer'
 
 import './swap.scss'
 
@@ -20,10 +19,11 @@ export default function Swap (
         modifyCandidate,
         indexClicked,
         voidCandidate,
+        replaceTitle,
+        preFilterByParty,
     } 
 ) {
-    // console.log('swap candidates')
-    // console.log(candidates)
+    
     return (
         <Modal 
             className       = {`swap ${ className ? className : ''} ${ fullScreen ? 'fullscreen' : ''}`}
@@ -45,17 +45,15 @@ export default function Swap (
             }
             <Modal.Body>
                 <Candidates 
-                    items           = { candidates }
-                    cardStyle       = { cardStyle }
-                    indexClicked    = { indexClicked }
-                    candidateTarget = { candidateTarget }
-                    modifyCandidate = { modifyCandidate }
-                    contextClass    = { 'swap' }
-                />
-                <Footer
-                    indexClicked    = { indexClicked }
-                    candidateTarget = { candidateTarget }
-                    voidCandidate   = { voidCandidate }
+                    items               = { candidates }
+                    cardStyle           = { cardStyle }
+                    indexClicked        = { indexClicked }
+                    candidateTarget     = { candidateTarget }
+                    modifyCandidate     = { modifyCandidate }
+                    contextClass        = { 'swap' }
+                    replaceTitle        = { replaceTitle }
+                    preFilterByParty    = { preFilterByParty }
+                    voidCandidate       = { voidCandidate }
                 />
             </Modal.Body>
         </Modal>

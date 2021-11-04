@@ -21,14 +21,21 @@ export default function Ballot (
     const titles = {
         postulateCandidate: 'Postular Candidato',
         messageModal: 'Seleccione el candidato de su preferencia',
-        lTitle: 'Gobernadores y Consejo Legislativo Estadal',
+        lTitle: 'Gobernadores y Concejo Legislativo Estadal',
         lPrincipal: 'Governador',
-        lList: 'Consejo Legislativo Lista',
-        lNominal: 'Consejo Legislativo Nominal',
-        mTitle: 'Alcalde y Consejo Municipal',
+        lList: 'Concejo Legislativo Lista',
+        lNominal: 'Concejo Legislativo Nominal',
+        mTitle: 'Alcalde y Concejo Municipal',
         mPrincipal: 'Alcalde',
-        mList: 'Consejo Municipal Lista',
-        mNominal: 'Consejo Municipal Nominal'
+        mList: 'Concejo Municipal Lista',
+        mNominal: 'Concejo Municipal Nominal'
+    }
+    const config = {
+        replaceTitleList: 'Voto Lista',
+        preFilterByParty: {
+            nominal: true,
+            list: false,
+        }
     }
 
     // MODALS: General state Management
@@ -121,7 +128,7 @@ export default function Ballot (
             if( position === 'legislative.principal' ){
                 temp = set(candidatesSelection, 'legislative.principal', {} )
                 temp = set(candidatesSelection, 'legislative.principal.status', 'void' )                
-                setCandidatesOnSwap(set(candidatesOnSwap, `legislative.principal[${index}]`, candidates.legislative.principal[index] ))
+                setCandidatesOnSwap(set(candidatesOnSwap, `legislative.principal`, 'void' ))
                 closeModalState('lPrincipal')()
             }
             if( position === 'legislative.list' ){
@@ -222,23 +229,26 @@ export default function Ballot (
                                                 overlayColor    = { _.party?.partidoColor }
                                                 logo            = { _.party?.partidoLogo?.localFile.childImageSharp.gatsbyImageData }
                                                 poster          = { _.party?.partidoPoster?.localFile.childImageSharp.gatsbyImageData }
+                                                replaceTitle    = { config.replaceTitleList }
                                                 layoutType      = 'list'
                                             />
                                         ))
                                     : undefined
                                 }
                                 <Swap 
-                                    className       = {''}
-                                    title           = {`Seleccione ${titles.lList}` }
-                                    cardStyle       = 'list'
-                                    show            = { modalArrayShow.lList }
-                                    onHide          = { closeModalState('lList') } 
-                                    noticeMessage   = { titles.messageModal }
-                                    candidates      = { initialSwapList.legislative.list } // TODO: It shound't be initialSwapList, instead swap
-                                    candidateTarget = 'legislative.list'
-                                    indexClicked    = { indexClicked }
-                                    modifyCandidate = { modifyCandidate }
-                                    voidCandidate   = { voidCandidate }
+                                    className           = {''}
+                                    title               = {`Seleccione ${titles.lList}` }
+                                    replaceTitle        = { config.replaceTitleList }
+                                    cardStyle           = 'list'
+                                    show                = { modalArrayShow.lList }
+                                    onHide              = { closeModalState('lList') } 
+                                    noticeMessage       = { titles.messageModal }
+                                    candidates          = { initialSwapList.legislative.list } // TODO: It shound't be initialSwapList, instead swap
+                                    candidateTarget     = 'legislative.list'
+                                    indexClicked        = { indexClicked }
+                                    modifyCandidate     = { modifyCandidate }
+                                    voidCandidate       = { voidCandidate }
+                                    preFilterByParty    = { config.preFilterByParty.list }
                                     fullScreen
                                 />
                             </div>
@@ -271,17 +281,18 @@ export default function Ballot (
                                     : undefined
                                 }
                                 <Swap 
-                                    className       = {''}
-                                    title           = {`Seleccione ${titles.lNominal}` }
-                                    cardStyle       = 'list'
-                                    show            = { modalArrayShow.lNominal }
-                                    onHide          = { closeModalState('lNominal') } 
-                                    noticeMessage   = { titles.messageModal }
-                                    candidates      = { initialSwapList.legislative.nominal }
-                                    candidateTarget = 'legislative.nominal'
-                                    indexClicked    = { indexClicked }
-                                    modifyCandidate = { modifyCandidate }
-                                    voidCandidate   = { voidCandidate }
+                                    className           = {''}
+                                    title               = {`Seleccione ${titles.lNominal}` }
+                                    cardStyle           = 'list'
+                                    show                = { modalArrayShow.lNominal }
+                                    onHide              = { closeModalState('lNominal') } 
+                                    noticeMessage       = { titles.messageModal }
+                                    candidates          = { initialSwapList.legislative.nominal }
+                                    candidateTarget     = 'legislative.nominal'
+                                    indexClicked        = { indexClicked }
+                                    modifyCandidate     = { modifyCandidate }
+                                    voidCandidate       = { voidCandidate }
+                                    preFilterByParty    = { config.preFilterByParty.nominal }
                                     fullScreen
                                 />
                             </div>
@@ -313,7 +324,7 @@ export default function Ballot (
                                     overlayColor    = { candidatesSelection.municipal.principal.party?.partidoColor }
                                     logo            = { candidatesSelection.municipal.principal.party?.partidoLogo?.localFile.childImageSharp.gatsbyImageData }
                                     poster          = { candidatesSelection.municipal.principal.party?.partidoPoster?.localFile.childImageSharp.gatsbyImageData }
-                                    layoutType      = 'principal'
+                                    layoutType      = 'list'
                                 />
                                 <Swap 
                                     className           = {''}
@@ -352,23 +363,26 @@ export default function Ballot (
                                                 overlayColor    = { _.party?.partidoColor }
                                                 logo            = { _.party?.partidoLogo?.localFile.childImageSharp.gatsbyImageData }
                                                 poster          = { _.party?.partidoPoster?.localFile.childImageSharp.gatsbyImageData }
+                                                replaceTitle    = { config.replaceTitleList }
                                                 layoutType      = 'list'
                                             />
                                         ))
                                     : undefined
                                 }
                                 <Swap 
-                                    className       = {''}
-                                    title           = {`Seleccione ${titles.mList}` }
-                                    cardStyle       = 'list'
-                                    show            = { modalArrayShow.mList }
-                                    onHide          = { closeModalState('mList') } 
-                                    noticeMessage   = { titles.messageModal }
-                                    candidates      = { initialSwapList.municipal.list }
-                                    candidateTarget = 'municipal.list'
-                                    indexClicked    = { indexClicked }
-                                    modifyCandidate = { modifyCandidate }
-                                    voidCandidate   = { voidCandidate }
+                                    className           = {''}
+                                    title               = {`Seleccione ${titles.mList}` }
+                                    replaceTitle        = { config.replaceTitleList }
+                                    cardStyle           = 'list'
+                                    show                = { modalArrayShow.mList }
+                                    onHide              = { closeModalState('mList') } 
+                                    noticeMessage       = { titles.messageModal }
+                                    candidates          = { initialSwapList.municipal.list }
+                                    candidateTarget     = 'municipal.list'
+                                    indexClicked        = { indexClicked }
+                                    modifyCandidate     = { modifyCandidate }
+                                    voidCandidate       = { voidCandidate }
+                                    preFilterByParty    = { config.preFilterByParty.list }
                                     fullScreen
                                 />
                             </div>
@@ -400,17 +414,18 @@ export default function Ballot (
                                     : undefined
                                 }
                                 <Swap 
-                                    className       = {''}
-                                    title           = {`Seleccione ${titles.mNominal}` }
-                                    cardStyle       = 'list'
-                                    show            = { modalArrayShow.mNominal }
-                                    onHide          = { closeModalState('mNominal') } 
-                                    noticeMessage   = { titles.messageModal }
-                                    candidates      = { initialSwapList.municipal.nominal }
-                                    candidateTarget = 'municipal.nominal'
-                                    indexClicked    = { indexClicked }
-                                    modifyCandidate = { modifyCandidate }
-                                    voidCandidate   = { voidCandidate }
+                                    className           = {''}
+                                    title               = {`Seleccione ${titles.mNominal}` }
+                                    cardStyle           = 'list'
+                                    show                = { modalArrayShow.mNominal }
+                                    onHide              = { closeModalState('mNominal') } 
+                                    noticeMessage       = { titles.messageModal }
+                                    candidates          = { initialSwapList.municipal.nominal }
+                                    candidateTarget     = 'municipal.nominal'
+                                    indexClicked        = { indexClicked }
+                                    modifyCandidate     = { modifyCandidate }
+                                    voidCandidate       = { voidCandidate }
+                                    preFilterByParty    = { config.preFilterByParty.nominal }
                                     fullScreen
                                 />
                             </div>

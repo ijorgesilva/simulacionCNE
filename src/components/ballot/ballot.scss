@@ -78,6 +78,21 @@
     }
 }
 
-@include media("<desktop") {}
-@include media("<=tablet") {}
+@include media("<desktop") {
+    .ballot {
+        .columns {
+            .column {
+                .candidates {
+                    .governor, .mayor, .list, .nominal {
+                        > .blurbs {
+                            padding: 1rem;
+                        }
+                    }
+                }
+            }
+        }
+    } 
+}
+@include media("<=tablet") {
+}
 @include media("<=phone") {}

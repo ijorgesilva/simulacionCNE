@@ -22,6 +22,7 @@ export default function CandidateCard (
         title,
         logo,
         poster,
+        replaceTitle, // Replaces default title with provided text
         
     } 
 ) {
@@ -108,9 +109,13 @@ export default function CandidateCard (
                                 </div>
                                 <div className={`candidacy`}>
                                     {
-                                        name ? 
+                                        name && !replaceTitle ? 
                                             <h5 className='card-title'> { name } </h5>
-                                        : undefined
+                                        : 
+                                            replaceTitle ?
+                                                <h5 className='card-title'> { replaceTitle } </h5>
+                                            : 
+                                                undefined
                                     }
                                 </div>
                             </div>

@@ -91,8 +91,8 @@
                 justify-content: center;
                 align-items: center;
                 &.voidVote{
-                    font-size: 1.5rem;
-                    line-height: 2rem;
+                    font-size: 1.2rem;
+                    line-height: 1.2rem;
                 }
             }
         }
@@ -118,47 +118,16 @@
         }
     }
 }
+.swap {
+    .footer {
+        .left {
+            display: flex;
+        }
+    }
+}
 
 @include media("<desktop") {}
 @include media("<=tablet") {
 }
 @include media("<=phone") {
-    .footer {
-        .container,
-        .container-fluid {
-            .center,
-            .left, 
-            .right {
-                .btn {
-                    .icon {
-                        width: 42px;
-                        height: 42px;
-                    }
-                }
-                > p{
-                    font-size: 1rem;
-                    margin-top: 0.2rem;
-                    margin-bottom: 0;
-                }
-            }
-            .left, 
-            .right {
-                display: grid;
-                grid-template-columns: repeat(auto-fill, 1fr);
-                .btn {
-                    &.voidVote{
-                        font-size: 2rem;
-                        line-height: 2rem;
-                    }
-                }
-            }
-            .center {
-                .btn {
-                    font-size: 2rem;
-                    line-height: 2rem;
-                    padding: 0.5rem 2rem;
-                }
-            }
-        }
-    }
 }

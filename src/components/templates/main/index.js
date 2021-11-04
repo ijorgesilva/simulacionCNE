@@ -49,18 +49,42 @@ export default function IndexPage ( { location, data, pageContext } ) {
     },
     slides: [
         {
-          title: 'Slide 1',
-          text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+          title: '¡BIENVENIDO AL SIMULADOR REGIONALES 2021!',
+          text: `
+            <p>Aquí podrás practicar las diferentes formas de ejercer tu derecho al voto en las próximas elecciones del <strong><em>21 de noviembre de 2021.</em></strong></p>
+            <p>Recuerda que esta es una simulación para conocer el uso de la máquina y algunos detalles pueden ser diferentes en la máquina real cuando estés ejerciendo tu derecho al voto.</p>
+          `,
           graphic: undefined,
         },
         {
-          title: 'Slide 2',
-          text: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+          title: 'SELECCIONA EL PARTIDO DE TU PREFERENCIA',
+          text: `
+            <p>La máquina de votación te pedirá elegir el partido de tu preferencia.</p>
+            <p>Al elegir el partido, automáticamente se seleccionarán todos los candidatos que representen el partido seleccionado.</p>
+          `,
           graphic: undefined,
         },
         {
-          title: 'Slide 3',
-          text: 'Convallis posuere morbi leo urna. Velit sed ullamcorper morbi tincidunt ornare. Blandit libero volutpat sed cras. Vel risus commodo viverra maecenas accumsan lacus vel facilisis. Viverra ipsum nunc aliquet bibendum enim facilisis gravida neque convallis. Erat imperdiet sed euismod nisi porta lorem mollis. Condimentum vitae sapien pellentesque habitant morbi tristique.',
+          title: 'VOTAR POR DIFERENTES PARTIDOS O CANDIDATOS',
+          text: `
+            <p>Luego de haber elegido el partido de tu preferencia principal, selecciona el cargo específico que deseas cambiar, y luego selecciona un nuevo partido o candidato.</p>
+            <p>Esto deberás hacerlo con cada uno de los cargos donde deseas cambiar el partido o el candidato de tu preferencia.</p>
+          `,
+          graphic: undefined,
+        },
+        {
+          title: 'VOTO NULO',
+          text: `
+            <p>Luego de elegir el partido de tu preferencia principal, si no deseas votar por uno o varios de los cargos de elección, selecciona el cargo que no deseas darle tu voto y luego en la parte inferior izquierda de la pantalla, haz clic en el botón de “Sin seleccionar”. </p>
+            <p>Esto deberás hacerlo con cada uno de los cargos donde deseas anular tu voto, o esperar que transcurran los 3 minutos habilitados que tienes para votar sin haber seleccionado ningún partido previamente.</p>
+          `,
+          graphic: undefined,
+        },
+        {
+          title: 'BOTONES DE VOLVER',
+          text: `
+            <p>En la barra inferior de la pantalla, cuando sea posible, aparecerán dos botones donde podrás regresar a la vista anterior o retornar a la vista donde te encontrabas previamente.</p>
+          `,
           graphic: undefined,
         }
       ]

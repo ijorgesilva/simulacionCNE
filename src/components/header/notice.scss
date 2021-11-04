@@ -17,10 +17,18 @@
         color: hsla(0, 0%, 40%, 1);
         font-size: 1rem;
         margin-bottom: 0px;
-        font-weight: 400;
+        font-weight: bold;
     }
 }
 
-@include media("<desktop") {}
-@include media("<=tablet") {}
-@include media("<=phone") {}
+@include media("<=desktop") {
+}
+@include media("<=tablet") {
+    .notice{
+        p {
+            font-size: 3rem;
+        }
+    }
+}
+@include media("<=phone") {
+}

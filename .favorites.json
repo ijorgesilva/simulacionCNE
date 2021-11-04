@@ -14,5 +14,21 @@
         "workspaceRoot": "/Users/personal/SynologyDrive/Drive/Bombano/Projects/Sistema de Simulacro/SourceCode/headless/simulacionCNE-frontend",
         "workspacePath": "src/components/app.scss",
         "id": "ZJIXLhDKcodUpO97"
+    },
+    {
+        "type": "File",
+        "name": "/Users/personal/SynologyDrive/Drive/Bombano/Projects/Sistema de Simulacro/SourceCode/headless/simulacionCNE-frontend/package.json",
+        "parent_id": null,
+        "workspaceRoot": "/Users/personal/SynologyDrive/Drive/Bombano/Projects/Sistema de Simulacro/SourceCode/headless/simulacionCNE-frontend",
+        "workspacePath": "package.json",
+        "id": "pM7HRlvaDLOJUrhI"
+    },
+    {
+        "type": "File",
+        "name": "/Users/personal/SynologyDrive/Drive/Bombano/Projects/Sistema de Simulacro/SourceCode/headless/simulacionCNE-frontend/gatsby-config.js",
+        "parent_id": null,
+        "workspaceRoot": "/Users/personal/SynologyDrive/Drive/Bombano/Projects/Sistema de Simulacro/SourceCode/headless/simulacionCNE-frontend",
+        "workspacePath": "gatsby-config.js",
+        "id": "hgnvpILDKjxe5ES0"
     }
 ]
