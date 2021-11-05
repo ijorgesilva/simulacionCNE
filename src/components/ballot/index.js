@@ -22,7 +22,7 @@ export default function Ballot (
         postulateCandidate: 'Postular Candidato',
         messageModal: 'Seleccione el candidato de su preferencia',
         lTitle: 'Gobernadores y Concejo Legislativo Estadal',
-        lPrincipal: 'Governador',
+        lPrincipal: 'Gobernador',
         lList: 'Concejo Legislativo Lista',
         lNominal: 'Concejo Legislativo Nominal',
         mTitle: 'Alcalde y Concejo Municipal',
@@ -329,7 +329,7 @@ export default function Ballot (
                                 <Swap 
                                     className           = {''}
                                     title               = 'Seleccione Alcalde'
-                                    cardStyle           = 'principal'
+                                    cardStyle           = 'list'
                                     show                = { modalArrayShow.mPrincipal }
                                     onHide              = { closeModalState('mPrincipal') }
                                     noticeMessage       = { titles.messageModal }

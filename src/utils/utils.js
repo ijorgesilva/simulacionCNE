@@ -31,5 +31,43 @@ class Helper {
         }
         return temp
     }
+
+    static calculateGridRows = ( n ) => {
+        let rows
+        switch(true){
+            case ( n >= 0 && n <= 7 ): {
+                rows = 1
+                break
+            }
+            case ( n >= 8 && n <= 14 ): {
+                rows = 2
+                break
+            }
+            case ( n >= 15 && n <= 21 ): {
+                rows = 3
+                break
+            }
+            case ( n >= 22 && n <= 28 ): {
+                rows = 4
+                break
+            }
+            case ( n >= 29 && n <= 35 ): {
+                rows = 5
+                break
+            }
+            case ( n >= 36 && n <= 42 ): {
+                rows = 6
+                break
+            }
+            case ( n >= 43 && n <= 49 ): {
+                rows = 7
+                break
+            }
+            default:
+                rows = 7
+                break
+        }
+        return rows
+    }
 }
 export default Helper

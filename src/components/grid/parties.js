@@ -7,10 +7,9 @@ import './parties.scss'
 export default function Parties ( 
     { 
         items,
-        periodSlug,
+        onClickAction,
     } 
 ) {
-
     return (
         <main className = 'parties'>
             <Container fluid className = ''>
@@ -21,19 +20,20 @@ export default function Parties (
                                 key             = { index }
                                 className       = '' 
                                 url             = { `/${_.databaseId}` }
-
                                 // Partido
+                                partyId         = { _.databaseId }
                                 title           = { _.papeletaDetails.papeletaPartidoPartido[0]?.partidoDetails.partidoTitle }
                                 logo            = { _.papeletaDetails.papeletaPartidoPartido[0]?.partidoDetails.partidoLogo?.localFile.childImageSharp.gatsbyImageData }
                                 poster          = { _.papeletaDetails.papeletaPartidoPartido[0]?.partidoDetails.partidoPoster?.localFile.childImageSharp.gatsbyImageData }
                                 overlayColor    = { _.papeletaDetails.papeletaPartidoPartido[0]?.partidoDetails.partidoColor }
-
+                                onClickAction   = { onClickAction }
                                 // General
                                 style           =  {
                                                         { 
                                                             gridArea: `c${_.papeletaDetails.papeletaPartidoPosicionColumna}x${_.papeletaDetails.papeletaPartidoPosicionFila}`,
                                                         }
                                                     }
+                            
                             />
                         ))
                     :

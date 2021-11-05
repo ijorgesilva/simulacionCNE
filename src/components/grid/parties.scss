@@ -8,7 +8,7 @@
     .container-fluid {
         display: grid;
         grid-template-columns: repeat( 7, minmax( calc( ( 100vw - 4rem - 6rem ) / 7 ), 1fr) );
-        grid-template-rows: repeat(7, minmax(calc((100vh - 45px - 80px - 90px - 6rem) / 7), 1fr));
+        grid-template-rows: repeat(7, minmax(calc((100vh - 45px - 80px - 90px - 6rem - 2rem) / 7), 1fr));
         align-items: start;
         grid-template-areas:"c1x1 c2x1 c3x1 c4x1 c5x1 c6x1 c7x1"
                             "c1x2 c2x2 c3x2 c4x2 c5x2 c6x2 c7x2"

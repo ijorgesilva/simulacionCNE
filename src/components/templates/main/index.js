@@ -90,6 +90,11 @@ export default function IndexPage ( { location, data, pageContext } ) {
       ]
   }
 
+  // Cleans Party Selection if PartyCard is pressed again
+  const clearLocalStorage = ( partyId ) => () => {
+    localStorage.setItem(`candidates-${partyId}`, '')
+  }
+
   return (
     <>
 
@@ -109,8 +114,8 @@ export default function IndexPage ( { location, data, pageContext } ) {
       <Container fluid className = 'main indexPage'>
 
         <Parties 
-          items       = { listParties.nodes }
-          periodSlug  = { periodSlug }
+          items           = { listParties.nodes }
+          onClickAction   = { clearLocalStorage }
         />
 
       </Container>

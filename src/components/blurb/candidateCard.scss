@@ -30,7 +30,7 @@
                     > .information {
                         display: grid;
                         // grid-template-rows: 50px 40px;
-                        grid-template-rows: 1fr 0.5fr;
+                        grid-template-rows: 1fr auto;
                         grid-template-columns: 1fr;
                         .party { 
                             display: flex;
@@ -55,9 +55,8 @@
                                 flex-direction: column;
                                 justify-content: center;
                                 align-items: start;
-                                padding: 5px;
+                                padding: 10px;
                                 background-color: hsla(var(--color-light-h), var(--color-light-s), var(--color-light-l), 1);
-                                font-size: 0.8rem;
                                 margin: 0px;
                                 color: hsla(0,0%,100%,1);
                                 text-transform: uppercase;
@@ -175,6 +174,7 @@
     // BALLOT COMPONENT CONTEXT
     &.ballot {
         &.card {
+            max-width: 180px;
             &.publish {
                 button {
                     &.principal {
@@ -225,12 +225,82 @@
                     }
                 }
             }
+            &.party {
+                button {
+                    > .main {
+                        .information {
+                            grid-template-rows: 1fr;
+                            grid-template-columns: 1fr;
+                        }
+                    }
+                }
+            }
         }
     }
     // END BALLOT COMPONENT CONTEXT
 
 }
 
-@include media("<desktop") {}
-@include media("<=tablet") {}
+@include media("<desktop") {
+    
+    .candidateCard {
+        // Statuses
+        &.card {
+            button {
+                &.card-body {
+                    > .main {
+                        > .information {
+                            .candidacy {
+                                .card-title {
+                                    font-size: 0.5rem;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            &.unset {
+                button {
+                    &.card-body {
+                        > .main {
+                            padding: 1rem;
+                            h3 {
+                                font-size: 1.2rem;
+                            }
+                        }
+                    }
+                }
+            }
+            &.void {
+                button {
+                    &.card-body {
+                        > .main {
+                            padding: 1rem;
+                            h3 {
+                                text-transform: uppercase;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        &.ballot {
+            &.card {
+                max-width: 100%;
+                &.publish {
+                    button {
+                        &.principal {
+                            > .main {
+                                grid-template-columns: 1fr 1fr;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+@include media("<=tablet", "landscape") {
+
+}
 @include media("<=phone") {}

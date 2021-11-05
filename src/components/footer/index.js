@@ -26,6 +26,7 @@ export default function Footer ( {
     onboard,
     indexClicked,
     voidCandidate,
+    voidVisibility,
     candidateTarget,
 } ) {
 
@@ -50,15 +51,17 @@ export default function Footer ( {
                 <Container fluid>
                     <div className = 'left'>
                         {   
-                            voidCandidate && candidateTarget ?
-                                <Button
-                                    variant     = 'outline-dark'
-                                    className   = 'voidVote' 
-                                    title       = 'Hacer voto sin seleccionar'
-                                    onClick     = { voidCandidate( candidateTarget, indexClicked ) }
-                                >
-                                    Sin seleccionar
-                                </Button>
+                            voidVisibility ?
+                                voidCandidate && candidateTarget ?
+                                    <Button
+                                        variant     = 'outline-dark'
+                                        className   = 'voidVote' 
+                                        title       = 'Hacer voto sin seleccionar'
+                                        onClick     = { voidCandidate( candidateTarget, indexClicked ) }
+                                    >
+                                        Sin seleccionar
+                                    </Button>
+                                : undefined
                             : undefined
                         }
 

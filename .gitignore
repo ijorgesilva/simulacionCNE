@@ -77,6 +77,7 @@ WordPress/
 # Third party apps
 .babel
 .code-workspace
+.favorites.json
 get-pip.py
 
 # Sensible Information

@@ -10,12 +10,12 @@ export default function PartyCard (
         style,
         overlayColor,
         url,
-
         // Partido
+        partyId,
         logo,
         title,
         poster,
-        
+        onClickAction,
     } 
 ) {
     
@@ -24,6 +24,7 @@ export default function PartyCard (
             <Link 
                 to = { url } 
                 title = {`Votar ${ title ? 'por ' + title : '' }`}
+                onClick = { onClickAction(partyId) }
             >
                 <div className = {`card-body ${ logo ? 'logo' : '' }`}>
                     {

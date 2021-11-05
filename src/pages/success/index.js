@@ -35,6 +35,7 @@ export default function SuccessPage ( { location } ) {
             periodoTitle  = { currentPeriodTitle }
             location      = { location } 
             description   = { '' }
+            style         = { { visibility: 'hidden' } }
             article       = { false }
             metaTags      =   {{
                                   noIndex: false,
@@ -45,9 +46,8 @@ export default function SuccessPage ( { location } ) {
         <Container fluid className = 'main successPage'>
 
           <div className = 'message container-sm'>
-
-            <FontAwesomeIcon className='icon' icon={faScroll} size='lg'/> 
-            <h1 className = 'success'>¡Usted ha finalizado con éxito!</h1>
+            
+            <h1 className = 'success'><FontAwesomeIcon className='icon' icon={faScroll} size='lg'/> ¡Usted ha finalizado con éxito!</h1>
             <p>Tome su comprobante y  y depositelo en la caja de resguardo.</p>
 
             <Alert variant='success' className = 'share' >

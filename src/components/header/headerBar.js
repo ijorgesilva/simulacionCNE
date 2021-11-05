@@ -8,13 +8,13 @@ import { useSimulatorConf } from '../../hooks/useSimulatorConf'
 import config from '../../../data/SiteConfig'
 import './headerBar.scss'
 
-export default function HeaderBar ( { periodoTitle, noticeText } ) {
+export default function HeaderBar ( { periodoTitle, noticeText, style } ) {
     const webConf = useSimulatorConf()
     const logo  = webConf.simulatorConfiguration.configurationCustomize.configurationCustomizeLogo?.localFile.childImageSharp.gatsbyImageData
     
     return (
         <>
-            <Navbar className = 'headerBar' variant='dark'>
+            <Navbar className = 'headerBar' variant='dark' style = { style } >
                 <Container fluid>
                     <Link to = '/' title = {periodoTitle}>
                         <h1 className = 'siteTitle' >{ periodoTitle }</h1>
@@ -37,7 +37,8 @@ export default function HeaderBar ( { periodoTitle, noticeText } ) {
                 </Container>
             </Navbar>
             <Notice 
-                text = { noticeText }
+                text    = { noticeText }
+                style   = { style } 
             />
         </>
     )

@@ -7,7 +7,7 @@ import SimulatorNotice from '../simulatorNotice'
 
 export default function Header ( 
     { 
-        title, location, image, description, article, className, pageId, metaTags, showBar, periodoTitle, noticeText
+        title, location, image, description, article, className, pageId, metaTags, showBar, periodoTitle, noticeText, style
     } 
 ){
     
@@ -37,6 +37,7 @@ export default function Header (
                     <HeaderBar
                         periodoTitle    = { periodoTitle }
                         noticeText      = { noticeText }
+                        style           = { style }
                     />
                 : 
                     undefined

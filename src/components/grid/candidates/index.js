@@ -4,6 +4,7 @@ import { CandidateCard } from '../../blurb'
 import Footer from '../../footer'
 import { reduce } from 'lodash'
 
+import Helper from '../../../utils/utils'
 import './candidates.scss'
 
 export default function Candidates ( 
@@ -34,25 +35,29 @@ export default function Candidates (
         partyKeys.forEach ( (key, i) => {
             partyList.push( { candidates: candidatesByParty[key], party: candidatesByParty[key][0].party, partyId: candidatesByParty[key][0].partyId } )
         })
-        // console.log('Party list')
-        // console.log(partyList)
     } else {
         partyList = items
-        // console.log('CandidateList')
-        // console.log(partyList)
     }
 
     const [ listState, setListState ] = useState( partyList )
+    const [ rows, setRows ] = useState( Helper.calculateGridRows(listState.length) )
     
     const showCandidates = ( candidates ) => () => {
         setListState(candidates)
+        setRows( Helper.calculateGridRows( candidates.length ) )
     }
 
     return (
         <>
 
             <main className = 'candidates'>
-                <Container fluid className = ''>
+                <Container 
+                    style = { { 
+                        gridTemplateRows: `repeat( ${ rows }, minmax( calc( ( 100vh - 45px - 60px - 90px - 6rem ) / ${ rows } ), 1fr ) )`
+                    } } 
+                    className = ''
+                    fluid 
+                >
                     {
                         preFilterByParty ?
                             <>
@@ -62,11 +67,11 @@ export default function Candidates (
                                         _.candidates ?
                                             <CandidateCard 
                                                 key             = { index }
-                                                className       = '' 
+                                                className       = 'party' 
                                                 contextClass    = { contextClass ? contextClass : 'swap' }
                                                 status          = 'publish'
                                                 title           = { _.party?.partidoTitle }
-                                                replaceTitle    = { _.partyId  }//replaceTitle
+                                                replaceTitle    = { replaceTitle  }
                                                 overlayColor    = { _.party?.partidoColor }
                                                 logo            = { _.party?.partidoLogo?.localFile.childImageSharp.gatsbyImageData }
                                                 poster          = { _.party?.partidoPoster?.localFile.childImageSharp.gatsbyImageData }
@@ -133,6 +138,7 @@ export default function Candidates (
                 indexClicked    = { indexClicked }
                 candidateTarget = { candidateTarget }
                 voidCandidate   = { voidCandidate }
+                voidVisibility  = { listState[0].candidates ? false : true }
             />
 
         </>
