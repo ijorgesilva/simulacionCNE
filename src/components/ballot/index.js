@@ -174,7 +174,7 @@ export default function Ballot (
 
     return (
         <div className = {`ballot ${ className ? className : '' }`}>
-            <Container fluid className = 'columns respect-aspect-ratio'>
+            <Container fluid className = 'columns'>
                 {/* Column One */}
                 <div className = 'column'>
                     <h2 className = 'title'>
