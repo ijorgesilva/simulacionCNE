@@ -2,7 +2,7 @@
     display: none;
     color: hsla(var(--color-dark-h),var(--color-dark-s),var(--color-dark-l),1);
     background-color: hsla(var(--color-light-h),var(--color-light-s),var(--color-light-l),1);
-    z-index: 999;
+    z-index: 9999;
     .content {
         display: flex;
         flex-direction: column;

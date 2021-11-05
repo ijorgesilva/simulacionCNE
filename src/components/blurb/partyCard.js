@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link } from 'gatsby'
 import { GatsbyImage } from 'gatsby-plugin-image'
 
@@ -16,8 +16,14 @@ export default function PartyCard (
         title,
         poster,
         onClickAction,
+        column,
+        row,
     } 
 ) {
+    
+    useEffect ( () => {
+        localStorage.setItem(`party-${partyId}`, `c${column}x${row}`)
+    })
     
     return (
         <div className = {`partyCard card ${ className ? className : ''}`} style = { style }>

@@ -48,8 +48,6 @@ exports.createPages = async( { page, actions, graphql, reporter } ) => {
         result.data.parties.nodes.forEach( ( _, index ) => {
             partyDbId = _.papeletaDetails.papeletaPeriodoId.toString()
             if( periodDbId === partyDbId ){
-                console.log('Creating Ballots')
-                console.log('Path created on /'+_.databaseId)
                 actions.createPage({
                     path: `/${_.databaseId}`,
                     component: path.resolve(`./src/components/templates/ballot/index.js`),

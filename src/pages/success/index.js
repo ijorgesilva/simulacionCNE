@@ -35,7 +35,7 @@ export default function SuccessPage ( { location } ) {
             periodoTitle  = { currentPeriodTitle }
             location      = { location } 
             description   = { '' }
-            style         = { { visibility: 'hidden' } }
+            style         = { { display: 'none' } }
             article       = { false }
             metaTags      =   {{
                                   noIndex: false,

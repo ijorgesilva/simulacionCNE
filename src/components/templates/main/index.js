@@ -155,6 +155,7 @@ export const query = graphql`
                     id
                     slug
                     status
+                    databaseId
                     partidoDetails {
                       partidoColor
                       partidoTitle

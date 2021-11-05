@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { navigate } from 'gatsby'
 import { Container } from 'react-bootstrap'
 import { set } from 'lodash'
 
@@ -17,6 +18,14 @@ export default function Ballot (
         initialBallot,
     } 
 ) {
+
+    // Prevent direct access if Onboard is false and redirect to /
+    useEffect( () => { 
+        if ( !localStorage.getItem('onBoard') ) { 
+            navigate('/')
+        }
+    })
+
     // STRINGS
     const titles = {
         postulateCandidate: 'Postular Candidato',
@@ -71,7 +80,7 @@ export default function Ballot (
     let tempSwap
     const initialSwapList =  Object.assign({}, useGetInitialSwapList({...initialBallot}))
     const [ candidatesOnSwap, setCandidatesOnSwap ] = useState(initialSwapList)
-    useEffect(() => { // Check if Candidates have been selected previously
+    useEffect( () => { // Check if Candidates have been selected previously
         if (localStorage.getItem(`candidates-${pathName}`)) {
             setCandidate(JSON.parse(localStorage.getItem(`candidates-${pathName}`)))
         }
@@ -171,7 +180,7 @@ export default function Ballot (
                     <h2 className = 'title'>
                         {titles.lTitle}
                     </h2>
-                    <div className = 'candidates'>
+                    <div className = 'candidatesBallot'>
                         <div className ='governor'> 
                             <h3 className = 'subtitle'>
                                 {titles.lPrincipal}
@@ -305,7 +314,7 @@ export default function Ballot (
                     <h2 className = 'title'>
                         {titles.mTitle}
                     </h2>
-                    <div className = 'candidates'>
+                    <div className = 'candidatesBallot'>
                         <div className ='mayor'> 
                             <h3 className = 'subtitle'>
                                 {titles.mPrincipal}

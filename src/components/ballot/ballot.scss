@@ -42,7 +42,7 @@
                 font-weight: normal;
             }
 
-            .candidates {
+            .candidatesBallot {
                 display: grid;
                 grid-template-columns: repeat(2, 1fr);
                 grid-template-rows: auto;
@@ -90,7 +90,7 @@
                 .subtitle{
                     font-size: 0.8rem;
                 }
-                .candidates {
+                .candidatesBallot {
                     .governor, .mayor, .list, .nominal {
                         > .blurbs {
                             padding: 1rem;

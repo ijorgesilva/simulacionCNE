@@ -41,21 +41,14 @@ export default function IndexPage ( { location, data, pageContext } ) {
   const handleShow = () => setShow(true)
   
   useEffect(() => {
-    if ( firstRender ) {
-      // console.log('First render baby!')
-    }
     if ( !firstRender ) {
-      // console.log('Not the first render!')
       if ( !checkCandidatesStatus(candidatesSelection) ) {
-        // console.log('Ready to next step! Yayyyy!')
         setConfirmation(false)
       }
     }
   })
 
   const voteNow = () => () => {
-    // console.log('voteNow confirmation')
-    // console.log(confirmation)
     if ( confirmation ) {
       handleShow()
     }

@@ -7,6 +7,7 @@
     &.card {
         border: unset;
         overflow: hidden;
+        max-width: 180px;
         button {
             &.card-body {
                 position: relative;
@@ -160,7 +161,8 @@
                         align-items: center;
                         justify-content: center;
                         h3 {
-                            font-size: calc( ( 100vh - 45px - 70px - 90px - 2rem - 60px ) / 10 );
+                            // font-size: calc( ( 100vh - 45px - 70px - 90px - 2rem - 60px ) / 10 );
+                            font-size: 2rem;
                             color: hsla(var(--color-dark-h), var(--color-dark-s), var(--color-dark-l), 0.7);
                             text-transform: uppercase;
                         }
@@ -175,6 +177,7 @@
     &.ballot {
         &.card {
             max-width: 180px;
+            width: 100%;
             &.publish {
                 button {
                     &.principal {

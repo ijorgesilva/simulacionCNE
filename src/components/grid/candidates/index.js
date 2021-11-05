@@ -24,6 +24,8 @@ export default function Candidates (
     let partyList = []
     let partyKeys = []
 
+    const [ containerMode, setContainerMode ] = useState(false)
+
     if (preFilterByParty) {
         // Ordered list by Party
         candidatesByParty = reduce( items, function(result, currentObject, index) {
@@ -45,6 +47,11 @@ export default function Candidates (
     const showCandidates = ( candidates ) => () => {
         setListState(candidates)
         setRows( Helper.calculateGridRows( candidates.length ) )
+        setContainerMode(true)
+    }
+
+    function getPartyPosition ( partyId ) {
+        return localStorage.getItem(`party-${partyId}`)
     }
 
     return (
@@ -52,10 +59,14 @@ export default function Candidates (
 
             <main className = 'candidates'>
                 <Container 
+                    // Fixed Height of Rows on Grid
+                    // style = { { 
+                    //     gridTemplateRows: `repeat( ${ rows }, minmax( calc( ( 100vh - 45px - 60px - 90px - 6rem ) / ${ rows } ), 1fr ) )`
+                    // } } 
                     style = { { 
-                        gridTemplateRows: `repeat( ${ rows }, minmax( calc( ( 100vh - 45px - 60px - 90px - 6rem ) / ${ rows } ), 1fr ) )`
+                        minHeight: `calc( 100vh - 45px - 60px - 90px - 6rem )`
                     } } 
-                    className = ''
+                    className = {`${ listState[0].id && containerMode ? 'flexCenter' : '' }`} // Change display mode to flex if Nominal candidates
                     fluid 
                 >
                     {
@@ -67,7 +78,7 @@ export default function Candidates (
                                         _.candidates ?
                                             <CandidateCard 
                                                 key             = { index }
-                                                className       = 'party' 
+                                                className       = { `party` }
                                                 contextClass    = { contextClass ? contextClass : 'swap' }
                                                 status          = 'publish'
                                                 title           = { _.party?.partidoTitle }
@@ -77,6 +88,11 @@ export default function Candidates (
                                                 poster          = { _.party?.partidoPoster?.localFile.childImageSharp.gatsbyImageData }
                                                 layoutType      = { cardStyle ? cardStyle : 'principal' }
                                                 onClick         = { showCandidates( _.candidates) }
+                                                style           =  {
+                                                                        { 
+                                                                            gridArea: `${getPartyPosition(_.partyId)}`,
+                                                                        }
+                                                                    }
                                             />
                                         :
                                             undefined
@@ -88,7 +104,7 @@ export default function Candidates (
                                     listState.map ( ( _, index ) => ( 
                                         <CandidateCard 
                                             key             = { index }
-                                            className       = '' 
+                                            className       = { `` }
                                             contextClass    = { contextClass ? contextClass : 'swap' }
                                             status          = 'publish'
                                             // Candidate
@@ -112,7 +128,7 @@ export default function Candidates (
                                 listState.map ( (_, index) => (
                                     <CandidateCard 
                                         key             = { index }
-                                        className       = '' 
+                                        className       = { `` }
                                         contextClass    = { contextClass ? contextClass : 'swap' }
                                         status          = 'publish'
                                         // Candidate
@@ -126,6 +142,11 @@ export default function Candidates (
                                         poster          = { _.party?.partidoPoster?.localFile.childImageSharp.gatsbyImageData }
                                         layoutType      = { cardStyle ? cardStyle : 'principal' }
                                         onClick         = { modifyCandidate( _, candidateTarget, indexClicked, _.id ) }
+                                        style           =  {
+                                                                { 
+                                                                    gridArea: `${getPartyPosition(_.partyId)}`,
+                                                                }
+                                                            }
                                     />
                                 ))
                             :

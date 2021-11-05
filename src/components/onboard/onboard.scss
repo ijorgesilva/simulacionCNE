@@ -37,15 +37,18 @@
             display: flex;
             font-size: 18px;
             background: #fff;
+            min-height: 70vh;
             .content{
                 display: flex;
                 justify-content: center;
                 align-items: center;
                 flex-direction: column;
-                height: 70vh;
                 width: 70vw;
-                margin: 0px auto;
+                margin: 1rem auto;
                 text-align: center;
+                h3 {
+                    font-weight: bold;
+                }
                 img {
                     display: block;
                     width: 100%;
