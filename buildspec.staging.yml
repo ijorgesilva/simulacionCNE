@@ -1,0 +1,40 @@
+version: 0.2
+
+env:
+  variables:
+    NODE_ENV: "staging"
+    DeployBucket: "staging.comovotar2021.com"
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 14
+    commands:
+      - npm install -g gatsby
+
+  pre_build:
+    commands:
+      - npm install
+
+  build:
+    commands:
+      - gatsby build
+
+  post_build:
+    commands:
+      - echo "User-agent:*" > ./public/robots.txt
+      - echo "Disallow:/" >> ./public/robots.txt
+      # copy the contents of /public to S3  | Use ${DeployBucket} with CloudFormation
+      - aws s3 cp --recursive --acl public-read ./public s3://staging.comovotar2021.com/
+
+cache:
+  paths:
+    - './node_modules/**/*'
+    - './.cache/**/*'
+    - './.wordpress-cache/**/*'
+    - './WordPress/**/*'
+
+artifacts:
+  files:
+    - '**/*'
+  base-directory: public
