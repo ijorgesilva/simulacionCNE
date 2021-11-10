@@ -46,6 +46,13 @@ export default function IndexPage ( { location, data, pageContext } ) {
         setConfirmation(false)
       }
     }
+    // if( firstRender ) {
+      window.scrollTo({
+        top: 80,
+        left: 0,
+        behavior: 'smooth'
+      })
+    // }
   })
 
   const voteNow = () => () => {

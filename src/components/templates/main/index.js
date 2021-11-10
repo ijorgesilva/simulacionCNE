@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Container } from 'react-bootstrap'
 import { graphql } from 'gatsby'
 
+import { useFirstRender } from '../../../hooks/useFirstRender'
 import Header from '../../header'
 import { Parties } from '../../grid'
 import Footer from '../../footer'
@@ -12,11 +13,19 @@ export default function IndexPage ( { location, data, pageContext } ) {
 
   const { title, periodSlug } = pageContext
   const { listParties } = data
+  const firstRender = useFirstRender()
 
   const [ onBoard, setOnBoard ] = useState(false)
   
   // Check if it is the first simulation 
   useEffect( () => {
+    if( firstRender ) {
+      window.scrollTo({
+        top: 80,
+        left: 0,
+        behavior: 'smooth'
+      })
+    }
     if ( localStorage.getItem('onBoard') === null ) {
       modifyOnBoard(true)()
     }
