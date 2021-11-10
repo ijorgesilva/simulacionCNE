@@ -73,14 +73,6 @@ export default function IndexPage ( { location, data, pageContext } ) {
           graphic: undefined,
         },
         {
-          title: 'VOTO NULO',
-          text: `
-            <p>Luego de elegir el partido de tu preferencia principal, si no deseas votar por uno o varios de los cargos de elección, selecciona el cargo que no deseas darle tu voto y luego en la parte inferior izquierda de la pantalla, haz clic en el botón de “Sin seleccionar”. </p>
-            <p>Esto deberás hacerlo con cada uno de los cargos donde deseas anular tu voto, o esperar que transcurran los 3 minutos habilitados que tienes para votar sin haber seleccionado ningún partido previamente.</p>
-          `,
-          graphic: undefined,
-        },
-        {
           title: 'BOTONES DE VOLVER',
           text: `
             <p>En la barra inferior de la pantalla, cuando sea posible, aparecerán dos botones donde podrás regresar a la vista anterior o retornar a la vista donde te encontrabas previamente.</p>
