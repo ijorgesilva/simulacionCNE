@@ -21,6 +21,8 @@ export default function Swap (
         voidCandidate,
         replaceTitle,
         preFilterByParty,
+        swapCandidate,
+        fullCandidateList,
     } 
 ) {
     
@@ -54,6 +56,8 @@ export default function Swap (
                     replaceTitle        = { replaceTitle }
                     preFilterByParty    = { preFilterByParty }
                     voidCandidate       = { voidCandidate }
+                    swapCandidate       = { swapCandidate }
+                    fullCandidateList   = { fullCandidateList }
                 />
             </Modal.Body>
         </Modal>

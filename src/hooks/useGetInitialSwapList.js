@@ -1,4 +1,4 @@
-import { remove, differenceBy } from 'lodash'
+import { differenceBy } from 'lodash'
 import { useGetCandidates } from './useGetCandidates'
 
 export const useGetInitialSwapList = ( initialBallot ) => {

@@ -79,6 +79,7 @@ export default function IndexPage ( { location, data, pageContext } ) {
           className                 = {''}
           location                  = { location }
           initialBallot             = { initialBallot }
+          partyId                   = { data.ballot.papeletaDetails.papeletaPartidoPartido[0].databaseId }
         />
 
       </Container>
@@ -119,6 +120,7 @@ export const query = graphql`
         papeletaPartidoPartido {
           ... on WpPartido {
             id
+            databaseId
             partidoDetails {
               partidoTitle
               partidoColor

@@ -18,6 +18,8 @@ export default function Candidates (
         replaceTitle,
         voidCandidate,
         preFilterByParty,
+        fullCandidateList,
+        swapCandidate,
     } 
 ) {
     let candidatesByParty = {}
@@ -27,18 +29,35 @@ export default function Candidates (
     const [ containerMode, setContainerMode ] = useState(false)
 
     if (preFilterByParty) {
-        // Ordered list by Party
-        candidatesByParty = reduce( items, function(result, currentObject, index) {
-            (result[currentObject.partyId] || (result[currentObject.partyId] = [])).push(currentObject);
-            return result;
-        }, {})
-        // Party List
-        partyKeys = Object.keys(candidatesByParty)
-        partyKeys.forEach ( (key, i) => {
-            partyList.push( { candidates: candidatesByParty[key], party: candidatesByParty[key][0].party, partyId: candidatesByParty[key][0].partyId } )
-        })
+
+        if( swapCandidate && fullCandidateList?.length > 0 ) {
+            candidatesByParty = reduce( fullCandidateList, function(result, currentObject, index) {
+                (result[currentObject.partyId] || (result[currentObject.partyId] = [])).push(currentObject);
+                return result;
+            }, {})
+            partyKeys = Object.keys(candidatesByParty)
+            partyKeys.forEach ( (key, i) => {
+                partyList.push( { candidates: candidatesByParty[key], party: candidatesByParty[key][0].party, partyId: candidatesByParty[key][0].partyId } )
+            })
+        } else {
+            // Ordered list by Party
+            candidatesByParty = reduce( items, function(result, currentObject, index) {
+                (result[currentObject.partyId] || (result[currentObject.partyId] = [])).push(currentObject);
+                return result;
+            }, {})
+            // Party List
+            partyKeys = Object.keys(candidatesByParty)
+            partyKeys.forEach ( (key, i) => {
+                partyList.push( { candidates: candidatesByParty[key], party: candidatesByParty[key][0].party, partyId: candidatesByParty[key][0].partyId } )
+            })
+        }
     } else {
-        partyList = items
+        if( swapCandidate && fullCandidateList?.length > 0 ) {
+            partyList = fullCandidateList
+        }
+        else {
+            partyList = items
+        }
     }
 
     const [ listState, setListState ] = useState( partyList )

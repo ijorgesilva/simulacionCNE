@@ -8,6 +8,7 @@ import Swap from '../swap'
 import './ballot.scss'
 import { useGetCandidates } from '../../hooks/useGetCandidates'
 import { useGetInitialSwapList } from '../../hooks/useGetInitialSwapList'
+import { useGetInitialStaticList } from '../../hooks/useGetInitialStaticList'
 import { swapListRemoveCandidate } from '../../hooks/swapListRemoveCandidate'
 import '../app.scss'
 
@@ -16,9 +17,10 @@ export default function Ballot (
         className,
         location,
         initialBallot,
+        partyId,
     } 
 ) {
-
+    
     // Prevent direct access if Onboard is false and redirect to /
     useEffect( () => { 
         if ( !localStorage.getItem('onBoard') ) { 
@@ -37,14 +39,16 @@ export default function Ballot (
         mTitle: 'Alcalde y Concejo Municipal',
         mPrincipal: 'Alcalde',
         mList: 'Concejo Municipal Lista',
-        mNominal: 'Concejo Municipal Nominal'
+        mNominal: 'Concejo Municipal Nominal',
+        voidVote: 'Opción sin <br/>seleccionar' // Delete this line or declare it undefined for default behavior of Void Vote
     }
     const config = {
         replaceTitleList: 'Voto Lista',
         preFilterByParty: {
             nominal: true,
             list: false,
-        }
+        },
+        swapCandidate: true, // When true the selected candidate will be removed from the Swap modal
     }
 
     // MODALS: General state Management
@@ -71,18 +75,20 @@ export default function Ballot (
 
     // CANDIDATES: Initial Selection Logic
     let temp = {}
-    const pathName = String(location.pathname).replace(/\//g, '')
-    const candidates = Object.assign({}, useGetCandidates())
+    // const pathName = String(location.pathname).replace(/\//g, '')
+    // const candidates = Object.assign({}, useGetCandidates())
     const [ candidatesSelection, setCandidate ] = useState({...initialBallot})
     const [ indexClicked, setIndexClicked ] = useState(0)
 
-    // SWAP LIST: Initial Swap List
+    // SWAP AND NO SWAP LIST: Initial Swap List
     let tempSwap
-    const initialSwapList =  Object.assign({}, useGetInitialSwapList({...initialBallot}))
+    const initialSwapList       =  Object.assign({}, useGetInitialSwapList({...initialBallot}))
+    const candidatesListFull    =  Object.assign({}, useGetInitialStaticList({...initialBallot}))
+
     const [ candidatesOnSwap, setCandidatesOnSwap ] = useState(initialSwapList)
     useEffect( () => { // Check if Candidates have been selected previously
-        if (localStorage.getItem(`candidates-${pathName}`)) {
-            setCandidate(JSON.parse(localStorage.getItem(`candidates-${pathName}`)))
+        if (localStorage.getItem(`candidates-${partyId}`)) {
+            setCandidate(JSON.parse(localStorage.getItem(`candidates-${partyId}`)))
         }
         localStorage.setItem('nextButton', 'true')
     }, [])
@@ -129,7 +135,7 @@ export default function Ballot (
             }
         // Save values on Localstorage and State
         setCandidate(temp)
-        localStorage.setItem(`candidates-${pathName}`, JSON.stringify(temp))
+        localStorage.setItem(`candidates-${partyId}`, JSON.stringify(temp))
     }
 
     const voidCandidate = ( position, index ) => () => {
@@ -169,7 +175,7 @@ export default function Ballot (
             }
         // Save values on Localstorage and State
         setCandidate(temp)
-        localStorage.setItem(`candidates-${pathName}`, JSON.stringify(temp))
+        localStorage.setItem(`candidates-${partyId}`, JSON.stringify(temp))
     }
 
     return (
@@ -200,6 +206,7 @@ export default function Ballot (
                                     logo            = { candidatesSelection.legislative.principal.party?.partidoLogo?.localFile.childImageSharp.gatsbyImageData }
                                     poster          = { candidatesSelection.legislative.principal.party?.partidoPoster?.localFile.childImageSharp.gatsbyImageData }
                                     layoutType      = 'principal'
+                                    voidText        = { titles.voidVote }
                                 />
                                 <Swap 
                                     className           = {''}
@@ -213,6 +220,8 @@ export default function Ballot (
                                     indexClicked        = { indexClicked }
                                     modifyCandidate     = { modifyCandidate }
                                     voidCandidate       = { voidCandidate }
+                                    swapCandidate       = { config.swapCandidate }
+                                    fullCandidateList   = { candidatesListFull?.legislative.principals }
                                     fullScreen
                                 />
                             </div>
@@ -240,6 +249,7 @@ export default function Ballot (
                                                 poster          = { _.party?.partidoPoster?.localFile.childImageSharp.gatsbyImageData }
                                                 replaceTitle    = { config.replaceTitleList }
                                                 layoutType      = 'list'
+                                                voidText        = { titles.voidVote }
                                             />
                                         ))
                                     : undefined
@@ -258,6 +268,8 @@ export default function Ballot (
                                     modifyCandidate     = { modifyCandidate }
                                     voidCandidate       = { voidCandidate }
                                     preFilterByParty    = { config.preFilterByParty.list }
+                                    swapCandidate       = { config.swapCandidate }
+                                    fullCandidateList   = { candidatesListFull?.legislative.list }
                                     fullScreen
                                 />
                             </div>
@@ -285,6 +297,7 @@ export default function Ballot (
                                                 logo            = { _.party?.partidoLogo?.localFile.childImageSharp.gatsbyImageData }
                                                 poster          = { _.party?.partidoPoster?.localFile.childImageSharp.gatsbyImageData }
                                                 layoutType      = 'list'
+                                                voidText        = { titles.voidVote }
                                             />
                                         ))
                                     : undefined
@@ -302,6 +315,8 @@ export default function Ballot (
                                     modifyCandidate     = { modifyCandidate }
                                     voidCandidate       = { voidCandidate }
                                     preFilterByParty    = { config.preFilterByParty.nominal }
+                                    swapCandidate       = { config.swapCandidate }
+                                    fullCandidateList   = { candidatesListFull?.legislative.nominal }
                                     fullScreen
                                 />
                             </div>
@@ -334,6 +349,7 @@ export default function Ballot (
                                     logo            = { candidatesSelection.municipal.principal.party?.partidoLogo?.localFile.childImageSharp.gatsbyImageData }
                                     poster          = { candidatesSelection.municipal.principal.party?.partidoPoster?.localFile.childImageSharp.gatsbyImageData }
                                     layoutType      = 'list'
+                                    voidText        = { titles.voidVote }
                                 />
                                 <Swap 
                                     className           = {''}
@@ -347,6 +363,8 @@ export default function Ballot (
                                     indexClicked        = { indexClicked }
                                     modifyCandidate     = { modifyCandidate }
                                     voidCandidate       = { voidCandidate }
+                                    swapCandidate       = { config.swapCandidate }
+                                    fullCandidateList   = { candidatesListFull?.municipal.principals }
                                     fullScreen
                                 />
                             </div>
@@ -374,6 +392,7 @@ export default function Ballot (
                                                 poster          = { _.party?.partidoPoster?.localFile.childImageSharp.gatsbyImageData }
                                                 replaceTitle    = { config.replaceTitleList }
                                                 layoutType      = 'list'
+                                                voidText        = { titles.voidVote }
                                             />
                                         ))
                                     : undefined
@@ -392,6 +411,8 @@ export default function Ballot (
                                     modifyCandidate     = { modifyCandidate }
                                     voidCandidate       = { voidCandidate }
                                     preFilterByParty    = { config.preFilterByParty.list }
+                                    swapCandidate       = { config.swapCandidate }
+                                    fullCandidateList   = { candidatesListFull?.municipal.list }
                                     fullScreen
                                 />
                             </div>
@@ -418,6 +439,7 @@ export default function Ballot (
                                                 logo            = { _.party?.partidoLogo?.localFile.childImageSharp.gatsbyImageData }
                                                 poster          = { _.party?.partidoPoster?.localFile.childImageSharp.gatsbyImageData }
                                                 layoutType      = 'list'
+                                                voidText        = { titles.voidVote }
                                             />
                                         ))
                                     : undefined
@@ -435,6 +457,8 @@ export default function Ballot (
                                     modifyCandidate     = { modifyCandidate }
                                     voidCandidate       = { voidCandidate }
                                     preFilterByParty    = { config.preFilterByParty.nominal }
+                                    swapCandidate       = { config.swapCandidate }
+                                    fullCandidateList   = { candidatesListFull?.municipal.nominal }
                                     fullScreen
                                 />
                             </div>

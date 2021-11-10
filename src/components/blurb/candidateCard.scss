@@ -159,9 +159,11 @@
                         padding: 2rem;
                         display: flex;
                         align-items: center;
+                        font-size: 1.2rem;
+                        line-height: 1.5rem;
                         justify-content: center;
+                        color: hsla(var(--color-dark-h), var(--color-dark-s), var(--color-dark-l), 0.7);
                         h3 {
-                            // font-size: calc( ( 100vh - 45px - 70px - 90px - 2rem - 60px ) / 10 );
                             font-size: 2rem;
                             color: hsla(var(--color-dark-h), var(--color-dark-s), var(--color-dark-l), 0.7);
                             text-transform: uppercase;

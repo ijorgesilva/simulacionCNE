@@ -23,7 +23,7 @@ export default function CandidateCard (
         logo,
         poster,
         replaceTitle, // Replaces default title with provided text
-        
+        voidText,
     } 
 ) {
     
@@ -54,9 +54,12 @@ export default function CandidateCard (
                         title       = {`${ linkText ? linkText : 'Seleccionar Candidato'}`}
                         className   = {`card-body link ${ layoutType ? layoutType : 'list'}`}
                     >
-                        <div className='main'>
-                            <h3>Nulo</h3>
-                        </div>
+                        {
+                            voidText ?
+                                <div className='main void-alt' dangerouslySetInnerHTML={{__html: voidText}}></div>
+                            :
+                                <div className='main'><h3>NULO</h3></div>
+                        }
                         <div className = {`background ${ overlayColor ? 'overlay' : ''}`}></div>
                     </Button>
                 </div>
