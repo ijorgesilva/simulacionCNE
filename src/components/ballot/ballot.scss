@@ -50,11 +50,15 @@
             .title, .subtitle {
                 border-radius: var(--border-radius) var(--border-radius) 0 0;
                 color: hsla(0,0%,100%,0.9);
-                background-color: hsla( var(--color-primary-h),var(--color-primary-s), var(--color-primary-l), 1 );
                 padding: .7rem;
                 font-weight: normal;
             }
-
+            .title {
+                background-color: hsla( var(--color-primary-h),var(--color-primary-s), var(--color-primary-l), 1 );
+            }
+            .subtitle {
+                background-color: hsla( var(--color-dark-h),var(--color-dark-s), 45%, 1 );
+            }
             .candidatesBallot {
                 display: grid;
                 grid-template-columns: repeat(2, 1fr);
