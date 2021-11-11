@@ -12,6 +12,9 @@ export const useGetBallots = () => {
                         papeletaDetails {
                             ## General Configuration
                             papeletaPeriodoAdminTitle
+                            papeletaPartidoPosicionColumna
+                            papeletaPartidoPosicionFila
+                            ## Period
                             papeletaPartidoPeriodo {
                                 ... on WpPeriodo {
                                     id
@@ -19,8 +22,6 @@ export const useGetBallots = () => {
                                     slug
                                 }
                             }
-                            papeletaPartidoPosicionColumna
-                            papeletaPartidoPosicionFila
                             ## Party
                             papeletaPartidoPartido {
                                 ... on WpPartido {
@@ -67,8 +68,10 @@ export const useGetBallots = () => {
                             }
                             papeletaPartidoLista {
                                 ... on WpCandidato {
-                                        id
-                                        candidatoDetails {
+                                    id
+                                    status
+                                    slug
+                                    candidatoDetails {
                                         candidatoName
                                     }
                                 }
@@ -76,6 +79,8 @@ export const useGetBallots = () => {
                             papeletaPartidoNominal {
                                 ... on WpCandidato {
                                     id
+                                    status
+                                    slug
                                     candidatoDetails {
                                         candidatoName
                                     }
@@ -102,16 +107,20 @@ export const useGetBallots = () => {
                             }
                             papeletaPartidoCmLista {
                                 ... on WpCandidato {
-                                        id
-                                        candidatoDetails {
+                                    id
+                                    status
+                                    slug
+                                    candidatoDetails {
                                         candidatoName
                                     }
                                 }
                             }
                             papeletaPartidoCmNominal {
                                 ... on WpCandidato {
-                                        id
-                                        candidatoDetails {
+                                    id
+                                    status
+                                    slug
+                                    candidatoDetails {
                                         candidatoName
                                     }
                                 }

@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import { navigate } from 'gatsby'
-import { Container } from 'react-bootstrap'
-import { set } from 'lodash'
+import { Container, Button } from 'react-bootstrap'
+import { clone, cloneDeep, set } from 'lodash'
 
 import { CandidateCard } from '../blurb'
 import Swap from '../swap'
 import './ballot.scss'
 import { useGetInitialSwapList } from '../../hooks/useGetInitialSwapList'
 import { useGetInitialStaticList } from '../../hooks/useGetInitialStaticList'
-import { swapListRemoveCandidate } from '../../hooks/swapListRemoveCandidate'
+import { getCandidatesByPartyId } from '../../hooks/getCandidatesByPartyId'
+
+import { useCurrentPeriod } from '../../hooks/useCurrentPeriod'
+import { useGetBallots } from '../../hooks/useGetBallots'
 import '../app.scss'
 
 export default function Ballot ( 
@@ -19,7 +22,9 @@ export default function Ballot (
         partyId,
     } 
 ) {
-    
+    const currentPeriod = useCurrentPeriod()
+    const ballots = useGetBallots()
+
     // Prevent direct access if Onboard is false and redirect to /
     useEffect( () => { 
         if ( !localStorage.getItem('onBoard') ) { 
@@ -31,6 +36,7 @@ export default function Ballot (
     const titles = {
         postulateCandidate: 'Postular Candidato',
         messageModal: 'Seleccione el candidato de su preferencia',
+        messageModalParty: 'Seleccione el partido de su preferencia',
         lTitle: 'Gobernadores y Concejo Legislativo Estadal',
         lPrincipal: 'Gobernador',
         lList: 'Concejo Legislativo Lista',
@@ -39,7 +45,7 @@ export default function Ballot (
         mPrincipal: 'Alcalde',
         mList: 'Concejo Municipal Lista',
         mNominal: 'Concejo Municipal Nominal',
-        voidVote: 'Opción sin <br/>seleccionar' // Delete this line or declare it undefined for default behavior of Void Vote
+        voidVote: 'Opción sin <br/>seleccionar', // Delete this line or declare it undefined for default behavior of Void Vote
     }
     const config = {
         replaceTitleList: 'Voto Lista',
@@ -48,6 +54,7 @@ export default function Ballot (
             list: false,
         },
         swapCandidate: true, // When true the selected candidate will be removed from the Swap modal
+        swapPartySide: true,
     }
 
     // MODALS: General state Management
@@ -59,6 +66,8 @@ export default function Ballot (
         mPrincipal: false,
         mList: false,
         mNominal: false,
+        lFull: false,
+        mFull: false
     })
     const closeModalState = ( key ) => () => {
         newState = {...modalArrayShow}
@@ -73,18 +82,14 @@ export default function Ballot (
     }
 
     // CANDIDATES: Initial Selection Logic
-    let temp = {}
-    // const pathName = String(location.pathname).replace(/\//g, '')
-    // const candidates = Object.assign({}, useGetCandidates())
-    const [ candidatesSelection, setCandidate ] = useState({...initialBallot})
+    const [ candidatesSelection, setCandidate ] = useState(cloneDeep({...initialBallot}))
     const [ indexClicked, setIndexClicked ] = useState(0)
-
+    
     // SWAP AND NO SWAP LIST: Initial Swap List
-    let tempSwap
+    let tempCadidateSelection
     const initialSwapList       =  Object.assign({}, useGetInitialSwapList({...initialBallot}))
     const candidatesListFull    =  Object.assign({}, useGetInitialStaticList({...initialBallot}))
 
-    const [ candidatesOnSwap, setCandidatesOnSwap ] = useState(initialSwapList)
     useEffect( () => { // Check if Candidates have been selected previously
         if (localStorage.getItem(`candidates-${partyId}`)) {
             setCandidate(JSON.parse(localStorage.getItem(`candidates-${partyId}`)))
@@ -94,87 +99,122 @@ export default function Ballot (
 
     const modifyCandidate = ( candidate, position, index, id ) => () => {
         // TODO: Single/dynamic setting DRY
+        tempCadidateSelection = cloneDeep(candidatesSelection)
         // Legislative
             if( position === 'legislative.principal' ){
-                temp = set(candidatesSelection, 'legislative.principal.status', 'publish' )
-                temp = set(candidatesSelection, 'legislative.principal', candidate )
-                setCandidatesOnSwap(swapListRemoveCandidate( temp, 'legislative.principal', candidate, id ))
+                set( tempCadidateSelection, 'legislative.principal.status', 'publish' )
+                set( tempCadidateSelection, 'legislative.principal', candidate )
+                // setCandidatesOnSwap(swapListRemoveCandidate( temp, 'legislative.principal', candidate, id ))
                 closeModalState('lPrincipal')()
             }
             if( position === 'legislative.list' ){
-                temp = set(candidatesSelection, `legislative.list[${index}]`, candidate )
-                temp = set(candidatesSelection, `legislative.list[${index}].status`, 'publish' )
-                setCandidatesOnSwap(swapListRemoveCandidate( temp, 'legislative.list', candidate, id ))
+                set(tempCadidateSelection, `legislative.list[${index}]`, candidate )
+                set(tempCadidateSelection, `legislative.list[${index}].status`, 'publish' )
+                // setCandidatesOnSwap(swapListRemoveCandidate( temp, 'legislative.list', candidate, id ))
                 closeModalState('lList')()
             }
             if( position === 'legislative.nominal' ){
-                temp = set(candidatesSelection, `legislative.nominal[${index}]`, candidate )
-                temp = set(candidatesSelection, `legislative.nominal[${index}].status`, 'publish' )
-                setCandidatesOnSwap(swapListRemoveCandidate( temp, 'legislative.nominal', candidate, id ))
+                set(tempCadidateSelection, `legislative.nominal[${index}]`, candidate )
+                set(tempCadidateSelection, `legislative.nominal[${index}].status`, 'publish' )
+                // setCandidatesOnSwap(swapListRemoveCandidate( temp, 'legislative.nominal', candidate, id ))
                 closeModalState('lNominal')()
             }
         // Municipal
             if( position === 'municipal.principal' ){
-                temp = set(candidatesSelection, 'municipal.principal.status', 'publish' )
-                temp = set(candidatesSelection, 'municipal.principal', candidate )
-                setCandidatesOnSwap(swapListRemoveCandidate( temp, 'municipal.principal', candidate, id ))
+                set(tempCadidateSelection, 'municipal.principal.status', 'publish' )
+                set(tempCadidateSelection, 'municipal.principal', candidate )
+                // setCandidatesOnSwap(swapListRemoveCandidate( temp, 'municipal.principal', candidate, id ))
                 closeModalState('mPrincipal')()
             }
             if( position === 'municipal.list' ){
-                temp = set(candidatesSelection, `municipal.list[${index}]`, candidate )
-                temp = set(candidatesSelection, `municipal.list[${index}].status`, 'publish' )
-                setCandidatesOnSwap(swapListRemoveCandidate( temp, 'municipal.list', candidate, id ))
+                set(tempCadidateSelection, `municipal.list[${index}]`, candidate )
+                set(tempCadidateSelection, `municipal.list[${index}].status`, 'publish' )
+                // setCandidatesOnSwap(swapListRemoveCandidate( temp, 'municipal.list', candidate, id ))
                 closeModalState('mList')()
             }
             if( position === 'municipal.nominal' ){
-                temp = set(candidatesSelection, `municipal.nominal[${index}]`, candidate )
-                temp = set(candidatesSelection, `municipal.nominal[${index}].status`, 'publish' )
-                setCandidatesOnSwap(swapListRemoveCandidate( temp, 'municipal.nominal', candidate, id ))
+                set(tempCadidateSelection, `municipal.nominal[${index}]`, candidate )
+                set(tempCadidateSelection, `municipal.nominal[${index}].status`, 'publish' )
+                // setCandidatesOnSwap(swapListRemoveCandidate( temp, 'municipal.nominal', candidate, id ))
                 closeModalState('mNominal')()
             }
         // Save values on Localstorage and State
-        setCandidate(temp)
-        localStorage.setItem(`candidates-${partyId}`, JSON.stringify(temp))
+        setCandidate(tempCadidateSelection)
+        localStorage.setItem(`candidates-${partyId}`, JSON.stringify(tempCadidateSelection))
     }
 
     const voidCandidate = ( position, index ) => () => {
+        tempCadidateSelection = cloneDeep(candidatesSelection)
         // Legislative
             if( position === 'legislative.principal' ){
-                temp = set(candidatesSelection, 'legislative.principal', {} )
-                temp = set(candidatesSelection, 'legislative.principal.status', 'void' )                
-                setCandidatesOnSwap(set(candidatesOnSwap, `legislative.principal`, 'void' ))
+                set(tempCadidateSelection, 'legislative.principal', {} )
+                set(tempCadidateSelection, 'legislative.principal.status', 'void' )                
                 closeModalState('lPrincipal')()
             }
             if( position === 'legislative.list' ){
-                temp = set(candidatesSelection, `legislative.list[${index}]`, {} )
-                temp = set(candidatesSelection, `legislative.list[${index}].status`, 'void' )
-                setCandidatesOnSwap(tempSwap)
+                set(tempCadidateSelection, `legislative.list[${index}]`, {} )
+                set(tempCadidateSelection, `legislative.list[${index}].status`, 'void' )
                 closeModalState('lList')()
             }
             if( position === 'legislative.nominal' ){
-                temp = set(candidatesSelection, `legislative.nominal[${index}]`, {} )
-                temp = set(candidatesSelection, `legislative.nominal[${index}].status`, 'void' )
+                set(tempCadidateSelection, `legislative.nominal[${index}]`, {} )
+                set(tempCadidateSelection, `legislative.nominal[${index}].status`, 'void' )
                 closeModalState('lNominal')()
             }
         // Municipal
             if( position === 'municipal.principal' ){
-                temp = set(candidatesSelection, 'municipal.principal', {} )
-                temp = set(candidatesSelection, 'municipal.principal.status', 'void' )
+                set(tempCadidateSelection, 'municipal.principal', {} )
+                set(tempCadidateSelection, 'municipal.principal.status', 'void' )
                 closeModalState('mPrincipal')()
             }
             if( position === 'municipal.list' ){
-                temp = set(candidatesSelection, `municipal.list[${index}]`, {} )
-                temp = set(candidatesSelection, `municipal.list[${index}].status`, 'void' )
+                set(tempCadidateSelection, `municipal.list[${index}]`, {} )
+                set(tempCadidateSelection, `municipal.list[${index}].status`, 'void' )
                 closeModalState('mList')()
             }
             if( position === 'municipal.nominal' ){
-                temp = set(candidatesSelection, `municipal.nominal[${index}]`, {} )
-                temp = set(candidatesSelection, `municipal.nominal[${index}].status`, 'void' )
+                set(tempCadidateSelection, `municipal.nominal[${index}]`, {} )
+                set(tempCadidateSelection, `municipal.nominal[${index}].status`, 'void' )
                 closeModalState('mNominal')()
             }
         // Save values on Localstorage and State
-        setCandidate(temp)
-        localStorage.setItem(`candidates-${partyId}`, JSON.stringify(temp))
+        setCandidate(tempCadidateSelection)
+        localStorage.setItem(`candidates-${partyId}`, JSON.stringify(tempCadidateSelection))
+    }
+
+    /*
+     * reset: if reset is true then resets candidates to initial values (initialBallot)
+     */
+    const swapPartyCandidates = ( partyIdSelected, replacingSide, reset ) => () => {
+        tempCadidateSelection = cloneDeep(candidatesSelection)
+        const candidates = cloneDeep(getCandidatesByPartyId(currentPeriod, ballots, partyIdSelected))
+        
+        if( replacingSide === 'legislative' ) {
+            if (reset) {
+                set( tempCadidateSelection, 'legislative', cloneDeep( initialBallot.legislative ) )
+                setCandidate(tempCadidateSelection)
+                localStorage.setItem(`candidates-${partyId}`, JSON.stringify(tempCadidateSelection))
+            } else {
+                set( tempCadidateSelection, 'legislative', cloneDeep( candidates.legislative ) )
+                setCandidate(tempCadidateSelection)
+                localStorage.setItem(`candidates-${partyId}`, JSON.stringify(tempCadidateSelection))
+            }
+            closeModalState('lFull')()
+        }
+        
+        if( replacingSide === 'municipal' ) {
+            if (reset) {
+                set( tempCadidateSelection, 'municipal', cloneDeep( initialBallot.municipal ) )
+                setCandidate(tempCadidateSelection)
+                localStorage.setItem(`candidates-${partyId}`, JSON.stringify(tempCadidateSelection))
+            } else {
+                set( tempCadidateSelection, 'municipal', cloneDeep( candidates.municipal ) )
+                setCandidate(tempCadidateSelection)
+                localStorage.setItem(`candidates-${partyId}`, JSON.stringify(tempCadidateSelection))
+            }
+            closeModalState('mFull')()
+        }
+
     }
 
     return (
@@ -182,9 +222,40 @@ export default function Ballot (
             <Container fluid className = 'columns'>
                 {/* Column One */}
                 <div className = 'column'>
-                    <h2 className = 'title'>
-                        {titles.lTitle}
-                    </h2>
+                    {
+                        config.swapPartySide ? 
+                            <h2 className = 'title button'>
+                                <Button variant='outline-light' onClick = { openModalState('lFull') }>
+                                    {titles.lTitle}
+                                </Button>
+                            </h2>
+                        : 
+                            <h2 className = 'title'>
+                                {titles.lTitle}
+                            </h2>
+                    }
+                    {/* Swap Legislative Side */}
+                    <Swap 
+                        className           = {''}
+                        title               = {`Seleccione ${titles.lTitle}` }
+                        cardStyle           = 'list'
+                        show                = { modalArrayShow.lFull }
+                        onHide              = { closeModalState('lFull') } 
+                        noticeMessage       = { titles.messageModalParty }
+                        swapCandidate       = { config.swapCandidate }
+                        fullScreen
+                        // Candidates
+                        fullCandidateList   =   { 
+                                                    candidatesListFull?.legislative.principals.concat(
+                                                        candidatesListFull.legislative.list,
+                                                        candidatesListFull.legislative.nominal,                                                        ) 
+                                                }
+                        // Swap Party's Candidate List
+                        partyCandidateList  = { candidatesListFull?.legislative }
+                        swapPartyCandidates = { swapPartyCandidates }
+                        replacingSide       = 'legislative'
+                        swapPartyOnly
+                    />
                     <div className = 'candidatesBallot'>
                         <div className ='governor'> 
                             <h3 className = 'subtitle'>
@@ -321,13 +392,46 @@ export default function Ballot (
                             </div>
                         </div> 
                     </div>
+                    
+
                 </div>
 
                 {/* Column Two */}
                 <div className = 'column'>
-                    <h2 className = 'title'>
-                        {titles.mTitle}
-                    </h2>
+                    {
+                        config.swapPartySide ? 
+                            <h2 className = 'title button'>
+                                <Button variant='outline-light' onClick = { openModalState('mFull') }>
+                                    {titles.mTitle}
+                                </Button>
+                            </h2>
+                        : 
+                            <h2 className = 'title'>
+                                {titles.mTitle}
+                            </h2>
+                    }
+                    {/* Swap municipal Side */}
+                    <Swap 
+                        className           = {''}
+                        title               = {`Seleccione ${titles.mTitle}` }
+                        cardStyle           = 'list'
+                        show                = { modalArrayShow.mFull }
+                        onHide              = { closeModalState('mFull') } 
+                        noticeMessage       = { titles.messageModalParty }
+                        swapCandidate       = { config.swapCandidate }
+                        fullScreen
+                        // Candidates
+                        fullCandidateList   =   { 
+                                                    candidatesListFull?.municipal.principals.concat(
+                                                        candidatesListFull.municipal.list,
+                                                        candidatesListFull.municipal.nominal,                                                        ) 
+                                                }
+                        // Swap Party's Candidate List
+                        partyCandidateList  = { candidatesListFull?.municipal }
+                        swapPartyCandidates = { swapPartyCandidates }
+                        replacingSide       = 'municipal'
+                        swapPartyOnly
+                    />
                     <div className = 'candidatesBallot'>
                         <div className ='mayor'> 
                             <h3 className = 'subtitle'>

@@ -1,0 +1,40 @@
+@import "~include-media/dist/_include-media.scss";
+
+.candidates {
+    display: flex;
+    flex-grow: 1;
+    padding: 1rem;
+    .container,
+    .container-fluid {
+        display: grid;
+        grid-template-columns: repeat( 7, minmax( calc( ( 100vw - 4rem - 4rem - 6rem ) / 7 ), 1fr) );
+        grid-template-areas:"c1x1 c2x1 c3x1 c4x1 c5x1 c6x1 c7x1"
+                            "c1x2 c2x2 c3x2 c4x2 c5x2 c6x2 c7x2"
+                            "c1x3 c2x3 c3x3 c4x3 c5x3 c6x3 c7x3"
+                            "c1x4 c2x4 c3x4 c4x4 c5x4 c6x4 c7x4"
+                            "c1x5 c2x5 c3x5 c4x5 c5x5 c6x5 c7x5"
+                            "c1x6 c2x6 c3x6 c4x6 c5x6 c6x6 c7x6"
+                            "c1x7 c2x7 c3x7 c4x7 c5x7 c6x7 c7x7";
+        grid-auto-flow: row;
+        align-items: start;
+        flex-grow: 1;
+        gap: 1rem;
+        height: 100%;
+
+        &.flexCenter {
+            max-width: calc( ( 100vw - 4rem - 4rem - 6rem ) / 7 );
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+    > .div {
+        background-color: hsla(0,0%,0%,0.1);
+    }
+
+}
+
+@include media("<desktop") {}
+@include media("<=tablet") {}
+@include media("<=phone") {}

@@ -30,6 +30,19 @@
             .title {
                 font-size: 0.8rem;
                 font-weight: bold;
+                &.button {
+                    padding: 0rem;
+                    > button {
+                        border-color: transparent;
+                        border-radius: var(--border-radius) var(--border-radius) 0 0;
+                        display: block;
+                        width: 100%;
+                        &:hover {
+                            background-color: hsla(var(--color-primary-h), var(--color-primary-s), 35%, 1);
+                            color: hsla(0,0%,100%,1);
+                        }
+                    }
+                }
             }
             .subtitle {
                 font-size: 0.8rem;

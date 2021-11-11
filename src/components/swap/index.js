@@ -2,6 +2,7 @@ import React from 'react'
 import { Modal } from 'react-bootstrap'
 import Notice from '../header/notice'
 import { Candidates } from '../grid'
+import { Party } from '../grid'
 
 import './swap.scss'
 
@@ -23,9 +24,13 @@ export default function Swap (
         preFilterByParty,
         swapCandidate,
         fullCandidateList,
+        // Swap Party's Candidate List
+        swapPartyCandidates,
+        swapPartyOnly,
+        replacingSide,
     } 
 ) {
-    
+
     return (
         <Modal 
             className       = {`swap ${ className ? className : ''} ${ fullScreen ? 'fullscreen' : ''}`}
@@ -46,19 +51,34 @@ export default function Swap (
                 : undefined
             }
             <Modal.Body>
-                <Candidates 
-                    items               = { candidates }
-                    cardStyle           = { cardStyle }
-                    indexClicked        = { indexClicked }
-                    candidateTarget     = { candidateTarget }
-                    modifyCandidate     = { modifyCandidate }
-                    contextClass        = { 'swap' }
-                    replaceTitle        = { replaceTitle }
-                    preFilterByParty    = { preFilterByParty }
-                    voidCandidate       = { voidCandidate }
-                    swapCandidate       = { swapCandidate }
-                    fullCandidateList   = { fullCandidateList }
-                />
+                {
+                    swapPartyOnly ?
+                        <Party 
+                            contextClass            = { 'swap' }
+                            cardStyle               = { cardStyle }
+                            swapCandidate           = { swapCandidate }
+                            fullCandidateList       = { fullCandidateList }
+                            swapPartyCandidates     = { swapPartyCandidates }
+                            swapPartyOnly           = { swapPartyOnly }
+                            replacingSide           = { replacingSide }
+                        />
+                    :
+                        <Candidates 
+                            items               = { candidates }
+                            cardStyle           = { cardStyle }
+                            indexClicked        = { indexClicked }
+                            candidateTarget     = { candidateTarget }
+                            modifyCandidate     = { modifyCandidate }
+                            contextClass        = { 'swap' }
+                            replaceTitle        = { replaceTitle }
+                            preFilterByParty    = { preFilterByParty }
+                            voidCandidate       = { voidCandidate }
+                            swapCandidate       = { swapCandidate }
+                            fullCandidateList   = { fullCandidateList }
+                            swapPartyCandidates = { swapPartyCandidates }
+                            swapPartyOnly       = { swapPartyOnly }
+                        />
+                }
             </Modal.Body>
         </Modal>
     )
