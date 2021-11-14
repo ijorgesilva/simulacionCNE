@@ -23,6 +23,13 @@ export default function Header (
                     :
                         undefined
                 }
+                <script async src="https://www.googletagmanager.com/gtag/js?id=UA-210627147-1" />
+                <script type="text/javascript">
+                    {`window.dataLayer = window.dataLayer || [];
+                    function gtag(){dataLayer.push(arguments);}
+                    gtag('js', new Date());
+                    gtag('config', 'UA-210627147-1');`}
+                </script>
             </Helmet>
             <SimulatorNotice />
             <SEO 
