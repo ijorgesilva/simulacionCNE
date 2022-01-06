@@ -16,6 +16,7 @@ export default function Footer ( {
     className,
     mode,
     before,
+    beforeOnClick,
     next,
     textCenter,
     buttonUrl,
@@ -71,12 +72,25 @@ export default function Footer ( {
                                     as          = { Link }
                                     variant     = 'outline-dark'
                                     className   = 'before' 
+                                    onClick     = { beforeOnClick }
                                     to          = { before } 
                                     title       = 'Anterior'
                                 >
                                     <FontAwesomeIcon className='icon' icon={faArrowAltCircleLeft} size='lg'/>
                                 </Button>
-                            : undefined
+                            :
+                                beforeOnClick ?
+                                    <Button 
+                                        variant     = 'outline-dark'
+                                        className   = 'before' 
+                                        onClick     = { beforeOnClick }
+                                        title       = 'Anterior'
+                                    >
+                                        <FontAwesomeIcon className='icon' icon={faArrowAltCircleLeft} size='lg'/>
+                                    </Button>
+                                :
+                                    undefined
+
                         }
                         {
                             tour ?
